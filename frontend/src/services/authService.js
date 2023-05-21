@@ -8,13 +8,15 @@ export default {
       password: password,
     })
   },
-  // async register(account_id, password, email) {
-  //   return http.post(import.meta.env.VITE_API_BASE_PATH + '/register', {
-  //     account_id: account_id,
-  //     password: password,
-  //     email: email,
-  //   })
-  // },
+
+  async register(account_id, email, password) {
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/register', {
+      account_id: account_id,
+      email: email,
+      password: password,
+    })
+  },
+
   async logout() {
     return http.post(import.meta.env.VITE_API_BASE_PATH + '/logout');
   },

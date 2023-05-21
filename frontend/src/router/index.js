@@ -5,13 +5,18 @@ const router = createRouter({
   routes: [
     { 
       path: '/',
-      redirect: '/dashboard',
+      redirect: '/home',
       component: () => import('@/layouts/DefaultLayout.vue'),
       children: [
         {
           path: '/dashboard',
           name: 'dashboard',
           component: () => import('@/views/Dashboard.vue'),
+        },
+        {
+          path: '/home',
+          name: 'home',
+          component: () => import('@/views/pages/Home.vue'),
         },
       ],
     },
@@ -23,13 +28,13 @@ const router = createRouter({
         {
           path: '/login',
           name: 'login',
-          component: () => import('@/views/Login.vue')
+          component: () => import('@/views/auth/Login.vue')
         },
-        // {
-        //   path: '/register',
-        //   name: 'register',
-        //   component: () => import('@/views/Register.vue'),
-        // },
+        {
+          path: '/register',
+          name: 'register',
+          component: () => import('@/views/auth/Register.vue'),
+        },
       ]
     }
   ]
