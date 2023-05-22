@@ -92,7 +92,7 @@ export default {
     const onSubmit = async () => {
       try {
         await Promise.all([auth.login(formState.account_id, formState.password)]);
-        router.push({ name: 'dashboard' })
+        router.push({ name: 'home' })
         error.value = false;
       } catch (e) {
         error.value = true;
