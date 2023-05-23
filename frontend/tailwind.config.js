@@ -14,8 +14,21 @@ module.exports = {
         'second-text-color' : '#737373',
         'primary-color' : '#23A6F0',
       },
+      keyframes: {
+        stickyy: {
+          '0%': { transform: 'translateY(-80px)' },
+          '100%': { transform: 'translateY(0)' },
+        }
+      },
+      animation: {
+        'sticky-header': 'stickyy 0.3s ease forwards',
+      }
     },
     screens: {
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
       '3xl': '1920px',
     },
   },
