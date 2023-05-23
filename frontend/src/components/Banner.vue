@@ -1,6 +1,6 @@
 <template>
   <div
-    class="content h-full flex items-center flex-col-reverse max-w-[calc(100%-20px)] relative justify-center  my-0 mx-auto md:max-w-7xl md:flex-row md:justify-end">
+    class="content h-full flex items-center flex-col-reverse max-w-[calc(100%-20px)] relative justify-center my-0 mx-auto md:max-w-7xl md:flex-row md:justify-end">
     <div
       class="text-content text-white text-center flex flex-col items-center md:absolute md:left-[50px] md:top-1/2 md:-translate-y-1/2 2xl:left-0">
       <h5 class="text-white text-xl uppercase text-bold mb-[20px]">Summer 2023</h5>
