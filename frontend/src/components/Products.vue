@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <div>Những sản phẩm đang bán chạy</div>
-    <div>
-      <Product/>
+  <div class="my-[50px] md:my-[75px] ">
+    <div class="mb-4 text-lg font-medium uppercase md:mb-9 md:text-2xl after:content-[''] after:block after:mt-1 after:w-[50px] after:h-1 after:bg-fuchsia-500 md:mt-3">Những sản phẩm đang bán chạy</div>
+    <div class="flex flex-wrap gap-2.5 md:gap-5">
       <Product/>
       <Product/>
       <Product/>
