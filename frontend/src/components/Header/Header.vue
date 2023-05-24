@@ -21,14 +21,14 @@
           <template #overlay>
             <a-menu>
               <a-menu-item>
-                <router-link :to="{ name: '' }" class="text-lg">item</router-link>
+                <router-link :to="{ name: 'products' }" class="text-lg">Danh sách sản phẩm</router-link>
               </a-menu-item>
               <a-menu-item>
-                <router-link :to="{ name: '' }" class="text-lg">item</router-link>
+                <router-link :to="{ name: 'blog' }" class="text-lg">Nanolabs Blog</router-link>
               </a-menu-item>
-              <a-menu-item>
+              <!-- <a-menu-item>
                 <router-link :to="{ name: '' }" class="text-lg">item</router-link>
-              </a-menu-item>
+              </a-menu-item> -->
             </a-menu>
           </template>
         </a-dropdown>

@@ -20,7 +20,7 @@
             ngay bây giờ</Button>
         </div>
       </div>
-      <img src="../assets/images/vr-glasses.png"
+      <img src="@/assets/images/vr-glasses.png"
         class="relative z-[9] w-[400px] mb-[20px] md:w-[500px] md:mr-[60px] md:mt-[50px] md:mb-0 2xl:w-[600px] 2xl:mr-0 2xl:mt-0"
         alt="">
     </div>
