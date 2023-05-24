@@ -10,18 +10,24 @@
   <div class="newsletter-section w-full h-[400px] flex items-center bg-[#f9f9f9] bg-[url('@/assets/images/newsletter-background.jpg')] bg-center bg-no-repeat bg-cover">
     <Newsletter/>
   </div>
+
+  <footer class="w-full bg-[#252B42] text-white">
+    <Footer/>
+  </footer>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue';
 import Banner from '@/components/Banner.vue';
-import Newsletter from '../../components/Newsletter.vue';
+import Newsletter from '@/components/Newsletter.vue';
+import Footer from '@/components/Footer.vue';
 import { ref } from 'vue'
 export default {
   components: {
     Navbar,
     Banner,
     Newsletter,
+    Footer,
 },
 
   setup(props, {emit}) {
