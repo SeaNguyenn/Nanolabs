@@ -4,19 +4,19 @@
     <Header @scrolled="scroll" />
   </header>
 
-  <section>
-    <Banner />
+  <SingleProduct/>
 
+  <!-- <section>
+    <Banner />
     <div class="main-content max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
       <div class="layout">
         <Category/>
         <Products/>
       </div>
     </div>
-
   </section>
 
-  <Newsletter />
+  <Newsletter /> -->
   <Footer />
 </template>
 
@@ -27,6 +27,7 @@ import Newsletter from '@/components/Footer/Newsletter/Newsletter.vue';
 import Footer from '@/components/Footer/Footer.vue';
 import Products from '@/components/Products/Products.vue';
 import Category from '@/components/Home/Category/Category.vue';
+import SingleProduct from '@/components/SingleProduct/SingleProduct.vue';
 import { ref } from 'vue'
 export default {
   components: {
@@ -36,6 +37,7 @@ export default {
     Footer,
     Category,
     Products,
+    SingleProduct,
   },
 
   setup(props, { emit }) {

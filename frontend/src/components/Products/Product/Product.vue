@@ -1,6 +1,6 @@
 <template>
-  <div class="product-cart w-[calc(50%-5px)] mb-5 md:w-[calc(25%-15px)]">
-    <div class="thumbnail w-full h-[250px] bg-[#0000000d] mb-2.5 p-6 flex items-center md:h-[350px]">
+  <div class="w-[calc(50%-5px)] mb-5 md:w-[calc(25%-15px)]">
+    <div class="w-full h-[180px] bg-[#0000000d] mb-2.5 p-6 flex items-center md:h-[350px]">
       <img src="@/assets/images/earbuds-prod-1.webp" class="hover:scale-125" alt="">
     </div>
     <div class="prod-detail">

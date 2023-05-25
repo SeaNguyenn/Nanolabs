@@ -43,7 +43,7 @@
         </a-modal>
 
         <div class="flex relative items-center cursor-pointer">
-          <Icon icon="solar:cart-linear" class="text-[29px]" />
+          <Icon icon="mi:shopping-cart" class="text-[29px]" />
           <span
             class="text-xs min-w-[15px] bg-violet-300 text-black text-center absolute top-[-5px] right-[-5px] p-[2.5px] rounded-lg"
             v-bind:class="countCart == 0 ? 'hidden' : ''">{{ countCart }}</span>
