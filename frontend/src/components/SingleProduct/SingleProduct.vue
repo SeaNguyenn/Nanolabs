@@ -59,7 +59,7 @@ import Button from '@/components/Button.vue'
 import RelatedProducts from '@/components/SingleProduct/RelatedProducts/RelatedProducts.vue'
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue';
-import ProductDetail from './ProductDetail.vue/ProductDetail.vue'
+import ProductDetail from './ProductDetail/ProductDetail.vue'
 export default {
   components: {
     Carousel,
