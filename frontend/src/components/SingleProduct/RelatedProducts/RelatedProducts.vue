@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap gap-2.5 md:gap-5">
-    <Products/>
+    <Products :headingText="headingText"/>
   </div>
 </template>
 
@@ -10,6 +10,14 @@ export default {
   components: {
     Products,
   },
+
+  setup(props) {
+    const headingText = "Những sản phẩm liên quan";
+
+    return {
+      headingText,
+    }
+  }
 }
 </script>
 

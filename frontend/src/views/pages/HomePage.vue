@@ -11,13 +11,13 @@
     <div class="main-content max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
       <div class="layout">
         <Category/>
-        <Products/>
+        <Products :headingText="headingText"/>
       </div>
     </div>
   </section>
 
   <Newsletter /> -->
-  <Footer />
+  <!-- <Footer /> -->
 </template>
 
 <script>
@@ -46,10 +46,12 @@ export default {
     const scroll = (e) => {
       onScroll.value = e;
     }
+    const headingText = "Những sản phẩm đang bán chạy";
 
     return {
       scroll,
       onScroll,
+      headingText,
     }
   }
 }
