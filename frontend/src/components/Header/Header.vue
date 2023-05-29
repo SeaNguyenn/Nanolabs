@@ -24,7 +24,7 @@
                 <router-link :to="{ name: 'products' }" class="text-lg">Danh sách sản phẩm</router-link>
               </a-menu-item>
               <a-menu-item>
-                <router-link :to="{ name: 'blog' }" class="text-lg">Nanolabs Blog</router-link>
+                <router-link :to="{ name: 'blogs' }" class="text-lg">Nanolabs Blog</router-link>
               </a-menu-item>
               <!-- <a-menu-item>
                 <router-link :to="{ name: '' }" class="text-lg">item</router-link>
@@ -42,12 +42,24 @@
           <a-input v-model:value="search" placeholder="Tìm kiếm" />
         </a-modal>
 
-        <div class="flex relative items-center cursor-pointer">
+        <a-popover placement="bottom" class="flex relative items-center cursor-pointer">
           <Icon icon="mi:shopping-cart" class="text-[29px]" />
           <span
-            class="text-xs min-w-[15px] bg-violet-300 text-black text-center absolute top-[-5px] right-[-5px] p-[2.5px] rounded-lg"
+            class="text-xs min-w-[15x] bg-violet-300 text-black text-center absolute top-[-5px] right-[-5px] p-[2.5px] rounded-lg"
             v-bind:class="countCart == 0 ? 'hidden' : ''">{{ countCart }}</span>
-        </div>
+
+          <template #title>
+            <span>Sản phẩm mới thêm</span>
+          </template>
+          <template #content>
+            <p>Content</p>
+            <p>Content</p>
+            <div class="flex">
+              <p>a Thêm hàng vào giỏ</p>
+              <div>Xem giỏ hàng</div>
+            </div>
+          </template>
+        </a-popover>
 
         <div class="relative flex items-center cursor-pointer">
           <Icon icon="icon-park-outline:like" class="text-[29px]" />
@@ -107,10 +119,10 @@ export default {
     });
 
     let routes = [
-      { name: 'Trang chủ', path: '#' },
-      { name: 'Sản phẩm', path: '#', submenu: true },
+      { name: 'Trang chủ', path: 'home' },
+      { name: 'Sản phẩm', path: 'products', submenu: true },
       { name: 'Liên hệ', path: '#' },
-      { name: 'Blog', path: '#' },
+      { name: 'Blog', path: 'blogs' },
     ]
 
     const scrolled = ref(false);

@@ -23,6 +23,41 @@ const router = createRouter({
           name: 'products',
           component: () => import('@/views/pages/ProductsPage.vue'),
         },
+        {
+          path: '/product/:productId',
+          name: 'productScreen',
+          component: () => import('@/views/pages/ProductPage.vue'),
+        },
+        {
+          path: '/product/:productId/edit',
+          name: 'productEdit',
+          component: () => import('@/views/pages/ProductPage.vue'),
+        },
+        {
+          path: '/blogs',
+          name: 'blogs',
+          component: () => import('@/views/pages/BlogPage.vue'),
+        },
+        {
+          path: '/blogs/:blogId/edit',
+          name: 'blogEdit',
+          component: () => import('@/views/pages/BlogPage.vue'),
+        },
+        {
+          path: '/cart',
+          name: 'cart',
+          component: () => import('@/views/pages/CartPage.vue'),
+        },
+        {
+          path: '/checkout',
+          name: 'checkout',
+          component: () => import('@/views/pages/CheckoutPage.vue'),
+        },
+        {
+          path: '/contact',
+          name: 'contact',
+          component: () => import('@/views/pages/ContactPage.vue'),
+        },
       ],
     },
     {
