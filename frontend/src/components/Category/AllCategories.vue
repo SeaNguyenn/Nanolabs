@@ -1,24 +1,20 @@
 <template>
   <div class="my-[30px] md:my-[75px]">
-    <div class="container my-[1.875rem] mx-auto">
-      <Breadcrumb />
-    </div>
-
-    <div class="container overflow-hidden shadow border-[0.125rem] mb-[1.875rem]">
-      
-    </div>
+    <Breadcrumb />
+    <CategoryList/>
   </div>
 </template>
 
 <script>
 import Breadcrumb from './Breadcrumb.vue';
+import CategoryList from './CategoryList.vue';
 
 export default {
 
   components: {
-    Breadcrumb
-
-  },
+    Breadcrumb,
+    CategoryList
+},
 }
 </script>
 
