@@ -1,12 +1,22 @@
 <template>
-  <div>
+  <CartHeader/>
 
-  </div>
+  <section>
+    cart
+  </section>
+
+  <Footer/>
 </template>
 
 <script>
-export default {
+import Footer from '@/components/Footer/Footer.vue';
+import CartHeader from '../../components/Cart/CartHeader.vue';
 
+export default {
+  components: {
+    Footer,
+    CartHeader,
+},
 }
 </script>
 

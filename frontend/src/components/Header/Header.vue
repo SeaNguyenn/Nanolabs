@@ -1,10 +1,10 @@
 <template>
   <div class="header-content flex items-center justify-between h-12 max-w-7xl my-0 mx-auto md:h-[60px]">
 
-    <div class="logo flex items-center gap-2">
+    <router-link :to="{name:'home'}" class="logo flex items-center gap-2 hover:text-white">
       <Icon icon="cryptocurrency:nano" class="text-3xl" />
       <h2 class="w-[118px] h-[36px] font-bold text-3xl text-white cursor-pointer">Nanolabs</h2>
-    </div>
+    </router-link>
 
     <ul class="hidden md:flex md:items-center ">
       <li class="px-2 lg:px-4" v-for="route in routes">
