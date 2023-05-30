@@ -1,12 +1,15 @@
 <template>
   <div>
-    productlist
+    <Products :offHeading="true"/>
+    <Products :offHeading="true"/>
   </div>
 </template>
 
 <script>
-export default {
+import Products from '../Products.vue';
 
+export default {
+    components: { Products, }
 }
 </script>
 

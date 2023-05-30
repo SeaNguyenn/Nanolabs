@@ -58,6 +58,11 @@ const router = createRouter({
           name: 'contact',
           component: () => import('@/views/pages/ContactPage.vue'),
         },
+        {
+          path: '/all_categories',
+          name: 'all_categories',
+          component: () => import('@/views/pages/AllCategoriesPage.vue'),
+        },
       ],
     },
     {
