@@ -50,4 +50,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->email, [
+            'admin@gmail.com',
+        ]);
+    }
 }
