@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white border-[1px] mb-2.5">
+  <div class="bg-white border-[1px] mb-2.5 rounded-lg">
     <div class="seller-group px-5 pt-4 flex items-center">
       <a-checkbox v-model:checked="checked"></a-checkbox>
       <div class="flex items-center ml-2 gap-3">

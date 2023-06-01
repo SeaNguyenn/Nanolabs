@@ -1,7 +1,7 @@
 <template>
   <header class="main-header w-full z-[99] px-[20px] py-4 bg-black text-white shadow md:px-[40px]"
     v-bind:class="onScroll ? 'sticky top-0 translate-y-[-80px] animate-sticky-header' : ''">
-    <Header @scrolled="scroll" />
+    <Header @scrolled="scroll" :countCart="countCart" />
   </header>
 
   <section>
@@ -12,9 +12,10 @@
         <Products :headingText="headingText"/>
       </div>
     </div>
+    <Wrapper/>
+    <Newsletter />
   </section>
-
-  <Newsletter />
+  
   <Footer />
 </template>
 
@@ -26,6 +27,7 @@ import Footer from '@/components/Footer/Footer.vue';
 import Products from '@/components/Products/Products.vue';
 import Category from '@/components/Home/Category/Category.vue';
 import { ref } from 'vue'
+import Wrapper from '@/components/Home/Wrapper/Wrapper.vue';
 export default {
   components: {
     Header,
@@ -34,10 +36,12 @@ export default {
     Footer,
     Category,
     Products,
-  },
+    Wrapper
+},
 
   setup(props, { emit }) {
 
+    const countCart = ref(1);
     const onScroll = ref(false);
     const scroll = (e) => {
       onScroll.value = e;
@@ -48,6 +52,7 @@ export default {
       scroll,
       onScroll,
       headingText,
+      countCart,
     }
   }
 }

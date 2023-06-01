@@ -13,6 +13,7 @@ module.exports = {
         'dark-background' : '#252B42',
         'second-text-color' : '#737373',
         'primary-color' : '#23A6F0',
+        'col-bg' : '#F5F8FD'
       },
       keyframes: {
         stickyy: {

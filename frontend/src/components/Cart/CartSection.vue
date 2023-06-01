@@ -3,8 +3,8 @@
     <div
       class="max-w-[calc(100%-20px)] my-0 mx-auto flex justify-between flex-wrap md:flex-nowrap md:max-w-7xl  md:gap-5">
       <div class="flex-[1_1_910px]">
-        <div class="cart-item-header grid px-5 py-2 mb-5 grid-cols-[398px,200px,150px,150px,30px] border-[1px]">
-          <a-checkbox v-model:checked="checked">Tất cả</a-checkbox>
+        <div class="cart-item-header grid px-5 py-2 mb-5 bg-white rounded-lg grid-cols-[398px,200px,150px,150px,30px] border-[1px]">
+          <a-checkbox v-model:checked="checkeAll" @change="onCheckAllChange">Tất cả</a-checkbox>
 
           <span>Đơn giá</span>
           <span>Số lượng</span>
@@ -22,13 +22,13 @@
 
       </div>
       <div class="flex-[1_1_calc(100%-910px)]">
-        <div class="border-[1px] px-2 py-3 mb-2.5">
+        <div class="border-[1px] px-2 py-1 mb-2.5 bg-white rounded-lg">
           <div class="flex justify-between items-center text-base pb-2">
-            <span>Giao tới</span>
-            <a href="" class="text-blue-600">Thay đổi</a>
+            <span class="text-base font-semibold ">Giao tới</span>
+            <a href="" class="text-base font-semibold text-blue-600">Thay đổi</a>
           </div>
 
-          <div class="font-bold flex items-center text-sm pb-1">
+          <div class="font-bold flex items-center text-sm pb-1 bg-white rounded-lg">
             <span>Nguyễn Văn A</span>
             <span class="px-1">|</span>
             <span>099999999</span>
@@ -38,7 +38,7 @@
             <p>Số 5, Ngõ 989, Thành phố Hà nội</p>
           </div>
         </div>
-        <div class="border-[1px] px-2 py-3 mb-2.5">
+        <div class="border-[1px] px-2 py-3 mb-2.5 bg-white rounded-lg">
           <div class="border-b-[1px]">
             <div class="flex justify-between items-center pb-2">
               <div>Tạm tính</div>
@@ -76,8 +76,14 @@ export default {
   },
 
   setup() {
+
+    const onCheckAllChange = () => {
+
+    }
+
     return {
       checked: ref(false),
+      onCheckAllChange,
     };
   },
 }

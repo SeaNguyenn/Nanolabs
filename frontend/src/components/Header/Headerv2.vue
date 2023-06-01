@@ -9,7 +9,7 @@
       </router-link>
 
       <div class="flex items-center">
-        <a-input v-model:value="value" placeholder="" class="w-[400px] rounded-none border-red-600 py-2 border-2"/>
+        <a-input v-model:value="value" placeholder="Tìm kiếm" class="w-[400px] rounded-none border-red-600 py-2 border-2"/>
         <Button class="bg-red-600 text-white py-[0.8rem] px-7 rounded-none" @click=""><Icon icon="system-uicons:search" class="text-base" /></Button>
       </div>
     </div>

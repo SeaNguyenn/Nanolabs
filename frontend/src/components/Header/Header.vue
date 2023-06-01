@@ -47,7 +47,7 @@
           <template #content>
             <div v-if="countCart != 0">
               <p class="mb-5 text-sm text-gray-400">Sản phẩm mới thêm</p>
-            <div class="flex items-center w-[300px]">
+            <div class="flex w-[300px]">
               <div class="w-[40px] h-[40px] border-2">
                 <img src="@/assets/images/earbuds-prod-1.webp" alt="" class="w-full h-full">
               </div>
@@ -119,6 +119,10 @@ import { Icon } from '@iconify/vue'
 import Button from '@/components/Button.vue'
 import { reactive, watchEffect, ref } from 'vue'
 export default {
+  props: {
+    countCart: Number,
+  },
+
   components: {
     Icon,
     Button,
@@ -146,8 +150,6 @@ export default {
     ]
 
     const scrolled = ref(false);
-
-    const countCart = ref(0);
     const countWishList = ref(0);
     const visible = ref(false);
 
@@ -164,7 +166,6 @@ export default {
       visible,
       showModal,
       countWishList,
-      countCart,
       handleOk,
     };
   }

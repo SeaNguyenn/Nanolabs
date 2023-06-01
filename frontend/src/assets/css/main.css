@@ -6,6 +6,7 @@ html, body {
 
 #app {
     font-family: 'Nunito', sans-serif;
+    background: #F5F8FD;
 }
 
 @tailwind base;
