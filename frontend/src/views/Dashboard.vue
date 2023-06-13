@@ -1,33 +1,50 @@
 <template>
-  <a-layout class="min-h-screen">
-    <a-layout-sider class="bg-white" v-model:collapsed="collapsed" collapsible>
-      <DashboardSideBar />
-    </a-layout-sider>
+  <a-layout class="min-h-screen flex flex-row  bg-[#F7F7F7]">
+    <!-- sidebar -->
+    <div class="relative duration-300 p-4 pt-6 border-r-[1px] border-solid border-[#D1D1D1] bg-white"
+    v-bind:class="{ 'w-20  min-w-[80px]': !showSiderbar, 'w-[200px] min-w-[200px]': showSiderbar }" >
+      <DashboardSideBar :show-siderbar="showSiderbar" :open="open" @change-value="onChangeValue"/>
+    </div>
 
-    <a-layout>
-      <DashboardHome />
-    </a-layout>
+    <!-- main content -->
+    <div class="ml-auto duration-300" v-bind:class="{ 'w-[calc(100%-5rem)]': !showSiderbar , 'w-[calc(100%-200px)]': showSiderbar}" >
+      <!-- header  -->
+      <div class="bg-white px-4 py-6 border-b-[1px] border-solid border-[#D1D1D1]">
+        <DashboardHome/>
+      </div>
+      
+      <!-- content  -->
+      <div class="py-8">content</div>
+    </div>
   </a-layout>
 </template>
 
 <script>
 import DashboardHome from '@/components/Dashboard/DashboardHome.vue'
 import DashboardSideBar from '@/components/Dashboard/DashboardSideBar.vue'
-import { ref } from 'vue'
-export default {
+import { defineComponent, ref } from 'vue'
+export default defineComponent({
   components: {
     DashboardHome,
     DashboardSideBar,
   },
 
-  setup(props) {
-    const collapsed = ref(false);
+  setup(props, {emit}) {
+    const showSiderbar = ref(true)
+    const open = ref(true)
+
+    const onChangeValue = () => {
+      showSiderbar.value = !showSiderbar.value;
+      open.value = !open.value;
+    }
 
     return {
-      collapsed,
+      showSiderbar,
+      open,
+      onChangeValue,
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped></style>
