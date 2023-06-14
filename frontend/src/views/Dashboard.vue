@@ -9,12 +9,14 @@
     <!-- main content -->
     <div class="ml-auto duration-300" v-bind:class="{ 'w-[calc(100%-5rem)]': !showSiderbar , 'w-[calc(100%-200px)]': showSiderbar}" >
       <!-- header  -->
-      <div class="bg-white px-4 py-6 border-b-[1px] border-solid border-[#D1D1D1]">
+      <div class="bg-white px-4 py-5 border-b-[1px] border-solid border-[#D1D1D1]">
         <DashboardHome/>
       </div>
       
       <!-- content  -->
-      <div class="py-8">content</div>
+      <div class="py-7 px-2">
+        <router-view></router-view>
+      </div>
     </div>
   </a-layout>
 </template>
