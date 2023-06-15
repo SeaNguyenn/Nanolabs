@@ -18,9 +18,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'account_id',
+        'password',
         'name',
         'email',
-        'password',
+        'role_id',
+        'avatar',
+        'gender',
+        'birthday',
+        'address',
+        'phone',
+        'state',
     ];
 
     /**
@@ -42,4 +50,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->email, [
+            'admin@gmail.com',
+        ]);
+    }
 }

@@ -12,20 +12,19 @@ export const authStore = defineStore('auth', {
     async login(account_id, password) {
       const response = await authService.login(account_id, password);
       console.log("Đăng nhập thành công");
-      this.user.name = response.data.data.account_id;
+      this.user = response.data.data.account_id;
     },
 
-    // async register(account_id, password, email) {
-    //   const response = await authService.register(account_id, password, email);
-    //   console.log(response);
-    //   // localStorage.setItem('NAME', response.data.data.account_id);
-    //   // console.log("Đăng kí thành công");
-    // },
+    async register(account_id, email, password) {
+      const response = await authService.register(account_id, email, password);
+      localStorage.setItem('user', response.data.data.account_id);
+      console.log("Đăng kí thành công");
+    },
 
     async logout() {
       await authService.logout();
       document.cookie = 'XSRF-TOKEN=; max-age=0';
-      this.user.name = null;
+      this.user = null;
     },
   },
 
