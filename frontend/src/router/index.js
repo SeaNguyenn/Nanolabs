@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { authStore } from '../stores/auth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,11 +9,47 @@ const router = createRouter({
       redirect: '/home',
       component: () => import('@/layouts/DefaultLayout.vue'),
       children: [
+        //admin
         {
           path: '/dashboard',
           name: 'dashboard',
-          component: () => import('@/views/Dashboard.vue'),
+          component: () => import('@/views/Dashboard/Dashboard.vue'),
+          meta: { admin: true },
+          children: [
+            {
+              path: '/admin/products',
+              name: 'adminProducts',
+              component: () => import('@/views/Dashboard/Products.vue'),
+              meta: { admin: true},
+            },
+            {
+              path: '/admin/analytics',
+              name: 'adminAnalytics',
+              component: () => import('@/views/Dashboard/Analytics.vue'),
+              meta: { admin: true},
+            },
+            {
+              path: '/admin/payments',
+              name: 'adminPayments',
+              component: () => import('@/views/Dashboard/Payments.vue'),
+              meta: { admin: true},
+            },
+            {
+              path: '/admin/orders',
+              name: 'adminOrders',
+              component: () => import('@/views/Dashboard/Orders.vue'),
+              meta: { admin: true},
+            },
+            {
+              path: '/admin/settings',
+              name: 'adminSettings',
+              component: () => import('@/views/Dashboard/Settings.vue'),
+              meta: { admin: true},
+            },
+          ],
         },
+
+        //users
         {
           path: '/home',
           name: 'home',
@@ -81,12 +118,31 @@ const router = createRouter({
           component: () => import('@/views/auth/Register.vue'),
         },
       ]
-    }
+    },
   ]
 })
 
-// router.beforeEach((to,from,next) => {
+router.beforeEach((to,from,next) => {
 
-// })
+  const cookiesArray = document.cookie.split(';');
+  let cookieFlg = false;
+  for (let i = 0; i < cookiesArray.length; i++) {
+    let cookies = cookiesArray[i].split('=');
+    if (cookies[0].match(/XSRF-TOKEN/)) {
+      cookieFlg = true;
+      break;
+    }
+  }
+
+  const auth = authStore();
+  if (
+    to.matched.some((record) => record.meta.admin) && auth.isAuthenticated && cookieFlg
+  ) {
+    next('/dashboard');
+    return;
+  }
+
+  next();
+})
 
 export default router 

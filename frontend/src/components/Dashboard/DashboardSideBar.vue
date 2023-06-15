@@ -6,7 +6,7 @@
       v-bind:class="{ 'hidden': !open }">Nanolabs</span>
   </router-link>
 
-  <ul class="mt-5 flex flex-col items-start justify-center" v-bind:class="{'items-center' : !open}" :selectedKeys="selectedKeys">
+  <ul class="mt-5 flex flex-col items-start justify-center" v-bind:class="{'items-center' : !open}">
     <li v-for="(menu,index) in menus" key="index" class="mb-5 w-full">
       <router-link :to="{name: menu.href}" class="flex items-center gap-2 pl-2 py-1 text-lg text-col-gray-light rounded cursor-pointer hover:bg-col-hover hover:text-white" v-bind:class="{'justify-center !pl-0 !text-2xl' : !open}">
         <Icon :icon="menu.icon"/>
@@ -47,27 +47,27 @@ export default {
       },
       {
         name: 'Phân tích',
-        // href: 'admin/analytics',
+        href: 'adminAnalytics',
         icon: 'gala:chart',
       },
       {
         name: 'Sản phẩm',
-        // href: 'admin/products',
+        href: 'adminProducts',
         icon: 'fluent:box-20-regular',
       },
       {
         name: 'Thanh toán',
-        // href: 'admin/payments',
+        href: 'adminPayments',
         icon: 'ion:wallet-outline',
       },
       {
         name: 'Đặt hàng',
-        // href: 'admin/orders',
+        href: 'adminOrders',
         icon: 'iconoir:truck',
       },
       {
         name: 'Cài đặt',
-        // href: 'admin/settings',
+        href: 'adminSettings',
         icon: 'ant-design:setting-outlined',
       },
     ])
