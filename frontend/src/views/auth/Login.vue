@@ -77,6 +77,8 @@
 <script>
 import { Icon } from '@iconify/vue'
 import { ref, reactive } from 'vue'
+import { authStore } from '@/stores/auth';
+import { useRouter } from 'vue-router'
 export default {
   components: {
     Icon
@@ -84,6 +86,10 @@ export default {
 
   setup(props) {
     const error = ref(false);
+
+    const auth = authStore();
+    const router = useRouter()
+
     const formState = reactive({
       account_id: '',
       password: '',
