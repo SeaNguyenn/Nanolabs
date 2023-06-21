@@ -14,7 +14,7 @@
     <div class="w-full max-w-md space-y-8">
       <div class="rounded-md border p-5 bg-white shadow-sm">
         <div class="mt-6 text-center text-4xl font-bold tracking-tight">Đăng nhập</div>
-        <form class="mt-9 space-y-6" id="form" @submit="onSubmit">
+        <a-form class="mt-9 space-y-6" id="form" :model="formState" @submit="onSubmit">
           <div class="bg-red-100 py-3 px-2.5 flex items-center border border-red-400"
             v-bind:class="error == true ? 'flex' : 'hidden'">
             <Icon icon="material-symbols:error-rounded" class="text-xl text-orange-600" />
@@ -68,7 +68,7 @@
                 class="font-semibold underline underline-offset-2 cursor-pointer px-1">Đăng nhập ở đây!</router-link>
             </div>
           </div>
-        </form>
+        </a-form>
       </div>
     </div>
   </div>
@@ -77,7 +77,7 @@
 <script>
 import { Icon } from '@iconify/vue'
 import { ref, reactive } from 'vue'
-import { authStore } from '@/stores/auth';
+import { authStore } from '@/stores/auth.js';
 import { useRouter } from 'vue-router'
 export default {
   components: {
@@ -87,7 +87,7 @@ export default {
   setup(props) {
     const error = ref(false);
 
-    const auth = authStore();
+    const auth = authStore(); 
     const router = useRouter()
 
     const formState = reactive({

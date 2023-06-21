@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            SupAdminSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
