@@ -105,10 +105,25 @@
         </div>
       </div>
 
-      <div class="hidden gap-2 ml-3 lg:flex lg:items-center">
+      <div class="hidden gap-2 ml-3 lg:flex lg:items-center" v-if="userName == ''">
         <router-link :to="{ name: 'login' }" class="text-lg">Đăng nhập</router-link>
         <p class="text-lg">|</p>
         <router-link :to="{ name: 'register' }" class="text-lg">Đăng ký</router-link>
+      </div>
+
+      <div class="hidden gap-2 ml-3 text-xl lg:flex lg:items-center" v-if="userName != ''">
+        <a-dropdown>
+          <div class="text-lg font-bold flex items-center ant-dropdown-link cursor-pointer" @click.prevent>
+            {{ userName }}
+          </div>
+          <template #overlay>
+            <a-menu>
+              <a-menu-item>
+                <button @click="logout" class="text-lg">Đăng xuất</button>
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
       </div>
     </div>
   </div>
@@ -117,7 +132,9 @@
 <script>
 import { Icon } from '@iconify/vue'
 import Button from '@/components/Button.vue'
-import { reactive, watchEffect, ref } from 'vue'
+import { reactive, watchEffect,onMounted, ref } from 'vue'
+import { authStore } from '@/stores/auth.js';
+
 export default {
   props: {
     countCart: Number,
@@ -149,6 +166,20 @@ export default {
       { name: 'Blog', path: 'blogs' },
     ]
 
+    const auth = authStore();
+    const userName = ref('');
+
+    onMounted(() => {
+      if (auth.authUser != null) {
+        userName.value = auth.authUser.name;
+      }
+    })
+
+    const logout = async () => {
+      await auth.logout();
+      window.location.reload();
+    };
+
     const scrolled = ref(false);
     const countWishList = ref(0);
     const visible = ref(false);
@@ -167,6 +198,8 @@ export default {
       showModal,
       countWishList,
       handleOk,
+      userName,
+      logout,
     };
   }
 }

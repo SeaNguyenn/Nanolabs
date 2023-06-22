@@ -107,7 +107,7 @@ export default {
     const onSubmit = async () => {
       try {
         await Promise.all([auth.register(formState.account_id, formState.email, formState.password, formState.password_confirmation)]);
-        // router.push({ name: 'home' })
+        router.push({ name: 'home' })
         error.value = false;
       } catch (e) {
         error.value = true;
