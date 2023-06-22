@@ -5,7 +5,7 @@
       <h2 class="w-[118px] h-[36px] font-bold text-3xl cursor-pointer">Nanolabs</h2>
     </div>
     <router-link :to="{ name: 'register' }"
-      class="group relative flex items-center justify-center rounded-md py-3.5 px-3 font-semibold bg-blue-500 text-white hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-blue-500">
+      class="group relative flex items-center justify-center rounded-md py-3.5 px-3 font-semibold bg-blue-500 text-white hover:bg-blue-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-blue-500">
       <p class="flex justify-center px-3 text-lg font-normal">Đăng ký</p>
       <Icon icon="material-symbols:arrow-right-alt-rounded" class="font-normal text-lg" />
     </router-link>

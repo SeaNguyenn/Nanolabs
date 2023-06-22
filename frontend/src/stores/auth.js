@@ -19,16 +19,19 @@ export const authStore = defineStore('auth', {
       this.token = tonken.data.access_token;
     },
 
-    async register(account_id, email, password) {
-      const response = await authService.register(account_id, email, password);
-      localStorage.setItem('user', response.data.data.account_id);
+    async register(account_id, email, password, password_confirmation) {
+      const response = await authService.register(account_id, email, password, password_confirmation);
       console.log("Đăng kí thành công");
+      console.log(response);
+      this.user = response.data.data.user;
+      this.token = response.data.data.token;
     },
 
     async logout() {
       await authService.logout();
       document.cookie = 'XSRF-TOKEN=; max-age=0';
       this.user = null;
+      this.token = null;
     },
   },
 

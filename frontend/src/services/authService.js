@@ -9,11 +9,13 @@ export default {
     })
   },
 
-  async register(account_id, email, password) {
-    return http.post('/register', {
+  async register(account_id, email, password, password_confirmation) {
+    await http.get('/sanctum/csrf-cookie')
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/register', {
       account_id: account_id,
       email: email,
       password: password,
+      password_confirmation: password_confirmation,
     })
   },
 
@@ -22,6 +24,7 @@ export default {
   },
 
   async logout() {
+    await http.get('/sanctum/csrf-cookie')
     return http.post('/logout');
   },
 }

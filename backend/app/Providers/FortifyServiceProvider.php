@@ -13,7 +13,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
 use App\Models\User;
+use Log;
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
