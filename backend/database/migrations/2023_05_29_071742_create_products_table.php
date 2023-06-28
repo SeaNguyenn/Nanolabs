@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('product_code');
             $table->string('description')->nullable();
             $table->string('image')->nullable();
-            $table->float('price')->nullable();
-            $table->float('promotion_price')->nullable();
+            $table->decimal('price',12,2)->nullable();
+            $table->decimal('promotion_price',12,2)->nullable();
             $table->bigInteger('include_vat')->nullable();
             $table->bigInteger('evaluate')->nullable()->comment('1:relly bad 2:bad 3:normal 4:good 5:relly good');
             $table->string('color')->nullable();

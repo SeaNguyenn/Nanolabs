@@ -22,7 +22,7 @@ return new class extends Migration
             $table->bigInteger('gender')->nullable()->default(1)->comment('1: man, 2:women');
             $table->date('birthday')->nullable();
             $table->string('address')->nullable();
-            $table->bigInteger('phone')->nullable();
+            $table->string('phone')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

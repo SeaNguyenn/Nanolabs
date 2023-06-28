@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->bigInteger('customer_gender')->nullable()->default(1);
             $table->date('customer_birthday')->nullable();
-            $table->bigInteger('customer_phone')->nullable();
+            $table->string('customer_phone')->nullable();
             $table->string('customer_address')->nullable();
             $table->string('customer_address_company')->nullable();
             $table->string('order_detail')->nullable();
