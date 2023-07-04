@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('brand_name')->nullable();
             $table->bigInteger('parent_id')->nullable();
             $table->bigInteger('display_order')->nullable();
-            $table->string('seo_tilte')->nullable();
+            $table->string('seo_title')->nullable();
             $table->bigInteger('create_user')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keyword')->nullable();

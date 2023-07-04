@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('shipper_id')->unsigned();
             $table->bigInteger('shipping_method_id')->unsigned();
             $table->bigInteger('order_status_id')->unsigned();
-            $table->float('shipping_cost');
+            $table->decimal('shipping_cost',12,2);
             $table->string('note')->nullable();
             $table->date('order_date')->nullable();
             $table->date('shipped_date')->nullable();

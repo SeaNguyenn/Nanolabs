@@ -134,13 +134,13 @@ router.beforeEach((to,from,next) => {
     }
   }
 
-  const auth = authStore();
-  if (
-    to.matched.some((record) => record.meta.admin) && auth.isAuthenticated && cookieFlg
-  ) {
-    next('/dashboard');
-    return;
-  }
+  // const auth = authStore();
+  // if (
+  //   to.matched.some((record) => record.meta.admin) && auth.isAuthenticated && cookieFlg
+  // ) {
+  //   next('/dashboard');
+  //   return;
+  // }
 
   next();
 })
