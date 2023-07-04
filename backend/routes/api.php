@@ -27,5 +27,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/get-info', [Controllers\api\UserController::class, 'getInfo']);
 
+
+    //product
+    Route::post('/products', [Controllers\api\ProductController::class, 'getAllProducts']);
+    Route::get('/product/{id}', [Controllers\api\ProductController::class, 'getProduct']);
+
 });
 

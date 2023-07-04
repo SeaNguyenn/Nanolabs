@@ -41,4 +41,5 @@ class UserController extends Controller
 
         return response()->json($response,200);
     }
+
 }
