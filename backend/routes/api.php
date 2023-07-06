@@ -27,7 +27,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/get-info', [Controllers\api\UserController::class, 'getInfo']);
 
-
     //product
     Route::post('/products', [Controllers\api\ProductController::class, 'getAllProducts']);
     Route::get('/product/{id}', [Controllers\api\ProductController::class, 'getProduct']);
@@ -36,5 +35,32 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/product/delete/{id}', [Controllers\api\ProductController::class, 'deleteProduct']);
 
     //customers
+    Route::post('/customer', [Controllers\api\CustomerController::class, 'getAllCustomers']);
+    Route::get('/customer/{id}', [Controllers\api\CustomerController::class, 'getCustomer']);
+    Route::get('/customer/create', [Controllers\api\CustomerController::class, 'createCustomer']);
+    Route::get('/customer/update/{id}', [Controllers\api\CustomerController::class, 'updateCustomer']);
+    Route::get('/customer/delete/{id}', [Controllers\api\CustomerController::class, 'deleteCustomer']);
+
+    //Orders
+    Route::post('/order', [Controllers\api\OrderController::class, 'getAllOrders']);
+    Route::get('/order/{id}', [Controllers\api\OrderController::class, 'getOrder']);
+    Route::get('/order/create', [Controllers\api\OrderController::class, 'createOrder']);
+    Route::get('/order/update/{id}', [Controllers\api\OrderController::class, 'updateOrder']);
+    Route::get('/order/delete/{id}', [Controllers\api\OrderController::class, 'deleteOrder']);
+
+    //shipper
+    Route::post('/shipper', [Controllers\api\ShipperController::class, 'getAllShippers']);
+    Route::get('/shipper/{id}', [Controllers\api\ShipperController::class, 'getShipper']);
+    Route::get('/shipper/create', [Controllers\api\ShipperController::class, 'createShipper']);
+    Route::get('/shipper/update/{id}', [Controllers\api\ShipperController::class, 'updateShipper']);
+    Route::get('/shipper/delete/{id}', [Controllers\api\ShipperController::class, 'deleteShipper']);
+
+    //suppliers
+    Route::post('/supplier', [Controllers\api\SupplierController::class, 'getAllSuppliers']);
+    Route::get('/supplier/{id}', [Controllers\api\SupplierController::class, 'getSupplier']);
+    Route::get('/supplier/create', [Controllers\api\SupplierController::class, 'createSupplier']);
+    Route::get('/supplier/update/{id}', [Controllers\api\SupplierController::class, 'updateSupplier']);
+    Route::get('/supplier/delete/{id}', [Controllers\api\SupplierController::class, 'deleteSupplier']);
+
 });
 
