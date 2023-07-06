@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use DB;
+use App\Http\Requests\ProductRequest;
+
 class ProductController extends Controller
 {
     public function getAllProducts(Request $request)
@@ -58,5 +60,104 @@ class ProductController extends Controller
         }
     }
 
+    public function createProduct(ProductRequest $request)
+    {
+        $request->only([
+            'product_name' ,
+            'product_code' ,
+            'description' ,
+            'image' ,
+            'price',
+            'color' ,
+            'material' ,
+            'quantity',
+            'warranty',
+        ]);
 
+        try {
+            DB::table('products')->insert([
+                'product_name' => $request->product_name,
+                'product_code' => $request->product_code,
+                'description' => $request->description,
+                'image' => $request->image,
+                'price' => $request->price,
+                'color' => $request->color,
+                'material' => $request->material,
+                'quantity' => $request->quantity,
+                'warranty' => $request->warranty
+            ]);
+            return response()->json(['message' => 'Thêm mới sản phẩm thành công'], 200);
+
+        } catch (\Exception $e) {
+            Log::error('Có lỗi xảy ra: '.$e->getMessage());
+            return response()->json(['message' => 'Thêm mới sản phẩm thất bại', 'error' => $e], 500);
+        }
+    }
+
+    public function updateProduct(ProductRequest $request,$id)
+    {
+        $request->only([
+            'product_name' ,
+            'description' ,
+            'image' ,
+            'price',
+            'promotion_price',
+            'include_vat',
+            'evaluate',
+            'color',
+            'material' ,
+            'quantity',
+            'warranty',
+        ]);
+
+        try {
+            $product = DB::table('products')->where('id', $id)->first();
+
+            if (isset($product)) {
+                DB::table('products')->where('id', $id)->update([
+                    'product_name' => $request->product_name,
+                    'description' => $request->description,
+                    'image' => $request->image,
+                    'price' => $request->price,
+                    'promotion_price' => $request->promotion_price,
+                    'include_vat' => $request->include_vat,
+                    'evaluate' => $request->evaluate,
+                    'color' => $request->color,
+                    'material' => $request->material,
+                    'quantity' => $request->quantity,
+                    'warranty' => $request->warranty
+                ]);
+                return response()->json(['message' => 'Cập nhật sản phẩm thành công'], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Không tìm thấy sản phẩm'
+                ], 404);
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Có lỗi xảy ra: '.$e->getMessage());
+            return response()->json(['message' => 'Cập nhật sản phẩm thất bại', 'error' => $e], 500);
+        }
+    }
+
+    public function deleteProduct($id)
+    {
+        try {
+            $product = DB::table('products')->where('id', $id)->first();
+
+            if (isset($product)) {
+                DB::table('products')->where('id', $id)->update([
+                    'state' => 9,
+                ]);
+                return response()->json(['message' => 'Xoá sản phẩm thành công'], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Không tìm thấy sản phẩm'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            Log::error('Có lỗi xảy ra: '.$e->getMessage());
+            return response()->json(['message' => 'Xoá sản phẩm thất bại', 'error' => $e], 500);
+        }
+    }
 }
