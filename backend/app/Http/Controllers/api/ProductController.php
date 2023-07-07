@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
 use App\Http\Requests\ProductRequest;
@@ -21,7 +21,7 @@ class ProductController extends Controller
         }
 
         try {
-            $result = $data->get();
+            $result = $data->paginate(10);
 
             return response()->json([
                 'success' => true,
@@ -75,7 +75,10 @@ class ProductController extends Controller
         ]);
 
         try {
-            DB::table('products')->insert([
+
+            $products = DB::table('products');
+
+            $products->insert([
                 'product_name' => $request->product_name,
                 'product_code' => $request->product_code,
                 'description' => $request->description,
@@ -84,7 +87,10 @@ class ProductController extends Controller
                 'color' => $request->color,
                 'material' => $request->material,
                 'quantity' => $request->quantity,
-                'warranty' => $request->warranty
+                'warranty' => $request->warranty,
+                'create_user' => Auth::user()->name,
+                'supplier_id' => $request->supplier_id,
+                'category_id' => $request->category_id,
             ]);
             return response()->json(['message' => 'Thêm mới sản phẩm thành công'], 200);
 
@@ -125,7 +131,10 @@ class ProductController extends Controller
                     'color' => $request->color,
                     'material' => $request->material,
                     'quantity' => $request->quantity,
-                    'warranty' => $request->warranty
+                    'warranty' => $request->warranty,
+                    'update_user' => Auth::user()->name,
+                    'supplier_id' => $request->supplier_id,
+                    'category_id' => $request->category_id,
                 ]);
                 return response()->json(['message' => 'Cập nhật sản phẩm thành công'], 200);
             } else {

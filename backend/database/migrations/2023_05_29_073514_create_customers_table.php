@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('customer_phone')->nullable();
             $table->string('customer_address')->nullable();
             $table->string('customer_address_company')->nullable();
-            $table->string('order_detail')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
         });
     }
