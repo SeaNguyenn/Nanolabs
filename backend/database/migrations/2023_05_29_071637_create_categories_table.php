@@ -17,13 +17,7 @@ return new class extends Migration
             $table->string('brand_name')->nullable();
             $table->bigInteger('parent_id')->nullable();
             $table->bigInteger('display_order')->nullable();
-            $table->string('seo_title')->nullable();
-            $table->bigInteger('create_user')->nullable();
-            $table->string('meta_description')->nullable();
-            $table->string('meta_keyword')->nullable();
-            $table->bigInteger('modified_user')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill')->nullable();
-            $table->bigInteger('state_dashboard')->default(1)->nullable();
             $table->timestamps();
         });
     }

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('shipper_phone')->nullable();
             $table->string('shipper_address')->nullable();
             $table->string('create_user')->nullable();
-            $table->bigInteger('modified_user')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();
         });

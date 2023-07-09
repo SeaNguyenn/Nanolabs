@@ -22,8 +22,6 @@ return new class extends Migration
             $table->date('order_date')->nullable();
             $table->date('shipped_date')->nullable();
             $table->date('shipping_required_date')->nullable();
-            $table->bigInteger('create_user')->nullable();
-            $table->bigInteger('modified_user')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();
         });
