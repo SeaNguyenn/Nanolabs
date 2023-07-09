@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('customer_id')->unsigned();
+            $table->bigInteger('id')->unsigned();
             $table->bigInteger('shipper_id')->unsigned();
             $table->bigInteger('shipping_method_id')->unsigned();
             $table->bigInteger('order_status_id')->unsigned();
@@ -27,7 +27,7 @@ return new class extends Migration
         });
 
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('id')->references('id')->on('customers');
             $table->foreign('shipper_id')->references('id')->on('shippers');
             $table->foreign('shipping_method_id')->references('id')->on('shipping_method');
             $table->foreign('order_status_id')->references('id')->on('order_status');

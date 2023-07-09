@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_email');
+            $table->string('name');
+            $table->string('email');
             $table->string('password');
-            $table->string('customer_name');
             $table->string('avatar')->nullable();
-            $table->bigInteger('customer_gender')->nullable()->default(1);
-            $table->date('customer_birthday')->nullable();
-            $table->string('customer_phone')->nullable();
-            $table->string('customer_address')->nullable();
-            $table->string('customer_address_company')->nullable();
+            $table->bigInteger('gender')->nullable()->default(1);
+            $table->date('birthday')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('address_company')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
         });
     }
