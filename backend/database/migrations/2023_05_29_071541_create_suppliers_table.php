@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->string('supplier_name');
-            $table->string('brand_name')->nullable();
-            $table->string('avatar');
-            $table->string('supplier_email')->nullable();
-            $table->bigInteger('evaluate')->nullable()->comment('1:relly bad 2:bad 3:normal 4:good 5:relly good');
+            $table->string('brand_name');
+            $table->string('avatar')->nullable();
+            $table->string('supplier_email');
+            $table->bigInteger('evaluate')->default(0)->comment('1:relly bad 2:bad 3:normal 4:good 5:relly good');
             $table->bigInteger('create_user')->nullable();
             $table->bigInteger('modified_user')->nullable();
             $table->string('supplier_phone')->nullable();
