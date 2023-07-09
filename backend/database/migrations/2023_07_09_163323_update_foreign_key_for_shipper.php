@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_method', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('note')->nullable();
-            $table->timestamps();
+        Schema::table('shippers', function (Blueprint $table) {
+            $table->foreign('shipping_method_id')->references('id')->on('shipping_method');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_method');
+        Schema::table('shippers', function (Blueprint $table) {
+            $table->dropForeign('shipping_method_id');
+        });
     }
 };

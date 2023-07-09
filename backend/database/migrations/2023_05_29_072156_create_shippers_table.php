@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('shippers', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('shipping_method_id')->unsigned();
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('avatar')->nullable();
