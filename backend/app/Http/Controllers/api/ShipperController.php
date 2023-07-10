@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ShipperRequest;
 class ShipperController extends Controller
 {
     public function getAllOrders(Request $request)

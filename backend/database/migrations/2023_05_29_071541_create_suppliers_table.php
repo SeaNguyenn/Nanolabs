@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shopping_cart', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_id')->unsigned();
+            $table->string('name');
+            $table->string('brand_name');
+            $table->string('avatar')->nullable();
+            $table->string('email');
+            $table->bigInteger('evaluate')->default(0)->comment('1:relly bad 2:bad 3:normal 4:good 5:relly good');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();
-        });
-
-        Schema::table('shopping_cart', function (Blueprint $table) {
-            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shopping_cart');
+        Schema::dropIfExists('suppliers');
     }
 };

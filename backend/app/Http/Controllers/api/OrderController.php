@@ -31,7 +31,7 @@ class OrderController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Lấy các giỏ hàng thất bại',
+                'message' => 'Lấy các hoá đơn thất bại',
             ], 500);
         }
     }
@@ -54,7 +54,7 @@ class OrderController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Lấy giỏ hàng thất bại',
+                'message' => 'Lấy hoá đơn thất bại',
             ], 500);
         }
     }
@@ -85,11 +85,11 @@ class OrderController extends Controller
                 'quantity' => $request->quantity,
                 'warranty' => $request->warranty
             ]);
-            return response()->json(['message' => 'Thêm mới giỏ hàng thành công'], 200);
+            return response()->json(['message' => 'Thêm mới hoá đơn thành công'], 200);
 
         } catch (\Exception $e) {
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
-            return response()->json(['message' => 'Thêm mới giỏ hàng thất bại', 'error' => $e], 500);
+            return response()->json(['message' => 'Thêm mới hoá đơn thất bại', 'error' => $e], 500);
         }
     }
 
@@ -126,16 +126,16 @@ class OrderController extends Controller
                     'quantity' => $request->quantity,
                     'warranty' => $request->warranty
                 ]);
-                return response()->json(['message' => 'Cập nhật giỏ hàng thành công'], 200);
+                return response()->json(['message' => 'Cập nhật hoá đơn thành công'], 200);
             } else {
                 return response()->json([
-                    'message' => 'Không tìm thấy giỏ hàng'
+                    'message' => 'Không tìm thấy hoá đơn'
                 ], 404);
             }
 
         } catch (\Exception $e) {
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
-            return response()->json(['message' => 'Cập nhật giỏ hàng thất bại', 'error' => $e], 500);
+            return response()->json(['message' => 'Cập nhật hoá đơn thất bại', 'error' => $e], 500);
         }
     }
 
@@ -148,15 +148,15 @@ class OrderController extends Controller
                 DB::table('orders')->where('id', $id)->update([
                     'state' => 9,
                 ]);
-                return response()->json(['message' => 'Xoá giỏ hàng thành công'], 200);
+                return response()->json(['message' => 'Xoá hoá đơn thành công'], 200);
             } else {
                 return response()->json([
-                    'message' => 'Không tìm thấy giỏ hàng'
+                    'message' => 'Không tìm thấy hoá đơn'
                 ], 404);
             }
         } catch (\Exception $e) {
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
-            return response()->json(['message' => 'Xoá giỏ hàng thất bại', 'error' => $e], 500);
+            return response()->json(['message' => 'Xoá hoá đơn thất bại', 'error' => $e], 500);
         }
     }
 }

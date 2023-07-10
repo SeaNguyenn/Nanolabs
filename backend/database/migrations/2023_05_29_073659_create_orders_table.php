@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id')->unsigned();
             $table->bigInteger('shipper_id')->unsigned();
             $table->bigInteger('order_status_id')->unsigned();
             $table->decimal('shipping_cost',12,2);
@@ -26,7 +25,6 @@ return new class extends Migration
         });
 
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreign('id')->references('id')->on('customers');
             $table->foreign('shipper_id')->references('id')->on('shippers');
             $table->foreign('order_status_id')->references('id')->on('order_status');
         });
