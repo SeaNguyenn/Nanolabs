@@ -34,12 +34,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/product/update/{id}', [Controllers\api\ProductController::class, 'updateProduct']);
     Route::get('/product/delete/{id}', [Controllers\api\ProductController::class, 'deleteProduct']);
 
-    //shopping cart
-    Route::post('/shopping-cart', [Controllers\api\ShoppingCartController::class, 'getAllCart']);
-    Route::get('/shopping-cart/{id}', [Controllers\api\ShoppingCartController::class, 'getCart']);
-    Route::get('/shopping-cart/create', [Controllers\api\ShoppingCartController::class, 'createCart']);
-    Route::get('/shopping-cart/update/{id}', [Controllers\api\ShoppingCartController::class, 'updateCart']);
-    Route::get('/shopping-cart/delete/{id}', [Controllers\api\ShoppingCartController::class, 'deleteCart']);
+    //cart
+    Route::post('/cart', [Controllers\api\ShoppingCartController::class, 'getAllCart']);
+    Route::get('/cart/{id}', [Controllers\api\ShoppingCartController::class, 'getCart']);
+    Route::get('/cart/create', [Controllers\api\ShoppingCartController::class, 'createCart']);
+    Route::get('/cart/update/{id}', [Controllers\api\ShoppingCartController::class, 'updateCart']);
+    Route::get('/cart/delete/{id}', [Controllers\api\ShoppingCartController::class, 'deleteCart']);
 
     //Orders
     Route::post('/order', [Controllers\api\OrderController::class, 'getAllOrders']);

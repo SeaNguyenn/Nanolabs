@@ -117,7 +117,7 @@ class OrderController extends Controller
             $order = DB::table('orders')->where('id', $id)->first();
 
             if (isset($order)) {
-                DB::table('orders')->where('id', $id)->update([
+                $order = $order->update([
                     'state' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá hoá đơn thành công'], 200);

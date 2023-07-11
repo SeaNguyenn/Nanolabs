@@ -155,7 +155,7 @@ class ProductController extends Controller
             $product = DB::table('products')->where('id', $id)->first();
 
             if (isset($product)) {
-                DB::table('products')->where('id', $id)->update([
+                $product = $product->update([
                     'state' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá sản phẩm thành công'], 200);

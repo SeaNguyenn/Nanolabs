@@ -129,7 +129,7 @@ class ShipperController extends Controller
             $shipper = DB::table('shippers')->where('id', $id)->first();
 
             if (isset($shipper)) {
-                DB::table('shippers')->where('id', $id)->update([
+                $shipper = $shipper->update([
                     'state' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá nhân viên shipper thành công'], 200);

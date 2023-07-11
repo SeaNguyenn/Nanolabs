@@ -56,28 +56,20 @@ class CategoryController extends Controller
     public function createCategory(CategoryRequest $request)
     {
         $request->only([
-            'Category_name' ,
-            'Category_code' ,
-            'description' ,
-            'image' ,
-            'price',
-            'color' ,
-            'material' ,
-            'quantity',
-            'warranty',
+            'name' ,
+            'code' ,
+            'brand_name' ,
+            'parent_id' ,
+            'display_order',
         ]);
 
         try {
             DB::table('categories')->insert([
-                'Category_name' => $request->Category_name,
-                'Category_code' => $request->Category_code,
-                'description' => $request->description,
-                'image' => $request->image,
-                'price' => $request->price,
-                'color' => $request->color,
-                'material' => $request->material,
-                'quantity' => $request->quantity,
-                'warranty' => $request->warranty
+                'name' => $request->name,
+                'code' => $request->code,
+                'brand_name' => $request->brand_name,
+                'parent_id' => $request->parent_id,
+                'display_order' => $request->display_order,
             ]);
             return response()->json(['message' => 'Thêm mới loại sản phẩm thành công'], 200);
 
@@ -90,17 +82,11 @@ class CategoryController extends Controller
     public function updateCategory(CategoryRequest $request,$id)
     {
         $request->only([
-            'Category_name' ,
-            'description' ,
-            'image' ,
-            'price',
-            'promotion_price',
-            'include_vat',
-            'evaluate',
-            'color',
-            'material' ,
-            'quantity',
-            'warranty',
+            'name' ,
+            'code' ,
+            'brand_name' ,
+            'parent_id' ,
+            'display_order',
         ]);
 
         try {
@@ -108,17 +94,11 @@ class CategoryController extends Controller
 
             if (isset($category)) {
                 DB::table('categories')->where('id', $id)->update([
-                    'Category_name' => $request->Category_name,
-                    'description' => $request->description,
-                    'image' => $request->image,
-                    'price' => $request->price,
-                    'promotion_price' => $request->promotion_price,
-                    'include_vat' => $request->include_vat,
-                    'evaluate' => $request->evaluate,
-                    'color' => $request->color,
-                    'material' => $request->material,
-                    'quantity' => $request->quantity,
-                    'warranty' => $request->warranty
+                    'name' => $request->name,
+                    'code' => $request->code,
+                    'brand_name' => $request->brand_name,
+                    'parent_id' => $request->parent_id,
+                    'display_order' => $request->display_order,
                 ]);
                 return response()->json(['message' => 'Cập nhật loại sản phẩm thành công'], 200);
             } else {
@@ -136,10 +116,10 @@ class CategoryController extends Controller
     public function deleteCategory($id)
     {
         try {
-            $category =DB::table('categories')->where('id', $id)->first();
+            $category = DB::table('categories')->where('id', $id)->first();
 
             if (isset($category)) {
-                DB::table('categories')->where('id', $id)->update([
+                $category =$category->update([
                     'state' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá loại sản phẩm thành công'], 200);
