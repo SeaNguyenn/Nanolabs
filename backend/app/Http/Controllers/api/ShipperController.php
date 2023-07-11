@@ -9,14 +9,15 @@ use DB;
 use App\Http\Requests\ShipperRequest;
 class ShipperController extends Controller
 {
-    public function getAllOrders(Request $request)
+    public function getAllShippers(Request $request)
     {
-        $data = DB::table('orders');
+        $data = DB::table('shippers')
+                ->leftJoin('shipping_method', 'shipper.shipping_method_id', '=', 'shipping_method.id');
 
         if (isset($request->keyword)) {
             $keyword = $request->input('keyword');
 
-            $data = $data->where('name', 'like', '%'.$keyword.'%');
+            $data = $data->where('shipper.name', 'like', '%'.$keyword.'%');
         }
 
         try {
@@ -31,19 +32,20 @@ class ShipperController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Lấy các giỏ hàng thất bại',
+                'message' => 'Lấy các nhân viên shipper thất bại',
             ], 500);
         }
     }
 
-    public function getOrder($id)
+    public function getShipper($id)
     {
-        $data = DB::table('orders');
+        $data = DB::table('shippers')
+                    ->leftJoin('shipping_method', 'shipper.shipping_method_id', '=', 'shipping_method.id');
 
-        $order = $data->where('id',$id);
+        $shipper = $data->where('shipper.id',$id);
 
         try {
-            $result = $order->get();
+            $result = $shipper->get();
 
             return response()->json([
                 'success' => true,
@@ -54,109 +56,91 @@ class ShipperController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Lấy giỏ hàng thất bại',
+                'message' => 'Lấy nhân viên shipper thất bại',
             ], 500);
         }
     }
 
-    public function createOrder(OrderRequest $request)
+    public function createShipper(ShipperRequest $request)
     {
         $request->only([
-            'order_name' ,
-            'order_code' ,
-            'description' ,
-            'image' ,
-            'price',
-            'color' ,
-            'material' ,
-            'quantity',
-            'warranty',
+            'name',
+            'email',
+            'phone',
+            'avatar',
+            'address',
         ]);
 
         try {
-            DB::table('orders')->insert([
-                'order_name' => $request->order_name,
-                'order_code' => $request->order_code,
-                'description' => $request->description,
-                'image' => $request->image,
-                'price' => $request->price,
-                'color' => $request->color,
-                'material' => $request->material,
-                'quantity' => $request->quantity,
-                'warranty' => $request->warranty
+            DB::table('shippers')->insert([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'avatar' => $request->avatar,
+                'address' => $request->address,
+                'shipping_method_id' => $request->shipping_method_id
             ]);
-            return response()->json(['message' => 'Thêm mới giỏ hàng thành công'], 200);
+            return response()->json(['message' => 'Thêm mới nhân viên shipper thành công'], 200);
 
         } catch (\Exception $e) {
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
-            return response()->json(['message' => 'Thêm mới giỏ hàng thất bại', 'error' => $e], 500);
+            return response()->json(['message' => 'Thêm mới nhân viên shipper thất bại', 'error' => $e], 500);
         }
     }
 
-    public function updateOrder(OrderRequest $request,$id)
+    public function updateShipper(ShipperRequest $request,$id)
     {
         $request->only([
-            'order_name' ,
-            'description' ,
-            'image' ,
-            'price',
-            'promotion_price',
-            'include_vat',
-            'evaluate',
-            'color',
-            'material' ,
-            'quantity',
-            'warranty',
+            'name',
+            'email',
+            'phone',
+            'avatar',
+            'address',
         ]);
 
         try {
-            $order = DB::table('orders')->where('id', $id)->first();
+            $shipper = DB::table('shippers')->where('id', $id)->first();
 
-            if (isset($order)) {
-                DB::table('orders')->where('id', $id)->update([
-                    'order_name' => $request->order_name,
-                    'description' => $request->description,
-                    'image' => $request->image,
-                    'price' => $request->price,
-                    'promotion_price' => $request->promotion_price,
-                    'include_vat' => $request->include_vat,
-                    'evaluate' => $request->evaluate,
-                    'color' => $request->color,
-                    'material' => $request->material,
-                    'quantity' => $request->quantity,
-                    'warranty' => $request->warranty
+            if (isset($shipper)) {
+                DB::table('shippers')->where('id', $id)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'avatar' => $request->avatar,
+                    'address' => $request->address,
+                    'shipping_method_id' => $request->shipping_method_id
                 ]);
-                return response()->json(['message' => 'Cập nhật giỏ hàng thành công'], 200);
+                return response()->json(['message' => 'Cập nhật nhân viên shipper thành công'], 200);
             } else {
                 return response()->json([
-                    'message' => 'Không tìm thấy giỏ hàng'
+                    'message' => 'Không tìm thấy nhân viên shipper'
                 ], 404);
             }
 
         } catch (\Exception $e) {
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
-            return response()->json(['message' => 'Cập nhật giỏ hàng thất bại', 'error' => $e], 500);
+            return response()->json(['message' => 'Cập nhật nhân viên shipper thất bại', 'error' => $e], 500);
         }
     }
 
-    public function deleteOrder($id)
+    public function deleteShipper($id)
     {
         try {
-            $order = DB::table('orders')->where('id', $id)->first();
+            $shipper = DB::table('shippers')->where('id', $id)->first();
 
-            if (isset($order)) {
-                DB::table('orders')->where('id', $id)->update([
+            if (isset($shipper)) {
+                DB::table('shippers')->where('id', $id)->update([
                     'state' => 9,
                 ]);
-                return response()->json(['message' => 'Xoá giỏ hàng thành công'], 200);
+                return response()->json(['message' => 'Xoá nhân viên shipper thành công'], 200);
             } else {
                 return response()->json([
-                    'message' => 'Không tìm thấy giỏ hàng'
+                    'message' => 'Không tìm thấy nhân viên shipper'
                 ], 404);
             }
         } catch (\Exception $e) {
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
-            return response()->json(['message' => 'Xoá giỏ hàng thất bại', 'error' => $e], 500);
+            return response()->json(['message' => 'Xoá nhân viên shipper thất bại', 'error' => $e], 500);
         }
     }
 }

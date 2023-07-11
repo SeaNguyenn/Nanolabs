@@ -63,8 +63,8 @@ class ProductController extends Controller
     public function createProduct(ProductRequest $request)
     {
         $request->only([
-            'product_name' ,
-            'product_code' ,
+            'name' ,
+            'code' ,
             'description' ,
             'image' ,
             'price',
@@ -79,8 +79,8 @@ class ProductController extends Controller
             $products = DB::table('products');
 
             $products->insert([
-                'product_name' => $request->product_name,
-                'product_code' => $request->product_code,
+                'name' => $request->name,
+                'code' => $request->code,
                 'description' => $request->description,
                 'image' => $request->image,
                 'price' => $request->price,
@@ -103,7 +103,7 @@ class ProductController extends Controller
     public function updateProduct(ProductRequest $request,$id)
     {
         $request->only([
-            'product_name' ,
+            'name',
             'description' ,
             'image' ,
             'price',
@@ -121,7 +121,7 @@ class ProductController extends Controller
 
             if (isset($product)) {
                 DB::table('products')->where('id', $id)->update([
-                    'product_name' => $request->product_name,
+                    'name' => $request->name,
                     'description' => $request->description,
                     'image' => $request->image,
                     'price' => $request->price,

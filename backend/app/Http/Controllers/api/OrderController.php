@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\OrderRequest;
 class OrderController extends Controller
 {
     public function getAllOrders(Request $request)
@@ -61,29 +61,17 @@ class OrderController extends Controller
 
     public function createOrder(OrderRequest $request)
     {
-        $request->only([
-            'order_name' ,
-            'order_code' ,
-            'description' ,
-            'image' ,
-            'price',
-            'color' ,
-            'material' ,
-            'quantity',
-            'warranty',
-        ]);
-
         try {
             DB::table('orders')->insert([
-                'order_name' => $request->order_name,
-                'order_code' => $request->order_code,
-                'description' => $request->description,
-                'image' => $request->image,
-                'price' => $request->price,
-                'color' => $request->color,
-                'material' => $request->material,
-                'quantity' => $request->quantity,
-                'warranty' => $request->warranty
+                'shipper_id' => $request->shipper_id,
+                'user_id' => $request->user_id,
+                'order_status_id' => $request->order_status_id,
+                'shipping_cost' => $request->shipping_cost,
+                'total_amount' => $request->total_amount,
+                'note' => $request->note,
+                'order_date' => $request->order_date,
+                'shipped_date' => $request->shipped_date,
+                'required_date' => $request->required_date,
             ]);
             return response()->json(['message' => 'Thêm mới hoá đơn thành công'], 200);
 
@@ -95,36 +83,20 @@ class OrderController extends Controller
 
     public function updateOrder(OrderRequest $request,$id)
     {
-        $request->only([
-            'order_name' ,
-            'description' ,
-            'image' ,
-            'price',
-            'promotion_price',
-            'include_vat',
-            'evaluate',
-            'color',
-            'material' ,
-            'quantity',
-            'warranty',
-        ]);
-
         try {
             $order = DB::table('orders')->where('id', $id)->first();
 
             if (isset($order)) {
                 DB::table('orders')->where('id', $id)->update([
-                    'order_name' => $request->order_name,
-                    'description' => $request->description,
-                    'image' => $request->image,
-                    'price' => $request->price,
-                    'promotion_price' => $request->promotion_price,
-                    'include_vat' => $request->include_vat,
-                    'evaluate' => $request->evaluate,
-                    'color' => $request->color,
-                    'material' => $request->material,
-                    'quantity' => $request->quantity,
-                    'warranty' => $request->warranty
+                    'shipper_id' => $request->shipper_id,
+                    'user_id' => $request->user_id,
+                    'order_status_id' => $request->order_status_id,
+                    'shipping_cost' => $request->shipping_cost,
+                    'total_amount' => $request->total_amount,
+                    'note' => $request->note,
+                    'order_date' => $request->order_date,
+                    'shipped_date' => $request->shipped_date,
+                    'required_date' => $request->required_date,
                 ]);
                 return response()->json(['message' => 'Cập nhật hoá đơn thành công'], 200);
             } else {
