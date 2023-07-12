@@ -21,10 +21,10 @@
           <template #overlay>
             <a-menu>
               <a-menu-item>
-                <router-link :to="{ name: 'products' }" class="text-lg">Danh sách sản phẩm</router-link>
+                <router-link :to="{ name: 'products' }" class="text-lg px-3">Danh sách sản phẩm</router-link>
               </a-menu-item>
               <a-menu-item>
-                <router-link :to="{ name: 'all_categories' }" class="text-lg">Phân loại sản phẩm</router-link>
+                <router-link :to="{ name: 'all_categories' }" class="text-lg px-3">Phân loại sản phẩm</router-link>
               </a-menu-item>
             </a-menu>
           </template>
