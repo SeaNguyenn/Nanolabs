@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('shippers', function (Blueprint $table) {
             $table->id();
-            $table->string('shipper_name');
-            $table->string('shipper_email')->nullable();
+            $table->bigInteger('shipping_method_id')->unsigned();
+            $table->string('name');
+            $table->string('email')->nullable();
             $table->string('avatar')->nullable();
-            $table->string('shipper_phone')->nullable();
-            $table->string('shipper_address')->nullable();
-            $table->string('create_user')->nullable();
-            $table->bigInteger('modified_user')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();
         });

@@ -13,25 +13,22 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('customer_id')->unsigned();
             $table->bigInteger('shipper_id')->unsigned();
-            $table->bigInteger('shipping_method_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('order_status_id')->unsigned();
-            $table->decimal('shipping_cost',12,2);
+            $table->decimal('shipping_cost',30,2);
+            $table->decimal('total_amount',30,2);
             $table->string('note')->nullable();
             $table->date('order_date')->nullable();
             $table->date('shipped_date')->nullable();
-            $table->date('shipping_required_date')->nullable();
-            $table->bigInteger('create_user')->nullable();
-            $table->bigInteger('modified_user')->nullable();
+            $table->date('required_date')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();
         });
 
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('shipper_id')->references('id')->on('shippers');
-            $table->foreign('shipping_method_id')->references('id')->on('shipping_method');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('order_status_id')->references('id')->on('order_status');
         });
     }

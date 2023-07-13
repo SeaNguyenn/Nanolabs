@@ -13,18 +13,14 @@ return new class extends Migration
     {
         Schema::create('shopping_cart', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('customer_id')->unsigned();
-            $table->date('shopping_date');
-            $table->date('expire_date')->nullable();
-            $table->bigInteger('note')->nullable();
-            $table->bigInteger('create_user')->nullable();
-            $table->bigInteger('modified_user')->nullable();
+            $table->bigInteger('user_id')->unsigned();
+            $table->decimal('total_amount',30,2);
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();
         });
 
         Schema::table('shopping_cart', function (Blueprint $table) {
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

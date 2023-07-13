@@ -17,10 +17,8 @@ return new class extends Migration
             $table->bigInteger('payment_method_id')->unsigned();
             $table->bigInteger('payment_status_id')->unsigned();
             $table->date('payment_date')->nullable();
-            $table->decimal('total_price',12,2)->nullable();
+            $table->decimal('payment_amount',30,2)->nullable();
             $table->string('note')->nullable();
-            $table->bigInteger('create_user')->nullable();
-            $table->bigInteger('modified_user')->nullable();
             $table->bigInteger('transaction_id')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();

@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('order_id')->unsigned();
             $table->bigInteger('product_id')->unsigned();
-            $table->decimal('unit_price',12,2)->nullable();
+            $table->decimal('price',30,2)->nullable();
+            $table->decimal('promotion_price',30,2)->nullable();
+            $table->bigInteger('include_vat')->nullable();
             $table->bigInteger('quantity')->nullable();
-            $table->decimal('promotion_price',12,2)->nullable();
-            $table->bigInteger('create_user')->nullable();
-            $table->bigInteger('modified_user')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();
         });

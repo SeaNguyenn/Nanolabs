@@ -11,21 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shopping_cart_detail', function (Blueprint $table) {
+        Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('shopping_cart_id')->unsigned();
+            $table->bigInteger('cart_id')->unsigned();
             $table->bigInteger('product_id')->unsigned();
-            $table->decimal('unit_price',12,2)->nullable();
+            $table->decimal('price',30,2)->nullable();
+            $table->decimal('promotion_price',30,2)->nullable();
+            $table->bigInteger('include_vat')->nullable();
             $table->bigInteger('quantity')->nullable();
-            $table->decimal('promotion_price',12,2)->nullable();
-            $table->bigInteger('create_user')->nullable();
-            $table->bigInteger('modified_user')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();
         });
 
-        Schema::table('shopping_cart_detail', function (Blueprint $table) {
-            $table->foreign('shopping_cart_id')->references('id')->on('shopping_cart');
+        Schema::table('cart_items', function (Blueprint $table) {
+            $table->foreign('cart_id')->references('id')->on('shopping_cart');
             $table->foreign('product_id')->references('id')->on('products');
         });
     }
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shopping_cart_detail');
+        Schema::dropIfExists('cart_items');
     }
 };
