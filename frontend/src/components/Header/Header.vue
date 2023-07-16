@@ -134,7 +134,7 @@ import { Icon } from '@iconify/vue'
 import Button from '@/components/Button.vue'
 import { reactive, watchEffect,onMounted, ref } from 'vue'
 import { authStore } from '@/stores/auth.js';
-
+import { useRouter } from 'vue-router'
 export default {
   props: {
     countCart: Number,
@@ -167,6 +167,7 @@ export default {
     ]
 
     const auth = authStore();
+    const router = useRouter();
     const userName = ref('');
 
     onMounted(() => {
@@ -178,6 +179,8 @@ export default {
     const logout = async () => {
       await auth.logout();
       window.location.reload();
+
+      router.push({ name: 'login' })
     };
 
     const scrolled = ref(false);

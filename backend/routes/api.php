@@ -35,11 +35,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/product/delete/{id}', [Controllers\api\ProductController::class, 'deleteProduct']);
 
     //cart
-    Route::post('/cart', [Controllers\api\ShoppingCartController::class, 'getAllCart']);
-    Route::get('/cart/{id}', [Controllers\api\ShoppingCartController::class, 'getCart']);
-    Route::post('/cart/create', [Controllers\api\ShoppingCartController::class, 'createCart']);
-    Route::post('/cart/update/{id}', [Controllers\api\ShoppingCartController::class, 'updateCart']);
-    Route::post('/cart/delete/{id}', [Controllers\api\ShoppingCartController::class, 'deleteCart']);
+    Route::post('/cart', [Controllers\api\CartController::class, 'getAllCart']);
+    Route::get('/cart/{id}', [Controllers\api\CartController::class, 'getCart']);
+    Route::post('/cart/create', [Controllers\api\CartController::class, 'createCart']);
+    Route::post('/cart/update/{id}', [Controllers\api\CartController::class, 'updateCart']);
+    Route::post('/cart/delete/{id}', [Controllers\api\CartController::class, 'deleteCart']);
 
     //Orders
     Route::post('/order', [Controllers\api\OrderController::class, 'getAllOrders']);
@@ -61,6 +61,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/supplier/create', [Controllers\api\SupplierController::class, 'createSupplier']);
     Route::post('/supplier/update/{id}', [Controllers\api\SupplierController::class, 'updateSupplier']);
     Route::post('/supplier/delete/{id}', [Controllers\api\SupplierController::class, 'deleteSupplier']);
+
+    //suppliers
+    Route::post('/categories', [Controllers\api\CategoryController::class, 'getAllCategories']);
+    Route::get('/category/{id}', [Controllers\api\CategoryController::class, 'getCategory']);
+    Route::post('/category/create', [Controllers\api\CategoryController::class, 'createCategory']);
+    Route::post('/category/update/{id}', [Controllers\api\CategoryController::class, 'updateCategory']);
+    Route::post('/category/delete/{id}', [Controllers\api\CategoryController::class, 'deleteCategory']);
 
 });
 

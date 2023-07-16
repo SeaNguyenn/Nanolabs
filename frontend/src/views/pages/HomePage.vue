@@ -40,10 +40,12 @@ const WrapperComp = defineComponent(Wrapper)
 
 const productStore = useProductStore();
 const { products } = productStore;
-productStore.fetchProducts({
-  keyword: "a",
-});
-console.log(products);
+// productStore.fetchProducts({
+//   keyword: "a",
+// });
+
+
+// console.log(products);
 const countCart = ref(1);
 const onScroll = ref(false);
 const scroll = (e) => {

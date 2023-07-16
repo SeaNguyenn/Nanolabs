@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->string('material')->nullable();
             $table->bigInteger('supplier_id')->unsigned();
-            $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('warranty')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->bigInteger('view_count')->nullable();
@@ -30,7 +29,6 @@ return new class extends Migration
 
         Schema::table('products', function (Blueprint $table) {
             $table->foreign('supplier_id')->references('id')->on('suppliers');
-            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

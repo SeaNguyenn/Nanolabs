@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\CategoryRequest;
 class CategoryController extends Controller
 {
-    public function getAllCategorys(Request $request)
+    public function getAllCategories(Request $request)
     {
         $data =DB::table('categories');
 
@@ -57,8 +57,6 @@ class CategoryController extends Controller
     {
         $request->only([
             'name' ,
-            'code' ,
-            'brand_name' ,
             'parent_id' ,
             'display_order',
         ]);
@@ -66,10 +64,9 @@ class CategoryController extends Controller
         try {
             DB::table('categories')->insert([
                 'name' => $request->name,
-                'code' => $request->code,
-                'brand_name' => $request->brand_name,
                 'parent_id' => $request->parent_id,
                 'display_order' => $request->display_order,
+                'state' => 1,
             ]);
             return response()->json(['message' => 'Thêm mới loại sản phẩm thành công'], 200);
 
@@ -83,8 +80,6 @@ class CategoryController extends Controller
     {
         $request->only([
             'name' ,
-            'code' ,
-            'brand_name' ,
             'parent_id' ,
             'display_order',
         ]);
@@ -95,8 +90,6 @@ class CategoryController extends Controller
             if (isset($category)) {
                 DB::table('categories')->where('id', $id)->update([
                     'name' => $request->name,
-                    'code' => $request->code,
-                    'brand_name' => $request->brand_name,
                     'parent_id' => $request->parent_id,
                     'display_order' => $request->display_order,
                 ]);
@@ -119,7 +112,7 @@ class CategoryController extends Controller
             $category = DB::table('categories')->where('id', $id)->first();
 
             if (isset($category)) {
-                $category =$category->update([
+                $category = $category->update([
                     'state' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá loại sản phẩm thành công'], 200);
