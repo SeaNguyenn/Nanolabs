@@ -41,7 +41,7 @@ export const useProductStore = defineStore('product', {
       this.error = null;
       try {
         const response = await productService.addProduct(product);
-        this.product = response.data
+        this.products.push(response.data);
       } catch (error) {
         this.error = error.message;
       }
@@ -49,11 +49,14 @@ export const useProductStore = defineStore('product', {
     },
 
     async updateProduct(productId, product) {
-      this.loading = true;
-      this.error = null;
       try {
+        this.loading = true;
+        this.error = null;
         const response =  await productService.updateProduct(productId, product);
-        this.product = response.data
+        const index = this.products.findIndex((p) => p.id === productId)
+        if (index !== -1) { 
+          this.products.splice(index, 1, response.data)
+        }
       } catch (error) {
         this.error = error.message;
       }
@@ -61,10 +64,14 @@ export const useProductStore = defineStore('product', {
     },
 
     async deleteProduct(productId) {
-      this.loading = true;
-      this.error = null;
       try {
-        this.product = await productService.deleteProduct(productId);
+        this.loading = true;
+        this.error = null;
+        await productService.deleteProduct(productId);
+        const index = this.products.findIndex((p) => p.id === productId)
+        if (index !== -1) { 
+          this.products.splice(index, 1)
+        }
       } catch (error) {
         this.error = error.message;
       }

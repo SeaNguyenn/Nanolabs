@@ -56,13 +56,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/shipper/delete/{id}', [Controllers\api\ShipperController::class, 'deleteShipper']);
 
     //suppliers
-    Route::post('/supplier', [Controllers\api\SupplierController::class, 'getAllSuppliers']);
+    Route::post('/suppliers', [Controllers\api\SupplierController::class, 'getAllSuppliers']);
     Route::get('/supplier/{id}', [Controllers\api\SupplierController::class, 'getSupplier']);
     Route::post('/supplier/create', [Controllers\api\SupplierController::class, 'createSupplier']);
     Route::post('/supplier/update/{id}', [Controllers\api\SupplierController::class, 'updateSupplier']);
     Route::post('/supplier/delete/{id}', [Controllers\api\SupplierController::class, 'deleteSupplier']);
 
-    //suppliers
+    //category
     Route::post('/categories', [Controllers\api\CategoryController::class, 'getAllCategories']);
     Route::get('/category/{id}', [Controllers\api\CategoryController::class, 'getCategory']);
     Route::post('/category/create', [Controllers\api\CategoryController::class, 'createCategory']);

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import productService from '../services/productService'
+import categoryService from '../services/categoryService'
 
 export const useCategoryStore = defineStore('category', {
   state: () => {
@@ -11,12 +11,12 @@ export const useCategoryStore = defineStore('category', {
     }
   },
   actions: {
-    async fetchProducts(conditions) {
-      this.loading = true
-      this.error = null
+    async fetchcategorys(conditions) {
       try {
-        const response = await productService.fetchProducts(conditions)
-        this.products = response.data
+        this.loading = true
+        this.error = null
+        const response = await categoryService.fetchCategories(conditions)
+        this.categories = response.data
       } catch (error) {
         this.error = error.message
       }
@@ -24,47 +24,54 @@ export const useCategoryStore = defineStore('category', {
       this.loading = false
     },
 
-    async showProduct(productId) {
-      this.loading = true
-      this.error = null
+    async showCategory(categoryId) {
       try {
-        const response = await productService.showProduct(productId)
-        this.product = response.data
+        this.loading = true
+        this.error = null
+        const response = await categoryService.showCategory(categoryId)
+        this.category = response.data
       } catch (error) {
         this.error = error.message
       }
       this.loading = false
     },
 
-    async addProduct(product) {
-      this.loading = true
-      this.error = null
+    async addCategory(category) {
       try {
-        const response = await productService.addProduct(product)
-        this.product = response.data
+        this.loading = true
+        this.error = null
+        const response = await categoryService.addCategory(category)
+        this.categories.push(response.data);
       } catch (error) {
         this.error = error.message
       }
       this.loading = false
     },
 
-    async updateProduct(productId, product) {
-      this.loading = true
-      this.error = null
+    async updateCategory(categoryId, category) {
       try {
-        const response = await productService.updateProduct(productId, product)
-        this.product = response.data
+        this.loading = true
+        this.error = null
+        const response = await categoryService.updateCategory(categoryId, category)
+        const index = this.categories.findIndex((p) => p.id === categoryId)
+        if (index !== -1) { 
+          this.categories.splice(index, 1, response.data)
+        }
       } catch (error) {
         this.error = error.message
       }
       this.loading = false
     },
 
-    async deleteProduct(productId) {
-      this.loading = true
-      this.error = null
+    async deleteCategory(categoryId) {
       try {
-        this.product = await productService.deleteProduct(productId)
+        this.loading = true
+        this.error = null
+        await categoryService.deleteCategory(categoryId)
+        const index = this.categories.findIndex((p) => p.id === categoryId)
+        if (index !== -1) { 
+          this.categories.splice(index, 1)
+        }
       } catch (error) {
         this.error = error.message
       }
@@ -73,11 +80,11 @@ export const useCategoryStore = defineStore('category', {
   },
 
   getters: {
-    getProducts() {
-      return this.products
+    getCategories() {
+      return this.categories
     },
-    getProduct() {
-      return this.product
+    getCategory() {
+      return this.category
     },
     getLoading() {
       return this.loading
