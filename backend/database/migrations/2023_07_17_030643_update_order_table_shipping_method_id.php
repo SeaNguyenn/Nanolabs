@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('shippers', function (Blueprint $table) {
-            $table->foreign('shipping_method_id')->references('id')->on('shipping_method');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreignId('shipping_method_id')->constrained();
         });
+
+
     }
 
     /**
@@ -21,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('shippers', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign('shipping_method_id');
         });
     }

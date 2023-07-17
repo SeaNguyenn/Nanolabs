@@ -85,8 +85,6 @@ export default {
 
     const logout = async () => {
       await auth.logout();
-      window.location.reload();
-
       router.push({ name: 'login' })
     };
 

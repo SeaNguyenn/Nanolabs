@@ -7,21 +7,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
 use App\Http\Requests\ShipperRequest;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+
 class ShipperController extends Controller
 {
-    public function getAllShippers(Request $request)
+    public function index()
     {
-        $data = DB::table('shippers')
-                ->leftJoin('shipping_method', 'shipper.shipping_method_id', '=', 'shipping_method.id');
-
-        if (isset($request->keyword)) {
-            $keyword = $request->input('keyword');
-
-            $data = $data->where('shipper.name', 'like', '%'.$keyword.'%');
-        }
+        $perPage = request('per_page', 10);
+        $search = request('search', '');
+        $sortField = request('sort_field', 'created_at');
+        $sortDirection = request('sort_direction', 'desc');
 
         try {
-            $result = $data->paginate(10);
+            $result = DB::table('shippers')->where('name', 'like', "%{$search}%")
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
 
             return response()->json([
                 'success' => true,
@@ -63,22 +67,35 @@ class ShipperController extends Controller
 
     public function createShipper(ShipperRequest $request)
     {
-        $request->only([
-            'name',
-            'email',
-            'phone',
-            'avatar',
-            'address',
-        ]);
 
+        $data = $request->validated();
+        $image = $data['avatar'] ?? null;
+
+        log::debug("1");
+        if ($image) {
+            $relativePath = $this->saveImage($image);
+            $data['avatar'] = URL::to(Storage::url($relativePath));
+        }
+
+
+        // dd($data['avatar']);
+        // if($file = $request->hasFile('avatar')) {
+        //     $fileName = $file->getClientOriginalName() ;
+        //     $destinationPath = public_path().'/images/' ;
+        //     $file->move($destinationPath,$fileName);
+        //     $avatar = '/public/images/'.$fileName ;
+        // }else {
+        //     return response()->json(['message' => 'Không nhận được ảnh'], 500);
+        // }
+        log::debug("2");
         try {
             DB::table('shippers')->insert([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'avatar' => $request->avatar,
-                'address' => $request->address,
-                'shipping_method_id' => $request->shipping_method_id
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'avatar' => $data['avatar'],
+                'address' => $data['address'],
+                'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới nhân viên shipper thành công'], 200);
 
@@ -142,5 +159,18 @@ class ShipperController extends Controller
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
             return response()->json(['message' => 'Xoá nhân viên shipper thất bại', 'error' => $e], 500);
         }
+    }
+
+    private function saveImage(UploadedFile $image)
+    {
+        $path = 'images/' . Str::random();
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path, 0755, true);
+        }
+        if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
+            throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
+        }
+
+        return $path . '/' . $image->getClientOriginalName();
     }
 }

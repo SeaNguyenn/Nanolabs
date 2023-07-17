@@ -18,12 +18,12 @@ const router = createRouter({
             {
               path: 'products',
               name: 'adminProducts',
-              component: () => import('@/views/Dashboard/Products.vue'),
+              component: () => import('@/views/Dashboard/product/Products.vue'),
             },
             {
-              path: 'analytics',
-              name: 'adminAnalytics',
-              component: () => import('@/views/Dashboard/Analytics.vue'),
+              path: 'shippers',
+              name: 'adminShipper',
+              component: () => import('@/views/Dashboard/shipper/Shippers.vue'),
             },
             {
               path: 'payments',

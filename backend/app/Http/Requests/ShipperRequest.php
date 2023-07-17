@@ -11,7 +11,7 @@ class ShipperRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class ShipperRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email',
+            'avatar' => 'nullable',
+            'phone' => 'required|number',
+            'address' => 'required|string',
         ];
     }
 }

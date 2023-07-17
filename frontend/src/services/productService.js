@@ -8,19 +8,19 @@ export default {
   },
 
   async showProduct(productId) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + `/products/${productId}`)
+    return http.get(import.meta.env.VITE_API_BASE_PATH + `/product/${productId}`)
   },
 
   async addProduct(product) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + '/products/create', product)
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/product/create', product)
   },
 
   async updateProduct(productId, product) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + `/products/update/${productId}`, product)
+    return http.post(import.meta.env.VITE_API_BASE_PATH + `/product/update/${productId}`, product)
   },
 
   async deleteProduct(productId) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + `/products/delete/${productId}`)
+    return http.post(import.meta.env.VITE_API_BASE_PATH + `/product/delete/${productId}`)
   },
 
 }

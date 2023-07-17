@@ -49,7 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/order/delete/{id}', [Controllers\api\OrderController::class, 'deleteOrder']);
 
     //shipper
-    Route::post('/shipper', [Controllers\api\ShipperController::class, 'getAllShippers']);
+    Route::post('/shippers', [Controllers\api\ShipperController::class, 'index']);
     Route::get('/shipper/{id}', [Controllers\api\ShipperController::class, 'getShipper']);
     Route::post('/shipper/create', [Controllers\api\ShipperController::class, 'createShipper']);
     Route::post('/shipper/update/{id}', [Controllers\api\ShipperController::class, 'updateShipper']);

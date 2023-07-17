@@ -46,14 +46,14 @@ export default {
         icon: 'ic:sharp-dashboard',
       },
       {
-        name: 'Phân tích',
-        href: 'adminAnalytics',
-        icon: 'gala:chart',
-      },
-      {
         name: 'Sản phẩm',
         href: 'adminProducts',
         icon: 'fluent:box-20-regular',
+      },
+      {
+        name: 'Shippers',
+        href: 'adminShipper',
+        icon: 'emojione-monotone:motor-scooter',
       },
       {
         name: 'Thanh toán',
