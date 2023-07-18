@@ -25,7 +25,7 @@ class ShipperRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email',
             'avatar' => 'nullable',
-            'phone' => 'required|number',
+            'phone' => 'required|numeric',
             'address' => 'required|string',
         ];
     }

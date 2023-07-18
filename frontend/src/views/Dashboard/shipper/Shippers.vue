@@ -31,13 +31,13 @@
               </header>
               <a-form :model="form" enctype="multipart/form-data" @submit="onSubmit">
                 <div class="flex flex-wrap gap-4 bg-white px-4 pt-5 pb-4">
-                  <Input v-model="form.name" size="sm" placeholder="" type="text" label="Tên"
+                  <Input v-model="form.name" size="sm" placeholder="" type="text" required label="Tên"
                     class="w-40" />
-                  <Input v-model="form.email" size="sm" placeholder="" type="email" label="Email"
+                  <Input v-model="form.email" size="sm" placeholder="" type="email" required label="Email"
                     class="w-40" />
-                  <Input v-model="form.phone" size="sm" placeholder="" type="text" label="Số đt"
+                  <Input v-model="form.phone" size="sm" placeholder="" type="number" required  label="Số đt"
                     class="w-40" />
-                  <Input v-model="form.address" size="sm" placeholder="" type="text" label="Địa chỉ"
+                  <Input v-model="form.address" size="sm" placeholder="" type="text" required label="Địa chỉ"
                     class="w-40" />
                   <div class="flex flex-col">
                     <label for="file_input">Ảnh</label>
@@ -79,6 +79,7 @@ import {
 } from '@headlessui/vue'
 import { useShipperStore } from '@/stores/shipper.js';
 import ShipperTable from './ShipperTable.vue'
+
 const form = reactive({
   name: '',
   email: '',
@@ -86,7 +87,14 @@ const form = reactive({
   address: '',
   avatar: '',
 })
-// const shipperStore = useShipperStore();
+
+const perPage = ref(10);
+const search = ref('');
+const sortField = ref('updated_at');
+const sortDirection = ref('desc')
+const shipperStore = useShipperStore();
+
+
 const isOpen = ref(false)
 
 function closeModal() {
@@ -105,9 +113,10 @@ const handleFileChange = (e) => {
   }
 }
 
-const onSubmit = () => {
+const onSubmit = async () => {
   try {
-    shipperStore.addShipper(form);
+    await shipperStore.addShipper(form);
+    window.location.reload();
     isOpen.value = false;
   } catch (e) {
     console.log(e);
@@ -116,3 +125,4 @@ const onSubmit = () => {
 }
 
 </script>
+

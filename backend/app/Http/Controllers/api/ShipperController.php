@@ -71,23 +71,11 @@ class ShipperController extends Controller
         $data = $request->validated();
         $image = $data['avatar'] ?? null;
 
-        log::debug("1");
         if ($image) {
             $relativePath = $this->saveImage($image);
             $data['avatar'] = URL::to(Storage::url($relativePath));
         }
 
-
-        // dd($data['avatar']);
-        // if($file = $request->hasFile('avatar')) {
-        //     $fileName = $file->getClientOriginalName() ;
-        //     $destinationPath = public_path().'/images/' ;
-        //     $file->move($destinationPath,$fileName);
-        //     $avatar = '/public/images/'.$fileName ;
-        // }else {
-        //     return response()->json(['message' => 'Không nhận được ảnh'], 500);
-        // }
-        log::debug("2");
         try {
             DB::table('shippers')->insert([
                 'name' => $data['name'],

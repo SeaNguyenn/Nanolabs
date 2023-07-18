@@ -16,7 +16,7 @@ export const useShipperStore = defineStore('shipper', {
         this.loading = true
         this.error = null
         const response = await shipperService.fetchShippers(conditions)
-        this.shippers = response.data.data
+        this.shippers = response.data.data.data
       } catch (error) {
         this.error = error.message
       }
@@ -28,7 +28,8 @@ export const useShipperStore = defineStore('shipper', {
         this.loading = true
         this.error = null
         const response = await shipperService.showShipper(shipperId)
-        this.shipper = response.data.data
+        this.shipper = response.data.data.data
+        console.log(response);
       } catch (error) {
         this.error = error.message
       }
@@ -40,7 +41,7 @@ export const useShipperStore = defineStore('shipper', {
         this.loading = true
         this.error = null
         const response = await shipperService.addShipper(shipper)
-        this.shippers.push(response.data.data);
+        this.shippers.push(response.data.data.data);
       } catch (error) {
         this.error = error.message
       }
@@ -54,7 +55,7 @@ export const useShipperStore = defineStore('shipper', {
         const response = await shipperService.updateShipper(shipperId, shipper)
         const index = this.shippers.findIndex((p) => p.id === shipperId)
         if (index !== -1) { 
-          this.shippers.splice(index, 1, response.data.data)
+          this.shippers.splice(index, 1, response.data.data.data)
         }
       } catch (error) {
         this.error = error.message
