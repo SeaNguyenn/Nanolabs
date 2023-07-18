@@ -1,5 +1,5 @@
 <template>
-  <th @click="emit('click')" class="border-b-2 p-2 text-left cursor-pointer bg-gray-100"
+  <table-head-cell @click="emit('click')" class="border-b-2 p-2 text-left cursor-pointer bg-gray-100"
     :class="field === sortField ? 'bg-blue-50' : ''">
     <div class="flex justify-between">
       <slot></slot>
@@ -15,11 +15,11 @@
         </svg>
       </div>
     </div>
-  </th>
+  </table-head-cell>
 </template>
   
 <script setup>
-
+import {TableHeadCell} from 'flowbite-vue'
 const { field, sortField, sortDirection } = defineProps({
   field: String,
   sortField: String,

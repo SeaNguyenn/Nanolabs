@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import authService from '../services/authService';
+import { checkCookie } from './utils';
 
 export const authStore = defineStore('auth', {
   state: () => ({
@@ -29,7 +30,7 @@ export const authStore = defineStore('auth', {
 
     async logout() {
       await authService.logout();
-      document.cookie = 'XSRF-TOKEN=; max-age=0';
+      checkCookie('XSRF-TOKEN', '');
       this.user = null;
       this.token = null;
     },

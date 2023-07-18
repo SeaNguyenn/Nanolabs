@@ -24,6 +24,7 @@ class ShipperController extends Controller
 
         try {
             $result = DB::table('shippers')->where('name', 'like', "%{$search}%")
+            ->where('state','!=', 9)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -43,13 +44,8 @@ class ShipperController extends Controller
 
     public function getShipper($id)
     {
-        $data = DB::table('shippers')
-                    ->leftJoin('shipping_method', 'shipper.shipping_method_id', '=', 'shipping_method.id');
-
-        $shipper = $data->where('shipper.id',$id);
-
         try {
-            $result = $shipper->get();
+            $result = DB::table('shippers')->where('id','=',$id)->first();
 
             return response()->json([
                 'success' => true,
@@ -131,7 +127,7 @@ class ShipperController extends Controller
     public function deleteShipper($id)
     {
         try {
-            $shipper = DB::table('shippers')->where('id', $id)->first();
+            $shipper = DB::table('shippers')->where('id', $id);
 
             if (isset($shipper)) {
                 $shipper = $shipper->update([

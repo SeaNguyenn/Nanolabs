@@ -138,7 +138,7 @@ router.beforeEach((to,from,next) => {
       if (auth.$state.user?.role_id?.name === 'admin' || auth.$state.user?.role_id?.name === "sup_admin") {
         next();
       } else {
-        next({ path: '/home' });
+        next({ path: '/login' });
       }
     } else if (
       to.matched.some((record) => record.meta.user)

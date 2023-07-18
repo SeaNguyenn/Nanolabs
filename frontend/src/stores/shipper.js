@@ -16,7 +16,7 @@ export const useShipperStore = defineStore('shipper', {
         this.loading = true
         this.error = null
         const response = await shipperService.fetchShippers(conditions)
-        this.shippers = response.data.data.data
+        this.shippers = response.data.data
       } catch (error) {
         this.error = error.message
       }
@@ -28,12 +28,16 @@ export const useShipperStore = defineStore('shipper', {
         this.loading = true
         this.error = null
         const response = await shipperService.showShipper(shipperId)
-        this.shipper = response.data.data.data
-        console.log(response);
+        this.shipper = response.data.data
+
+        return response;
       } catch (error) {
         this.error = error.message
+
+        return error;
+      }finally {
+        this.loading = false
       }
-      this.loading = false
     },
 
     async addShipper(shipper) {
@@ -41,11 +45,16 @@ export const useShipperStore = defineStore('shipper', {
         this.loading = true
         this.error = null
         const response = await shipperService.addShipper(shipper)
-        this.shippers.push(response.data.data.data);
+        this.shippers.push(response.data.data);
+
+        return response;
       } catch (error) {
         this.error = error.message
+
+        return error;
+      }finally {
+        this.loading = false
       }
-      this.loading = false
     },
 
     async updateShipper(shipperId, shipper) {
@@ -57,25 +66,34 @@ export const useShipperStore = defineStore('shipper', {
         if (index !== -1) { 
           this.shippers.splice(index, 1, response.data.data.data)
         }
+
+        return response;
       } catch (error) {
         this.error = error.message
+        
+        return error
+      }finally {
+        this.loading = false
       }
-      this.loading = false
     },
 
     async deleteShipper(shipperId) {
       try {
         this.loading = true
         this.error = null
-        await shipperService.deleteShipper(shipperId)
+        const result = await shipperService.deleteShipper(shipperId)
         const index = this.shippers.findIndex((p) => p.id === shipperId)
         if (index !== -1) { 
           this.shippers.splice(index, 1)
         }
+        return result;
       } catch (error) {
         this.error = error.message
+
+        return error
+      }finally {
+        this.loading = false
       }
-      this.loading = false
     }
   },
 
