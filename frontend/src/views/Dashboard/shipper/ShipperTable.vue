@@ -32,6 +32,10 @@
           @click="sortShippers('phone')">
           Số điện thoại
         </TableHeaderCell>
+        <TableHeaderCell field="email" :sort-field="sortField" :sort-direction="sortDirection"
+          @click="sortShippers('email')">
+          Email
+        </TableHeaderCell>
         <TableHeaderCell field="address" :sort-field="sortField" :sort-direction="sortDirection"
           @click="sortShippers('address')">
           Địa chỉ
@@ -60,6 +64,7 @@
           <table-cell>{{ index + 1 }}</table-cell>
           <table-cell>{{ shipper.name }}</table-cell>
           <table-cell>{{ shipper.phone }}</table-cell>
+          <table-cell>{{ shipper.email }}</table-cell>
           <table-cell>{{ shipper.address }}</table-cell>
           <table-cell>{{ shipper.created_at }}</table-cell>
           <table-cell>

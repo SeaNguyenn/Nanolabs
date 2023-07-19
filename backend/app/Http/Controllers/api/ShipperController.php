@@ -91,13 +91,7 @@ class ShipperController extends Controller
 
     public function updateShipper(ShipperRequest $request,$id)
     {
-        $request->only([
-            'name',
-            'email',
-            'phone',
-            'avatar',
-            'address',
-        ]);
+        $request->validated();
 
         try {
             $shipper = DB::table('shippers')->where('id', $id)->first();
@@ -109,7 +103,6 @@ class ShipperController extends Controller
                     'phone' => $request->phone,
                     'avatar' => $request->avatar,
                     'address' => $request->address,
-                    'shipping_method_id' => $request->shipping_method_id
                 ]);
                 return response()->json(['message' => 'Cập nhật nhân viên shipper thành công'], 200);
             } else {
