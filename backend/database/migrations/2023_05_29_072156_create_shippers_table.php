@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('shippers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('shipping_method_id')->unsigned();
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('avatar')->nullable();
-            $table->string('phone')->nullable();
+            $table->integer('phone')->nullable();
             $table->string('address')->nullable();
             $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
             $table->timestamps();

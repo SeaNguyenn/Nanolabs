@@ -7,21 +7,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
 use App\Http\Requests\ShipperRequest;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+
 class ShipperController extends Controller
 {
-    public function getAllShippers(Request $request)
+    public function index()
     {
-        $data = DB::table('shippers')
-                ->leftJoin('shipping_method', 'shipper.shipping_method_id', '=', 'shipping_method.id');
-
-        if (isset($request->keyword)) {
-            $keyword = $request->input('keyword');
-
-            $data = $data->where('shipper.name', 'like', '%'.$keyword.'%');
-        }
+        $perPage = request('per_page', 10);
+        $search = request('search', '');
+        $sortField = request('sort_field', 'created_at');
+        $sortDirection = request('sort_direction', 'desc');
 
         try {
-            $result = $data->paginate(10);
+            $result = DB::table('shippers')->where('name', 'like', "%{$search}%")
+            ->where('state','!=', 9)
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
 
             return response()->json([
                 'success' => true,
@@ -39,13 +44,8 @@ class ShipperController extends Controller
 
     public function getShipper($id)
     {
-        $data = DB::table('shippers')
-                    ->leftJoin('shipping_method', 'shipper.shipping_method_id', '=', 'shipping_method.id');
-
-        $shipper = $data->where('shipper.id',$id);
-
         try {
-            $result = $shipper->get();
+            $result = DB::table('shippers')->where('id','=',$id)->first();
 
             return response()->json([
                 'success' => true,
@@ -63,22 +63,23 @@ class ShipperController extends Controller
 
     public function createShipper(ShipperRequest $request)
     {
-        $request->only([
-            'name',
-            'email',
-            'phone',
-            'avatar',
-            'address',
-        ]);
+
+        $data = $request->validated();
+        $image = $data['avatar'] ?? null;
+
+        if ($image) {
+            $relativePath = $this->saveImage($image);
+            $data['avatar'] = URL::to(Storage::url($relativePath));
+        }
 
         try {
             DB::table('shippers')->insert([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'avatar' => $request->avatar,
-                'address' => $request->address,
-                'shipping_method_id' => $request->shipping_method_id
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'avatar' => $data['avatar'],
+                'address' => $data['address'],
+                'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới nhân viên shipper thành công'], 200);
 
@@ -90,13 +91,7 @@ class ShipperController extends Controller
 
     public function updateShipper(ShipperRequest $request,$id)
     {
-        $request->only([
-            'name',
-            'email',
-            'phone',
-            'avatar',
-            'address',
-        ]);
+        $request->validated();
 
         try {
             $shipper = DB::table('shippers')->where('id', $id)->first();
@@ -108,7 +103,6 @@ class ShipperController extends Controller
                     'phone' => $request->phone,
                     'avatar' => $request->avatar,
                     'address' => $request->address,
-                    'shipping_method_id' => $request->shipping_method_id
                 ]);
                 return response()->json(['message' => 'Cập nhật nhân viên shipper thành công'], 200);
             } else {
@@ -126,7 +120,7 @@ class ShipperController extends Controller
     public function deleteShipper($id)
     {
         try {
-            $shipper = DB::table('shippers')->where('id', $id)->first();
+            $shipper = DB::table('shippers')->where('id', $id);
 
             if (isset($shipper)) {
                 $shipper = $shipper->update([
@@ -142,5 +136,18 @@ class ShipperController extends Controller
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
             return response()->json(['message' => 'Xoá nhân viên shipper thất bại', 'error' => $e], 500);
         }
+    }
+
+    private function saveImage(UploadedFile $image)
+    {
+        $path = 'images/' . Str::random();
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path, 0755, true);
+        }
+        if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
+            throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
+        }
+
+        return $path . '/' . $image->getClientOriginalName();
     }
 }

@@ -20,7 +20,7 @@ class UserController extends Controller
         foreach (array_keys($userKeyCols) as $key) {
             $responseData[$key] = $user[$userKeyCols[$key]];
         }
-
+        $responseData['role_id'] = DB::table('role')->where('id', '=', $responseData['role_id'])->first('name');
         return response()->json(['data' => $responseData]);
     }
 

@@ -21,10 +21,10 @@
           <template #overlay>
             <a-menu>
               <a-menu-item>
-                <router-link :to="{ name: 'products' }" class="text-lg">Danh sách sản phẩm</router-link>
+                <router-link :to="{ name: 'products' }" class="text-lg px-3">Danh sách sản phẩm</router-link>
               </a-menu-item>
               <a-menu-item>
-                <router-link :to="{ name: 'blogs' }" class="text-lg">Nanolabs Blog</router-link>
+                <router-link :to="{ name: 'all_categories' }" class="text-lg px-3">Phân loại sản phẩm</router-link>
               </a-menu-item>
             </a-menu>
           </template>
@@ -134,7 +134,7 @@ import { Icon } from '@iconify/vue'
 import Button from '@/components/Button.vue'
 import { reactive, watchEffect,onMounted, ref } from 'vue'
 import { authStore } from '@/stores/auth.js';
-
+import { useRouter } from 'vue-router'
 export default {
   props: {
     countCart: Number,
@@ -163,10 +163,11 @@ export default {
       { name: 'Trang chủ', path: 'home' },
       { name: 'Sản phẩm', path: 'products', submenu: true },
       { name: 'Liên hệ', path: '#' },
-      { name: 'Blog', path: 'blogs' },
+      { name: 'Danh mục sản phẩm', path: '#' },
     ]
 
     const auth = authStore();
+    const router = useRouter();
     const userName = ref('');
 
     onMounted(() => {
@@ -178,6 +179,8 @@ export default {
     const logout = async () => {
       await auth.logout();
       window.location.reload();
+
+      router.push({ name: 'login' })
     };
 
     const scrolled = ref(false);

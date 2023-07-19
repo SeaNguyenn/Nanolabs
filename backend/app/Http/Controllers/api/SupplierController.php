@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
-use App\Http\Requests\CategoryRequest;
-class CategoryController extends Controller
+use App\Http\Requests\SupplierRequest;
+class SupplierController extends Controller
 {
-    public function getAllCategories(Request $request)
+    public function getAllSuppliers(Request $request)
     {
-        $data =DB::table('categories');
+        $data = DB::table('suppliers');
 
         try {
             $result = $data->paginate(10);
@@ -30,14 +30,14 @@ class CategoryController extends Controller
         }
     }
 
-    public function getCategory($id)
+    public function getSupplier($id)
     {
-        $data =DB::table('categories');
+        $data =DB::table('suppliers');
 
-        $category = $data->where('id',$id);
+        $Supplier = $data->where('id',$id);
 
         try {
-            $result = $category->get();
+            $result = $Supplier->get();
 
             return response()->json([
                 'success' => true,
@@ -53,7 +53,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function createCategory(CategoryRequest $request)
+    public function createSupplier(SupplierRequest $request)
     {
         $request->only([
             'name' ,
@@ -62,7 +62,7 @@ class CategoryController extends Controller
         ]);
 
         try {
-            DB::table('categories')->insert([
+            DB::table('suppliers')->insert([
                 'name' => $request->name,
                 'parent_id' => $request->parent_id,
                 'display_order' => $request->display_order,
@@ -76,7 +76,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function updateCategory(CategoryRequest $request,$id)
+    public function updateSupplier(SupplierRequest $request,$id)
     {
         $request->only([
             'name' ,
@@ -85,10 +85,10 @@ class CategoryController extends Controller
         ]);
 
         try {
-            $category =DB::table('categories')->where('id', $id)->first();
+            $Supplier =DB::table('suppliers')->where('id', $id)->first();
 
-            if (isset($category)) {
-                DB::table('categories')->where('id', $id)->update([
+            if (isset($Supplier)) {
+                DB::table('suppliers')->where('id', $id)->update([
                     'name' => $request->name,
                     'parent_id' => $request->parent_id,
                     'display_order' => $request->display_order,
@@ -106,13 +106,13 @@ class CategoryController extends Controller
         }
     }
 
-    public function deleteCategory($id)
+    public function deleteSupplier($id)
     {
         try {
-            $category = DB::table('categories')->where('id', $id)->first();
+            $Supplier = DB::table('suppliers')->where('id', $id)->first();
 
-            if (isset($category)) {
-                $category = $category->update([
+            if (isset($Supplier)) {
+                $Supplier = $Supplier->update([
                     'state' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá loại sản phẩm thành công'], 200);

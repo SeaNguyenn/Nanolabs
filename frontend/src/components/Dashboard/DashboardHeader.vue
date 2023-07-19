@@ -43,12 +43,12 @@
         </template>
       </a-popover>
 
-      <a-popover placement="bottomRight" trigger="click" class="flex items-center">
+    <a-popover placement="bottomRight" trigger="click" class="flex items-center">
         <button class="inline-flex items-center justify-center">
           <img class="h-9 w-9 rounded-full" src="" alt="" />
         </button>
         <template #content>
-          <a-button type="text" class="px-2 py-2 text-sm cursor-pointer logout-btn">
+          <a-button type="text" class="px-2 py-2 text-sm cursor-pointer logout-btn" @click="logout">
             Logout
           </a-button>
         </template>
@@ -60,6 +60,8 @@
 <script>
 import { ref, reactive } from 'vue'
 import { Icon } from '@iconify/vue';
+import { authStore } from '@/stores/auth.js';
+import { useRouter } from 'vue-router'
 export default {
   components: {
     Icon,
@@ -70,6 +72,9 @@ export default {
   },
   setup(props, { emit }) {
 
+    const auth = authStore();
+    const router = useRouter();
+
     const search = reactive({
       data: ''
     })
@@ -77,9 +82,16 @@ export default {
     const inputSearch = async() => {
       console.log(search.data);
     }
+
+    const logout = async () => {
+      await auth.logout();
+      router.push({ name: 'login' })
+    };
+
     return {
       inputSearch,
-      search
+      search,
+      logout,
     }
   }
 }

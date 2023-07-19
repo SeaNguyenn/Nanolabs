@@ -10,7 +10,7 @@
     <div class="ml-auto duration-300" v-bind:class="{ 'w-[calc(100%-5rem)]': !showSiderbar , 'w-[calc(100%-200px)]': showSiderbar}" >
       <!-- header  -->
       <div class="bg-white px-4 py-5 border-b-[1px] border-solid border-[#D1D1D1]">
-        <DashboardHome/>
+        <DashboardHeader/>
       </div>
       
       <!-- content  -->
@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import DashboardHome from '@/components/Dashboard/DashboardHome.vue'
+import DashboardHeader from '@/components/Dashboard/DashboardHeader.vue'
 import DashboardSideBar from '@/components/Dashboard/DashboardSideBar.vue'
 import { defineComponent, ref } from 'vue'
 export default defineComponent({
   components: {
-    DashboardHome,
+    DashboardHeader,
     DashboardSideBar,
   },
 

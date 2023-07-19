@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.14",
     "ant-design-vue": "^3.2.20",
     "axios": "^1.4.0",
     "flowbite": "^1.6.5",

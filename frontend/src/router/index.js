@@ -4,52 +4,54 @@ import { authStore } from '../stores/auth';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { 
-      path: '/',
-      redirect: '/home',
+    {
+      path: '/admin',
+      redirect: 'dashboard',
       component: () => import('@/layouts/DefaultLayout.vue'),
+      meta: { admin: true },
       children: [
-        //admin
         {
           path: '/dashboard',
           name: 'dashboard',
           component: () => import('@/views/Dashboard/Dashboard.vue'),
-          meta: { admin: true },
           children: [
             {
-              path: '/admin/products',
+              path: 'products',
               name: 'adminProducts',
-              component: () => import('@/views/Dashboard/Products.vue'),
-              meta: { admin: true},
+              component: () => import('@/views/Dashboard/product/Products.vue'),
             },
             {
-              path: '/admin/analytics',
-              name: 'adminAnalytics',
-              component: () => import('@/views/Dashboard/Analytics.vue'),
-              meta: { admin: true},
+              path: 'shippers',
+              name: 'adminShipper',
+              component: () => import('@/views/Dashboard/shipper/Shippers.vue'),
             },
             {
-              path: '/admin/payments',
+              path: 'payments',
               name: 'adminPayments',
               component: () => import('@/views/Dashboard/Payments.vue'),
-              meta: { admin: true},
             },
             {
-              path: '/admin/orders',
+              path: 'orders',
               name: 'adminOrders',
               component: () => import('@/views/Dashboard/Orders.vue'),
-              meta: { admin: true},
             },
             {
-              path: '/admin/settings',
+              path: 'settings',
               name: 'adminSettings',
               component: () => import('@/views/Dashboard/Settings.vue'),
-              meta: { admin: true},
             },
           ],
         },
+      ],
+    },
 
-        //users
+    //user
+    { 
+      path: '/',
+      redirect: '/home',
+      component: () => import('@/layouts/DefaultLayout.vue'),
+      meta: { user: true },
+      children: [
         {
           path: '/home',
           name: 'home',
@@ -71,24 +73,19 @@ const router = createRouter({
           component: () => import('@/views/pages/ProductPage.vue'),
         },
         {
-          path: '/blogs',
-          name: 'blogs',
-          component: () => import('@/views/pages/BlogPage.vue'),
+          path: '/payments',
+          name: 'payments',
+          component: () => import('@/views/pages/CheckoutPage.vue'),
         },
         {
-          path: '/blogs/:blogId/edit',
-          name: 'blogEdit',
-          component: () => import('@/views/pages/BlogPage.vue'),
+          path: '/payments/:paymentId/edit',
+          name: 'paymentsEdit',
+          component: () => import('@/views/pages/CheckoutPage.vue'),
         },
         {
           path: '/cart',
           name: 'cart',
           component: () => import('@/views/pages/CartPage.vue'),
-        },
-        {
-          path: '/checkout',
-          name: 'checkout',
-          component: () => import('@/views/pages/CheckoutPage.vue'),
         },
         {
           path: '/contact',
@@ -106,6 +103,7 @@ const router = createRouter({
       path: '/auth',
       name: 'auth',
       component: () => import('@/layouts/AuthLayout.vue'),
+      meta: { guest: true },
       children: [
         {
           path: '/login',
@@ -123,7 +121,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to,from,next) => {
-
+  
+  const auth = authStore();
   const cookiesArray = document.cookie.split(';');
   let cookieFlg = false;
   for (let i = 0; i < cookiesArray.length; i++) {
@@ -134,15 +133,31 @@ router.beforeEach((to,from,next) => {
     }
   }
 
-  // const auth = authStore();
-  // if (
-  //   to.matched.some((record) => record.meta.admin) && auth.isAuthenticated && cookieFlg
-  // ) {
-  //   next('/dashboard');
-  //   return;
-  // }
-
-  next();
+  if (auth.isAuthenticated || cookieFlg) {
+    if (to.matched.some((record) => record.meta.admin)) {
+      if (auth.$state.user?.role_id?.name === 'admin' || auth.$state.user?.role_id?.name === "sup_admin") {
+        next();
+      } else {
+        next({ path: '/login' });
+      }
+    } else if (
+      to.matched.some((record) => record.meta.user)
+    ) {
+      next();
+    } else if (
+      to.matched.some((record) => record.meta.guest)
+    ) {
+      next({ path: '/home' });
+    } else {
+      next({ path: '/login' });
+    }
+  } else {
+    if (to.matched.some((record) => record.meta.guest)) {
+      next();
+    } else {
+      next({ path: '/login' });
+    }
+  }
 })
 
 export default router 
