@@ -31,8 +31,9 @@ export const authStore = defineStore('auth', {
     async logout() {
       await authService.logout();
       checkCookie('XSRF-TOKEN', '');
-      this.user = null;
-      this.token = null;
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.reload();
     },
   },
 
