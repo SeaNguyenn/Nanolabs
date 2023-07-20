@@ -15,12 +15,16 @@ class UserController extends Controller
         $user = $request->user();
 
         $userKeyCols = Config::get('constants.user_keys');
+        $userRoleCols = Config::get('constants.role_id');
         $responseData = [];
 
         foreach (array_keys($userKeyCols) as $key) {
             $responseData[$key] = $user[$userKeyCols[$key]];
         }
-        $responseData['role_id'] = DB::table('role')->where('id', '=', $responseData['role_id'])->first('name');
+
+        // $responseData['role_id'] = DB::table('users')->where('id', '=', $responseData['role_id'])->first('name');
+
+        dd($response);
         return response()->json(['data' => $responseData]);
     }
 

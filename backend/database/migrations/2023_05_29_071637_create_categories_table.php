@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->bigInteger('parent_id')->nullable();
             $table->bigInteger('display_order')->nullable();
-            $table->bigInteger('state')->default(1)->comment('1:live 9:kill')->nullable();
-            $table->timestamps();
+            $table->bigInteger('state')->default(1)->nullable();
         });
     }
 
