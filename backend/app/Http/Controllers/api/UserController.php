@@ -22,9 +22,8 @@ class UserController extends Controller
             $responseData[$key] = $user[$userKeyCols[$key]];
         }
 
-        // $responseData['role_id'] = DB::table('users')->where('id', '=', $responseData['role_id'])->first('name');
+        $responseData['role_id'] = $userRoleCols[$responseData['role_id']];
 
-        dd($response);
         return response()->json(['data' => $responseData]);
     }
 
