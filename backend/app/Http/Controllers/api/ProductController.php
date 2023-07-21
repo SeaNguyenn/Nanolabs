@@ -7,21 +7,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
 use App\Http\Requests\ProductRequest;
-
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 class ProductController extends Controller
 {
-    public function getAllProducts(Request $request)
+    public function index(Request $request)
     {
+        $perPage = request('per_page', 10);
+        $search = request('search', '');
+        $sortField = request('sort_field', 'created_at');
+        $sortDirection = request('sort_direction', 'desc');
         $data = DB::table('products');
 
-        if (isset($request->keyword)) {
-            $keyword = $request->input('keyword');
-
-            $data = $data->where('name', 'like', '%'.$keyword.'%');
-        }
-
         try {
-            $result = $data->paginate(10);
+            $result = DB::table('products')->where('name', 'like', "%{$search}%")
+            ->where('state','!=', 9)
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
 
             return response()->json([
                 'success' => true,
@@ -39,12 +44,8 @@ class ProductController extends Controller
 
     public function getProduct($id)
     {
-        $data = DB::table('products');
-
-        $product = $data->where('id',$id);
-
         try {
-            $result = $product->get();
+            $result = $result = DB::table('products')->where('id','=',$id)->first();
 
             return response()->json([
                 'success' => true,
@@ -62,35 +63,29 @@ class ProductController extends Controller
 
     public function createProduct(ProductRequest $request)
     {
-        $request->only([
-            'name' ,
-            'code' ,
-            'description' ,
-            'image' ,
-            'price',
-            'color' ,
-            'material' ,
-            'quantity',
-            'warranty',
-        ]);
+        $data = $request->validated();
+        $image = $data['image'] ?? null;
+
+        if ($image) {
+            $relativePath = $this->saveImage($image);
+            $data['image'] = URL::to(Storage::url($relativePath));
+        }
 
         try {
-
-            $products = DB::table('products');
-
-            $products->insert([
-                'name' => $request->name,
-                'code' => $request->code,
-                'description' => $request->description,
-                'image' => $request->image,
-                'price' => $request->price,
-                'color' => $request->color,
-                'material' => $request->material,
-                'quantity' => $request->quantity,
-                'warranty' => $request->warranty,
-                'create_user' => Auth::user()->name,
-                'supplier_id' => $request->supplier_id,
-                'category_id' => $request->category_id,
+            DB::table('products')->insert([
+                'supplier_id' => $data['supplier_id'],
+                'name' => $data['name'],
+                'code' => $data['code'],
+                'description' => $data['description'],
+                'price' => $data['price'],
+                'sale_price' => $data['sale_price'],
+                'image' => $data['image'],
+                'evaluate' => $data['evaluate'],
+                'color' => $data['color'],
+                'material' => $data['material'],
+                'warranty' => $data['warranty'],
+                'created_at' => Carbon::now(),
+                'state' => 1,
             ]);
             return response()->json(['message' => 'Thêm mới sản phẩm thành công'], 200);
 
@@ -102,39 +97,25 @@ class ProductController extends Controller
 
     public function updateProduct(ProductRequest $request,$id)
     {
-        $request->only([
-            'name',
-            'description' ,
-            'image' ,
-            'price',
-            'promotion_price',
-            'include_vat',
-            'evaluate',
-            'color',
-            'material' ,
-            'quantity',
-            'warranty',
-        ]);
+        $request->validated();
 
         try {
             $product = DB::table('products')->where('id', $id)->first();
 
             if (isset($product)) {
                 DB::table('products')->where('id', $id)->update([
-                    'name' => $request->name,
-                    'description' => $request->description,
-                    'image' => $request->image,
-                    'price' => $request->price,
-                    'promotion_price' => $request->promotion_price,
-                    'include_vat' => $request->include_vat,
-                    'evaluate' => $request->evaluate,
-                    'color' => $request->color,
-                    'material' => $request->material,
-                    'quantity' => $request->quantity,
-                    'warranty' => $request->warranty,
-                    'update_user' => Auth::user()->name,
-                    'supplier_id' => $request->supplier_id,
-                    'category_id' => $request->category_id,
+                    'supplier_id' => $data['supplier_id'],
+                    'name' => $data['name'],
+                    'code' => $data['code'],
+                    'description' => $data['description'],
+                    'price' => $data['price'],
+                    'sale_price' => $data['sale_price'],
+                    'image' => $data['image'],
+                    'evaluate' => $data['evaluate'],
+                    'color' => $data['color'],
+                    'material' => $data['material'],
+                    'warranty' => $data['warranty'],
+                    'updated_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Cập nhật sản phẩm thành công'], 200);
             } else {
@@ -168,5 +149,18 @@ class ProductController extends Controller
             Log::error('Có lỗi xảy ra: '.$e->getMessage());
             return response()->json(['message' => 'Xoá sản phẩm thất bại', 'error' => $e], 500);
         }
+    }
+
+    private function saveImage(UploadedFile $image)
+    {
+        $path = 'images/' . Str::random();
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path, 0755, true);
+        }
+        if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
+            throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
+        }
+
+        return $path . '/' . $image->getClientOriginalName();
     }
 }

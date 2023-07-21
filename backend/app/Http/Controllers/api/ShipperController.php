@@ -80,6 +80,7 @@ class ShipperController extends Controller
                 'avatar' => $data['avatar'],
                 'address' => $data['address'],
                 'created_at' => Carbon::now(),
+                'state' => 1,
             ]);
             return response()->json(['message' => 'Thêm mới nhân viên shipper thành công'], 200);
 
@@ -98,11 +99,12 @@ class ShipperController extends Controller
 
             if (isset($shipper)) {
                 DB::table('shippers')->where('id', $id)->update([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'phone' => $request->phone,
-                    'avatar' => $request->avatar,
-                    'address' => $request->address,
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'phone' => $data['phone'],
+                    'avatar' => $data['avatar'],
+                    'address' => $data['address'],
+                    'updated_ad' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Cập nhật nhân viên shipper thành công'], 200);
             } else {
@@ -126,7 +128,6 @@ class ShipperController extends Controller
                 $shipper = $shipper->update([
                     'state' => 9,
                 ]);
-                return response()->json(['message' => 'Xoá nhân viên shipper thành công'], 200);
             } else {
                 return response()->json([
                     'message' => 'Không tìm thấy nhân viên shipper'

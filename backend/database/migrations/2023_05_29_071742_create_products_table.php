@@ -23,7 +23,6 @@ return new class extends Migration
             $table->bigInteger('evaluate')->default(0)->nullable();
             $table->string('color')->nullable();
             $table->string('material')->nullable();
-            $table->string('comment')->nullable();
             $table->bigInteger('warranty')->nullable();
             $table->bigInteger('state')->default(1)->nullable();
             $table->bigInteger('view_count')->nullable();
