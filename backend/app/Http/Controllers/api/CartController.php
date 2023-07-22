@@ -7,14 +7,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
 use App\Http\Requests\CartRequest;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 class CartController extends Controller
 {
-    public function getAllCart(Request $request)
+    public function index(Request $request)
     {
-        $data = DB::table('shopping_cart');
+        $perPage = request('per_page', 10);
+        $sortField = request('sort_field', 'created_at');
+        $sortDirection = request('sort_direction', 'desc');
 
         try {
-            $result = $data->paginate(10);
+            $result = DB::table('cart_items')
+            ->where('state','!=', 9)
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
 
             return response()->json([
                 'success' => true,
@@ -30,41 +40,16 @@ class CartController extends Controller
         }
     }
 
-    public function getCart($id)
+    public function addProductToCart(CartRequest $request)
     {
-        $data = DB::table('shopping_cart');
-
-        $cart = $data->where('id',$id);
+        $data = $request->validated();
+        $user_id = Auth::user()->id;
 
         try {
-            $result = $cart->leftJoin('products', $cart['product_id'], '=', 'products.id')->get();
-
-            return response()->json([
-                'success' => true,
-                'data' => $result,
-            ], 200);
-        } catch (\Exception $e) {
-            Log::error('Có lỗi xảy ra: '.$e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Lấy giỏ hàng thất bại',
-            ], 500);
-        }
-    }
-
-    public function createCart(CartRequest $request)
-    {
-        $request->only([
-            'product_name' ,
-        ]);
-
-        try {
-
-            $products = DB::table('shopping_cart');
-
-            $products->insert([
-                'product_id' => $request->product_id,
+            DB::table('cart_items')->insert([
+                'user_id' => $user_id,
+                'product_id' => $data['product_id'],
+                'quantity' => $data['quantity'],
             ]);
             return response()->json(['message' => 'Thêm vào giỏ hàng thành công'], 200);
 
@@ -74,14 +59,17 @@ class CartController extends Controller
         }
     }
 
-    public function updateOrder(CartRequest $request,$id)
+    public function updateCart(CartRequest $request,$id)
     {
+        $data = $request->validated();
+
         try {
-            $cart = DB::table('shopping_cart')->where('id', $id)->first();
+            $cart = DB::table('cart_items')->where('id', $id)->first();
 
             if (isset($cart)) {
-                DB::table('shopping_cart')->where('id', $id)->update([
-                    'product_id' => $request->product_id,
+                DB::table('cart_items')->where('id', $id)->update([
+                    'product_id' => $data['product_id'],
+                    'quantity' => $data['quantity'],
                 ]);
                 return response()->json(['message' => 'Cập nhật giỏ hàng thành công'], 200);
             } else {
@@ -99,7 +87,7 @@ class CartController extends Controller
     public function deleteCart($id)
     {
         try {
-            $cart = DB::table('shopping_cart')->where('id', $id)->first();
+            $cart = DB::table('cart_items')->where('id', $id)->first();
 
             if (isset($cart)) {
                 $cart = $cart->update([

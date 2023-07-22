@@ -22,7 +22,17 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'shipper_id' => 'required|exists:shippers,id',
+            'shipping_method_id' => 'required|exists:shipping_methods,id',
+            'user_id' => 'required|exists:users,id',
+            'order_status' => 'required|in:1,2,3,4,5,6,7',
+            'shipping_cost' => 'required|numeric|min:0',
+            'total_amount' => 'required|numeric|min:0',
+            'note' => 'nullable|string|max:255',
+            'order_date' => 'nullable|date',
+            'shipped_date' => 'nullable|date',
+            'required_date' => 'nullable|date',
+            'state' => 'nullable|in:1,2'
         ];
     }
 }

@@ -20,7 +20,6 @@ class ProductController extends Controller
         $search = request('search', '');
         $sortField = request('sort_field', 'created_at');
         $sortDirection = request('sort_direction', 'desc');
-        $data = DB::table('products');
 
         try {
             $result = DB::table('products')->where('name', 'like', "%{$search}%")
@@ -45,7 +44,7 @@ class ProductController extends Controller
     public function getProduct($id)
     {
         try {
-            $result = $result = DB::table('products')->where('id','=',$id)->first();
+            $result = DB::table('products')->where('id','=',$id)->first();
 
             return response()->json([
                 'success' => true,
@@ -97,7 +96,7 @@ class ProductController extends Controller
 
     public function updateProduct(ProductRequest $request,$id)
     {
-        $request->validated();
+        $data = $request->validated();
 
         try {
             $product = DB::table('products')->where('id', $id)->first();

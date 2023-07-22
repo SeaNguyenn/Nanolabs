@@ -7,20 +7,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
 use App\Http\Requests\OrderRequest;
+use Auth;
 class OrderController extends Controller
 {
-    public function getAllOrders(Request $request)
+    public function index(Request $request)
     {
-        $data = DB::table('orders');
 
-        if (isset($request->keyword)) {
-            $keyword = $request->input('keyword');
-
-            $data = $data->where('name', 'like', '%'.$keyword.'%');
-        }
+        $perPage = request('per_page', 10);
+        $sortField = request('sort_field', 'created_at');
+        $sortDirection = request('sort_direction', 'desc');
 
         try {
-            $result = $data->paginate(10);
+            $result = DB::table('orders')
+            ->where('state','!=', 9)
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
 
             return response()->json([
                 'success' => true,
@@ -38,12 +39,8 @@ class OrderController extends Controller
 
     public function getOrder($id)
     {
-        $data = DB::table('orders');
-
-        $order = $data->where('id',$id);
-
         try {
-            $result = $order->get();
+            $result = DB::table('orders')->where('id','=',$id)->first();
 
             return response()->json([
                 'success' => true,
@@ -61,17 +58,21 @@ class OrderController extends Controller
 
     public function createOrder(OrderRequest $request)
     {
+        $data = $request->validated();
+        $user_id = Auth::user()->id;
+
         try {
             DB::table('orders')->insert([
-                'shipper_id' => $request->shipper_id,
-                'user_id' => $request->user_id,
-                'order_status_id' => $request->order_status_id,
-                'shipping_cost' => $request->shipping_cost,
-                'total_amount' => $request->total_amount,
-                'note' => $request->note,
-                'order_date' => $request->order_date,
-                'shipped_date' => $request->shipped_date,
-                'required_date' => $request->required_date,
+                'shipper_id' => $data['shipper_id'],
+                'user_id' => $user_id,
+                'shipping_method_id' => $data['shipping_method_id'],
+                'order_status' => $data['order_status'],
+                'shipping_cost' => $data['shipping_cost'],
+                'total_amount' => $data['total_amount'],
+                'note' => $data['note'],
+                'order_date' => $data['order_date'],
+                'shipped_date' => $data['shipped_date'],
+                'required_date' => $data['required_date'],
             ]);
             return response()->json(['message' => 'Thêm mới hoá đơn thành công'], 200);
 
@@ -81,37 +82,7 @@ class OrderController extends Controller
         }
     }
 
-    public function updateOrder(OrderRequest $request,$id)
-    {
-        try {
-            $order = DB::table('orders')->where('id', $id)->first();
-
-            if (isset($order)) {
-                DB::table('orders')->where('id', $id)->update([
-                    'shipper_id' => $request->shipper_id,
-                    'user_id' => $request->user_id,
-                    'order_status_id' => $request->order_status_id,
-                    'shipping_cost' => $request->shipping_cost,
-                    'total_amount' => $request->total_amount,
-                    'note' => $request->note,
-                    'order_date' => $request->order_date,
-                    'shipped_date' => $request->shipped_date,
-                    'required_date' => $request->required_date,
-                ]);
-                return response()->json(['message' => 'Cập nhật hoá đơn thành công'], 200);
-            } else {
-                return response()->json([
-                    'message' => 'Không tìm thấy hoá đơn'
-                ], 404);
-            }
-
-        } catch (\Exception $e) {
-            Log::error('Có lỗi xảy ra: '.$e->getMessage());
-            return response()->json(['message' => 'Cập nhật hoá đơn thất bại', 'error' => $e], 500);
-        }
-    }
-
-    public function deleteOrder($id)
+    public function canceledOrder($id)
     {
         try {
             $order = DB::table('orders')->where('id', $id)->first();

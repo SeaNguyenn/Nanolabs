@@ -6,7 +6,7 @@ return [
         // 'account_id' => 'account_id',
         // 'email' => 'email',
         'name' => 'name',
-        'state' => 'state',
+        // 'state' => 'state',
         'role_id' => 'role_id',
         'avatar' => 'avatar',
         // 'createdAt' => 'created_at',
