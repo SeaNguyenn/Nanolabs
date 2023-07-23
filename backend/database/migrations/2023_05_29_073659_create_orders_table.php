@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users','id');
             $table->foreignId('shipping_method_id')->constrained('shipping_methods','id');
             $table->bigInteger('order_status')->nullable();
-            $table->decimal('shipping_cost',30,2);
-            $table->decimal('total_amount',30,2);
-            $table->string('note')->nullable();
+            $table->decimal('shipping_cost', 10, 0);
+            $table->decimal('total_amount', 10, 0);
+            $table->longText('note')->nullable();
             $table->date('order_date')->nullable();
             $table->date('shipped_date')->nullable();
             $table->date('required_date')->nullable();

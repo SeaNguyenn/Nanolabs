@@ -83,8 +83,9 @@ class ProductController extends Controller
                 'color' => $data['color'],
                 'material' => $data['material'],
                 'warranty' => $data['warranty'],
-                'created_at' => Carbon::now(),
+                'view_count' => $data['view_count'],
                 'state' => 1,
+                'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới sản phẩm thành công'], 200);
 

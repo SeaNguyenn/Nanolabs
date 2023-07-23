@@ -63,7 +63,6 @@ class ShipperController extends Controller
 
     public function createShipper(ShipperRequest $request)
     {
-
         $data = $request->validated();
         $image = $data['avatar'] ?? null;
 

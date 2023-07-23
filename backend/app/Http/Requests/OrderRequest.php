@@ -28,7 +28,7 @@ class OrderRequest extends FormRequest
             'order_status' => 'required|in:1,2,3,4,5,6,7',
             'shipping_cost' => 'required|numeric|min:0',
             'total_amount' => 'required|numeric|min:0',
-            'note' => 'nullable|string|max:255',
+            'note' => 'nullable|string',
             'order_date' => 'nullable|date',
             'shipped_date' => 'nullable|date',
             'required_date' => 'nullable|date',

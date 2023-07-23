@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('supplier_id')->constrained('suppliers','id');
             $table->string('name');
             $table->string('code');
-            $table->string('description')->nullable();
-            $table->decimal('price')->nullable();
-            $table->decimal('sale_price')->nullable();
+            $table->longText('description')->nullable();
+            $table->decimal('price', 10, 0)->nullable();
+            $table->decimal('sale_price', 10, 0)->nullable();
             $table->string('image')->nullable();
             $table->bigInteger('evaluate')->default(0)->nullable();
             $table->string('color')->nullable();

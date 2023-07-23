@@ -1,7 +1,7 @@
 <template>
-  <header class="main-header w-full z-[99] px-[20px] py-4 bg-black text-white shadow md:px-[40px]"
+  <header class="main-header w-full z-[99] px-[20px] py-4 bg-[#2196F3] text-white shadow md:px-[40px]"
     v-bind:class="onScroll ? 'sticky top-0 translate-y-[-80px] animate-sticky-header' : ''">
-    <HeaderComp @scrolled="scroll" :countCart="countCart" />
+    <HeaderComp @scrolled="scroll" :countCart="countCart" @inputSearch="handleInput"/>
   </header>
 
   <section>
@@ -29,6 +29,7 @@ import Category from '@/components/Home/Category/Category.vue';
 import { ref, defineComponent } from 'vue'
 import Wrapper from '@/components/Home/Wrapper/Wrapper.vue';
 import { useProductStore } from '@/stores/product.js';
+// import { useCartStore } from '@/stores/cart.js';
 
 const HeaderComp = defineComponent(Header)
 const BannerComp = defineComponent(Banner)
@@ -40,17 +41,48 @@ const WrapperComp = defineComponent(Wrapper)
 
 const productStore = useProductStore();
 const { products } = productStore;
-// productStore.fetchProducts({
-//   keyword: "a",
-// });
+
+// const cartStore = useCartStore();
+// const { carts } = cartStore;
+
+// onMounted( async () => {
+//   await  getDataCarts();
+//   await  getDataProducts();
+// })
+
+const perPage = ref(10);
+const search = ref('');
+const sortField = ref('updated_at');
+const sortDirection = ref('desc');
+
+// function getDataCarts() {
+//   cartStore.fetchCarts({
+//     search: search.value,
+//     per_page: perPage.value,
+//     sort_field: sortField.value,
+//     sort_direction: sortDirection.value,
+//   })
+// }
+
+// function getDataProducts() {
+//   productStore.fetchProducts({
+//     search: search.value,
+//     per_page: perPage.value,
+//     sort_field: sortField.value,
+//     sort_direction: sortDirection.value,
+//   })
+// }
 
 
-// console.log(products);
 const countCart = ref(1);
 const onScroll = ref(false);
 const scroll = (e) => {
   onScroll.value = e;
 }
+const handleInput = (e) => {
+  console.log(e);
+}
+
 const headingText = "Những sản phẩm đang bán chạy";
 
 
