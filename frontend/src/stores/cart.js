@@ -16,11 +16,14 @@ export const useCartStore = defineStore('cart', {
         this.error = null
         const response = await cartService.fetchCart(conditions)
         this.cart = response.data.data
+
+        return response
       } catch (error) {
         this.error = error.message
+        return error
+      } finally {
+        this.loading = false
       }
-
-      this.loading = false
     },
 
     async addCart(cart) {

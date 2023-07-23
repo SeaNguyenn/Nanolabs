@@ -12,18 +12,20 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Auth;
+
 class CartController extends Controller
 {
     public function index(Request $request)
     {
         $perPage = request('per_page', 10);
-        $sortField = request('sort_field', 'created_at');
         $sortDirection = request('sort_direction', 'desc');
 
         try {
             $result = DB::table('cart_items')
-            ->where('state','!=', 9)
-            ->orderBy($sortField, $sortDirection)
+            ->join('products', 'cart_items.product_id', '=', 'products.id')
+            ->where('cart_items.state','!=', 9)
+            ->orderBy('cart_items.id', $sortDirection)
             ->paginate($perPage);
 
             return response()->json([
