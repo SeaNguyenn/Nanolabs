@@ -9,7 +9,7 @@
     <div class="main-content max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
       <div class="layout">
         <CategoryComp />
-        <ProductsComp :headingText="headingText" />
+        <ProductsComp :headingText="headingText" :products="productList"/>
       </div>
     </div>
     <WrapperComp />
@@ -46,21 +46,26 @@ const sortDirection = ref('desc');
 const onScroll = ref(false);
 const headingText = "Những sản phẩm đang bán chạy";
 
-// function getData() {
-//   cartStore.fetchCart({
-//     search: search.value,
-//     per_page: perPage.value,
-//     sort_field: sortField.value,
-//     sort_direction: sortDirection.value,
-//   })
+productStore.fetchProducts({
+  search: search.value,
+  per_page: perPage.value,
+  sort_field: sortField.value,
+  sort_direction: sortDirection.value,
+})
 
-//   productStore.fetchProducts({
-//     search: search.value,
-//     per_page: perPage.value,
-//     sort_field: sortField.value,
-//     sort_direction: sortDirection.value,
-//   })
-// }
+const productList = computed(() => productStore.products);
+const getProduct = async () => {
+  await productStore.fetchProducts({
+    search: search.value,
+    per_page: perPage.value,
+    sort_field: sortField.value,
+    sort_direction: sortDirection.value,
+  })
+}
+
+onBeforeMount(async () => {
+  await getProduct()
+});
 
 const scroll = (e) => {
   onScroll.value = e;

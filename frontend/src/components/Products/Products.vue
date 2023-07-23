@@ -6,34 +6,26 @@
       >
       {{headingText}}</div>
     <div class="flex flex-wrap gap-2.5 md:gap-5">
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
+      <ProductTemp />
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import Product from '@/components/Products/Product/Product.vue';
-export default {
-  props:{
-    offHeading: Boolean,
-    headingText: String,
-  },
+import { defineComponent, defineProps } from 'vue'
 
-  components: {
-    Product,
-  },
+const props = defineProps({
+  offHeading: Boolean,
+  headingText: String,
+  products: Object,
+})
 
-  setup(props) {
+const ProductTemp = defineComponent(Product)
 
-  }
-}
+console.log(props.products.data);
+
+
 </script>
 
 <style scoped></style>

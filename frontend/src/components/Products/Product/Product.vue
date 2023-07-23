@@ -1,12 +1,12 @@
 <template>
-  <div class="w-[calc(50%-5px)] mb-5 md:w-[calc(25%-15px)] bg-white p-2 rounded-b-lg relative">
+  <div class="w-[calc(25%-5px)] mb-5 md:w-[calc(12%-15px)] bg-white p-2 rounded-b-lg relative">
     <div class="absolute top-0 left-0 z-[1]">
       <div class="bg-yellow-300 h-12 rounded-b-lg flex items-center justify-center flex-col p-2">
         <span class="text-red-500">50%</span>
         <span class="text-white">GIẢM</span>
       </div>
     </div>
-    <div class="w-full h-[180px] bg-white mb-2.5 p-6 flex items-center md:h-[350px]">
+    <div class="w-full h-[100px] bg-white mb-2.5 p-6 flex items-center md:h-[350px]">
       <img src="@/assets/images/earbuds-prod-1.webp" class="hover:scale-125" alt="">
     </div>
     <div class="prod-detail">
