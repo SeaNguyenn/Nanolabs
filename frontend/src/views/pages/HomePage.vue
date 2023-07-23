@@ -1,7 +1,7 @@
 <template>
-  <header class="main-header w-full z-[99] px-[20px] py-4 bg-black text-white shadow md:px-[40px]"
+  <header class="main-header w-full z-[99] px-[20px] py-4 bg-[#2196F3] text-white shadow md:px-[40px]"
     v-bind:class="onScroll ? 'sticky top-0 translate-y-[-80px] animate-sticky-header' : ''">
-    <HeaderComp @scrolled="scroll" :countCart="countCart" />
+    <HeaderComp @scrolled="scroll" @inputSearch="handleInput"/>
   </header>
 
   <section>
@@ -26,7 +26,7 @@ import Newsletter from '@/components/Footer/Newsletter/Newsletter.vue';
 import Footer from '@/components/Footer/Footer.vue';
 import Products from '@/components/Products/Products.vue';
 import Category from '@/components/Home/Category/Category.vue';
-import { ref, defineComponent } from 'vue'
+import { ref, defineComponent, computed, onBeforeMount } from 'vue'
 import Wrapper from '@/components/Home/Wrapper/Wrapper.vue';
 import { useProductStore } from '@/stores/product.js';
 
@@ -39,21 +39,33 @@ const ProductsComp = defineComponent(Products)
 const WrapperComp = defineComponent(Wrapper)
 
 const productStore = useProductStore();
-const { products } = productStore;
-// productStore.fetchProducts({
-//   keyword: "a",
-// });
-
-
-// console.log(products);
-const countCart = ref(1);
+const perPage = ref(10);
+const search = ref('');
+const sortField = ref('updated_at');
+const sortDirection = ref('desc');
 const onScroll = ref(false);
+const headingText = "Những sản phẩm đang bán chạy";
+
+// function getData() {
+//   cartStore.fetchCart({
+//     search: search.value,
+//     per_page: perPage.value,
+//     sort_field: sortField.value,
+//     sort_direction: sortDirection.value,
+//   })
+
+//   productStore.fetchProducts({
+//     search: search.value,
+//     per_page: perPage.value,
+//     sort_field: sortField.value,
+//     sort_direction: sortDirection.value,
+//   })
+// }
+
 const scroll = (e) => {
   onScroll.value = e;
 }
-const headingText = "Những sản phẩm đang bán chạy";
-
-
+const handleInput = (e) => {
+  console.log(e);
+}
 </script>
-
-<style scoped></style>

@@ -13,19 +13,10 @@ return new class extends Migration
     {
         Schema::create('order_detail', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('order_id')->unsigned();
-            $table->bigInteger('product_id')->unsigned();
-            $table->decimal('price',30,2)->nullable();
-            $table->decimal('promotion_price',30,2)->nullable();
-            $table->bigInteger('include_vat')->nullable();
+            $table->foreignId('order_id')->constrained('orders','id');
+            $table->foreignId('product_id')->constrained('products','id');
             $table->bigInteger('quantity')->nullable();
-            $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
-            $table->timestamps();
-        });
-
-        Schema::table('order_detail', function (Blueprint $table) {
-            $table->foreign('order_id')->references('id')->on('orders');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->bigInteger('state')->default(1)->nullable();
         });
     }
 

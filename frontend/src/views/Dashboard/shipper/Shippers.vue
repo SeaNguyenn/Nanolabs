@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 import { useShipperStore } from '@/stores/shipper.js';
 import ShipperTable from './ShipperTable.vue'
@@ -40,8 +40,6 @@ function onModalClose() {
 }
 
 const shipperStore = useShipperStore();
-const shippers = computed(()=> shipperStore.products.data)
-
 
 function editshipper(p) {
   shipperStore.showShipper(p.id).then(res => {
@@ -50,64 +48,5 @@ function editshipper(p) {
   });
 
 }
-
-// const form = reactive({
-//   name: '',
-//   email: '',
-//   phone: '',
-//   address: '',
-//   avatar: '',
-// })
-
-// const isOpen = ref(false)
-// const isOpenEdit = ref(false)
-
-// function closeModal() {
-//   isOpen.value = false
-// }
-// function openModal() {
-//   isOpen.value = true
-// }
-// function closeModalEdit() {
-//   isOpenEdit.value = false
-// }
-// function openModalEdit() {
-//   isOpenEdit.value = true
-// }
-
-// const avatar = ref();
-// const handleFileChange = (e) => {
-//   const file = e.target.files[0]
-//   if (file) {
-//     avatar.value = file;
-//     form.avatar = avatar.value;
-//   }
-// }
-
-// const onSubmit = async () => {
-//   try {
-//     await shipperStore.addShipper(form);
-//     window.location.reload();
-//     isOpen.value = false;
-//   } catch (e) {
-//     console.log(e);
-//     isOpen.value = true;
-//   }
-// }
-
-
-// const onSubmitEdit = async () => {
-//   try {
-//     await shipperStore.addShipper(form);
-//     window.location.reload();
-//     isOpen.value = false;
-//   } catch (e) {
-//     console.log(e);
-//     isOpen.value = true;
-//   }
-// }
-
-
-
 </script>
 

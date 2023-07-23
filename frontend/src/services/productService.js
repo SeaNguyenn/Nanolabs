@@ -12,7 +12,11 @@ export default {
   },
 
   async addProduct(product) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + '/product/create', product)
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/product/create', product, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   },
 
   async updateProduct(productId, product) {

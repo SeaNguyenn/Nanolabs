@@ -13,22 +13,20 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('supplier_id')->constrained('suppliers','id');
             $table->string('name');
             $table->string('code');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
+            $table->decimal('price', 10, 0)->nullable();
+            $table->decimal('sale_price', 10, 0)->nullable();
             $table->string('image')->nullable();
-            $table->bigInteger('evaluate')->default(0)->comment('1:relly bad 2:bad 3:normal 4:good 5:relly good');
+            $table->bigInteger('evaluate')->default(0)->nullable();
             $table->string('color')->nullable();
             $table->string('material')->nullable();
-            $table->bigInteger('supplier_id')->unsigned();
             $table->bigInteger('warranty')->nullable();
-            $table->bigInteger('state')->default(1)->comment('1:live 9:kill');
+            $table->bigInteger('state')->default(1)->nullable();
             $table->bigInteger('view_count')->nullable();
             $table->timestamps();
-        });
-
-        Schema::table('products', function (Blueprint $table) {
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
     }
 

@@ -12,11 +12,11 @@ export const useProductStore = defineStore('product', {
   },
   actions: {
     async fetchProducts(conditions) {
-      this.loading = true;
-      this.error = null;
       try {
+        this.loading = true;
+        this.error = null;
         const response = await productService.fetchProducts(conditions);
-        this.products = response.data
+        this.products = response.data.data
       } catch (error) {
         this.error = error.message;
       }
@@ -25,27 +25,36 @@ export const useProductStore = defineStore('product', {
     },
 
     async showProduct(productId) {
-      this.loading = true;
-      this.error = null;
       try {
+        this.loading = true;
+        this.error = null;
         const response = await productService.showProduct(productId);
-        this.product = response.data;
-      } catch (error) {
-        this.error = error.message;
+        this.product = response.data.data
+
+        return response;
+      }catch (error) {
+        this.error = error.message
+
+        return error;
+      }finally {
+        this.loading = false
       }
-      this.loading = false;
     },
 
     async addProduct(product) {
-      this.loading = true;
-      this.error = null;
       try {
+        this.loading = true;
+        this.error = null;
         const response = await productService.addProduct(product);
-        this.products.push(response.data);
+        this.products.push(response.data.data);
+        return response;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.message
+
+        return error;
+      }finally {
+        this.loading = false
       }
-      this.loading = false;
     },
 
     async updateProduct(productId, product) {
@@ -55,27 +64,35 @@ export const useProductStore = defineStore('product', {
         const response =  await productService.updateProduct(productId, product);
         const index = this.products.findIndex((p) => p.id === productId)
         if (index !== -1) { 
-          this.products.splice(index, 1, response.data)
+          this.products.splice(index, 1, response.data.data.data)
         }
+        return response;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.message
+        
+        return error
+      }finally {
+        this.loading = false
       }
-      this.loading = false;
     },
 
     async deleteProduct(productId) {
       try {
         this.loading = true;
         this.error = null;
-        await productService.deleteProduct(productId);
+        const result = await productService.deleteProduct(productId);
         const index = this.products.findIndex((p) => p.id === productId)
         if (index !== -1) { 
           this.products.splice(index, 1)
         }
+        return result;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.message
+
+        return error
+      }finally {
+        this.loading = false
       }
-      this.loading = false;
     },
   },
 
