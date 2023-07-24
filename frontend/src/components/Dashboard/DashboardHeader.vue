@@ -24,12 +24,8 @@
       </form>
     </div>
 
-
     <div class="flex justify-between items-center space-x-4 px-4">
       <a-popover placement="bottomRight" trigger="click" class="flex items-center mr-3">
-        <!-- <button class="inline-flex items-center justify-center text-2xl font-medium">
-          <Icon icon="lucide:bell" />
-        </button> -->
         <button class="inline-block relative text-2xl">
           <Icon icon="lucide:bell-ring" />
           <span
@@ -45,56 +41,54 @@
 
     <a-popover placement="bottomRight" trigger="click" class="flex items-center">
         <button class="inline-flex items-center justify-center">
-          <img class="h-9 w-9 rounded-full" src="" alt="" />
+          <img class="h-9 w-9 rounded-full" :src="user.avatar" alt="" />
         </button>
-        <template #content>
-          <a-button type="text" class="px-2 py-2 text-sm cursor-pointer logout-btn" @click="logout">
-            Logout
-          </a-button>
+        <template #content >
+          <div class="flex flex-col">
+            <router-link :to="{name: 'home'}">
+              <a-button type="text" class="px-2 py-2 text-sm cursor-pointer">
+                Quay lại trang chính
+              </a-button>
+            </router-link>
+            <a-button type="text" class="px-2 py-2 text-sm cursor-pointer logout-btn" @click="logout">
+              Logout
+            </a-button>
+          </div>
         </template>
       </a-popover>
     </div>
   </div>
 </template>
 
-<script>
-import { ref, reactive } from 'vue'
+<script setup>
+import { ref, reactive, defineProps } from 'vue'
 import { Icon } from '@iconify/vue';
 import { authStore } from '@/stores/auth.js';
 import { useRouter } from 'vue-router'
-export default {
-  components: {
-    Icon,
-  },
 
-  props: {
-    showSiderbar: { type: Boolean, default: true },
-  },
-  setup(props, { emit }) {
+const props = defineProps({
+  showSiderbar: Boolean,
+})
+const getUserData = localStorage.getItem('user')
+const userData = JSON.parse(getUserData);
+const user = userData.user
 
-    const auth = authStore();
-    const router = useRouter();
+const auth = authStore();
+const router = useRouter();
 
-    const search = reactive({
-      data: ''
-    })
+const search = reactive({
+  data: ''
+})
 
-    const inputSearch = async() => {
-      console.log(search.data);
-    }
-
-    const logout = async () => {
-      await auth.logout();
-      router.push({ name: 'login' })
-    };
-
-    return {
-      inputSearch,
-      search,
-      logout,
-    }
-  }
+const inputSearch = async() => {
+  console.log(search.data);
 }
+
+const logout = async () => {
+  await auth.logout();
+  router.push({ name: 'login' })
+};
+
 </script>
 
 <style scoped>.logout-btn:hover {

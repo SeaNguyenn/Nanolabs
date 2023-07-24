@@ -9,7 +9,8 @@
     <div class="main-content max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
       <div class="layout">
         <CategoryComp />
-        <ProductsComp :headingText="headingText" :products="productData" />
+        <ProductsComp :headingText="headingFeaturedProducts" :products="productData" />
+        <ProductsComp :headingText="headingProducts" :products="productData" />
       </div>
     </div>
     <WrapperComp />
@@ -44,7 +45,8 @@ const search = ref('');
 const sortField = ref('updated_at');
 const sortDirection = ref('desc');
 const onScroll = ref(false);
-const headingText = "Những sản phẩm đang bán chạy";
+const headingFeaturedProducts = "Những sản phẩm đang bán chạy";
+const headingProducts = "Những sản phẩm mới";
 
 const userDataId =localStorage.getItem('user')
 const userObject = JSON.parse(userDataId);
