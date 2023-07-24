@@ -1,6 +1,5 @@
 <template>
   <div>
-    â
   </div>
 </template>
 

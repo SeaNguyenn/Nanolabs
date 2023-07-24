@@ -48,8 +48,7 @@
               </div>
 
               <div class="flex gap-5 items-center justify-end mt-4">
-                <p class="hidden">a Thêm hàng vào giỏ</p>
-                <Button class="px-2 py-1 bg-red-600 text-white text-sm">Xem giỏ hàng</Button>
+                <router-link :to="{name: 'cart'}" class="px-2 py-1 bg-red-600 text-white text-sm">Xem giỏ hàng</router-link>
               </div>
             </div>
 

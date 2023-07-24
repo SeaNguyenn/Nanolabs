@@ -8,28 +8,11 @@
   <Footer />
 </template>
 
-<script>
+<script setup>
 import Footer from '@/components/Footer/Footer.vue';
 import CartSection from '../../components/Cart/CartSection.vue';
 import Headerv2 from '../../components/Header/Headerv2.vue';
 
-export default {
-  components: {
-    Footer,
-    CartSection,
-    Headerv2
-  },
-
-  setup(props) {
-    const headingLink = "cart";
-    const headingName = "Giỏ Hàng";
-
-    return {
-      headingLink,
-      headingName,
-    }
-  }
-}
+const headingLink = "home";
+const headingName = "Giỏ Hàng";
 </script>
-
-<style scoped></style>
