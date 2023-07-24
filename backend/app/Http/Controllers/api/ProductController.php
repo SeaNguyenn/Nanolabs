@@ -20,10 +20,13 @@ class ProductController extends Controller
         $search = request('search', '');
         $sortField = request('sort_field', 'created_at');
         $sortDirection = request('sort_direction', 'desc');
+        $price_from = request('price_from', 0);
+        $price_to = request('price_to', 100000000);
 
         try {
             $result = DB::table('products')->where('name', 'like', "%{$search}%")
             ->where('state','!=', 9)
+            ->whereBetween('price', [$price_from, $price_to])
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 

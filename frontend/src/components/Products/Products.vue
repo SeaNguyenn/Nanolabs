@@ -6,7 +6,7 @@
       {{ headingText }}</div>
     <div class="flex flex-wrap gap-1 md:gap-1">
       <div v-for="(product, index) in products" :key="index" >
-        <ProductTemp :product="product" :index="index" />
+        <ProductTemp :product="product" :index="index"/>
       </div>
     </div>
     

@@ -1,7 +1,7 @@
 <template>
   <header class="main-header w-full z-[99] px-[20px] py-4 bg-[#2196F3] text-white shadow md:px-[40px]"
     v-bind:class="onScroll ? 'sticky top-0 translate-y-[-80px] animate-sticky-header' : ''">
-    <HeaderComp @scrolled="scroll" @inputSearch="handleInput"/>
+    <HeaderComp @scrolled="scroll" @inputSearch="handleInput" />
   </header>
 
   <section>
@@ -9,7 +9,7 @@
     <div class="main-content max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
       <div class="layout">
         <CategoryComp />
-        <ProductsComp :headingText="headingText" :products="productData"/>
+        <ProductsComp :headingText="headingText" :products="productData" />
       </div>
     </div>
     <WrapperComp />
@@ -55,7 +55,7 @@ productStore.fetchProducts({
 
 const productList = computed(() => productStore.products);
 const productData = ref(null)
-const getProduct = async () => {
+const getProducts = async () => {
   await productStore.fetchProducts({
     search: search.value,
     per_page: perPage.value,
@@ -65,7 +65,7 @@ const getProduct = async () => {
 }
 
 onBeforeMount(async () => {
-  await getProduct()
+  await getProducts()
   productData.value = productList.value.data
 });
 
@@ -73,6 +73,11 @@ const scroll = (e) => {
   onScroll.value = e;
 }
 const handleInput = (e) => {
-  console.log(e);
+  productStore.fetchProducts({
+    search: e,
+    per_page: perPage.value,
+    sort_field: sortField.value,
+    sort_direction: sortDirection.value,
+  })
 }
 </script>
