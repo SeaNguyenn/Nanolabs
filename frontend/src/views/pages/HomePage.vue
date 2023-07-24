@@ -9,7 +9,7 @@
     <div class="main-content max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
       <div class="layout">
         <CategoryComp />
-        <ProductsComp :headingText="headingText" :products="productList"/>
+        <ProductsComp :headingText="headingText" :products="productData"/>
       </div>
     </div>
     <WrapperComp />
@@ -39,7 +39,7 @@ const ProductsComp = defineComponent(Products)
 const WrapperComp = defineComponent(Wrapper)
 
 const productStore = useProductStore();
-const perPage = ref(10);
+const perPage = ref(5);
 const search = ref('');
 const sortField = ref('updated_at');
 const sortDirection = ref('desc');
@@ -54,6 +54,7 @@ productStore.fetchProducts({
 })
 
 const productList = computed(() => productStore.products);
+const productData = ref(null)
 const getProduct = async () => {
   await productStore.fetchProducts({
     search: search.value,
@@ -65,6 +66,7 @@ const getProduct = async () => {
 
 onBeforeMount(async () => {
   await getProduct()
+  productData.value = productList.value.data
 });
 
 const scroll = (e) => {

@@ -68,18 +68,8 @@ const router = createRouter({
           component: () => import('@/views/pages/ProductPage.vue'),
         },
         {
-          path: '/product/:productId/edit',
-          name: 'productEdit',
-          component: () => import('@/views/pages/ProductPage.vue'),
-        },
-        {
           path: '/payments',
           name: 'payments',
-          component: () => import('@/views/pages/CheckoutPage.vue'),
-        },
-        {
-          path: '/payments/:paymentId/edit',
-          name: 'paymentsEdit',
           component: () => import('@/views/pages/CheckoutPage.vue'),
         },
         {

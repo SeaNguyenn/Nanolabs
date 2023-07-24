@@ -2,9 +2,7 @@ import http from '@/httpCommon.js'
 
 export default {
   async fetchProducts(conditions) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + '/products', {
-      params: conditions,
-    })
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/products', conditions)
   },
 
   async showProduct(productId) {

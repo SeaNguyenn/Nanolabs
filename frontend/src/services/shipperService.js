@@ -2,9 +2,7 @@ import http from '@/httpCommon.js'
 
 export default {
   async fetchShippers(conditions) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + '/shippers', {
-      params: conditions
-    })
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/shippers', conditions)
   },
 
   async showShipper(shipperId) {
