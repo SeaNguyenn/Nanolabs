@@ -1,7 +1,7 @@
 <template>
   <header class="main-header w-full z-[99] px-[20px] py-4 bg-[#2196F3] text-white shadow md:px-[40px]"
     v-bind:class="onScroll ? 'sticky top-0 translate-y-[-80px] animate-sticky-header' : ''">
-    <HeaderComp @scrolled="scroll" @inputSearch="handleInput" />
+    <HeaderComp @scrolled="scroll" @inputSearch="handleInput" :roleId="roleId"/>
   </header>
 
   <section>
@@ -45,6 +45,10 @@ const sortField = ref('updated_at');
 const sortDirection = ref('desc');
 const onScroll = ref(false);
 const headingText = "Những sản phẩm đang bán chạy";
+
+const userDataId =localStorage.getItem('user')
+const userObject = JSON.parse(userDataId);
+const roleId = userObject.user.role_id;
 
 productStore.fetchProducts({
   search: search.value,

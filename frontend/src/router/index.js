@@ -122,13 +122,12 @@ router.beforeEach((to,from,next) => {
       break;
     }
   }
-
   if (auth.isAuthenticated || cookieFlg) {
     if (to.matched.some((record) => record.meta.admin)) {
-      if (auth.$state.user?.role_id?.name === 'admin' || auth.$state.user?.role_id?.name === "sup_admin") {
+      if (auth.$state.user?.role_id === 'Admin' || auth.$state.user?.role_id === 'Boss') {
         next();
       } else {
-        next({ path: '/login' });
+        next({ path: '/home' });
       }
     } else if (
       to.matched.some((record) => record.meta.user)

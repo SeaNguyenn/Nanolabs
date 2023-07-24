@@ -19,8 +19,10 @@
 
     <div class="flex items-center justify-between p-2">
       <div class="flex items-center justify-between gap-3">
-
-        <a-popover placement="bottom" class="flex relative items-center cursor-pointer" trigger="click">
+        <router-link  v-if="roleId == 'Admin' || roleId == 'Boss'" :to="{name: 'dashboard'}">
+          <Button color="light" gradient="purple-pink" class="uppercase text-sm">Quản lý</Button>
+        </router-link>
+        <a-popover v-if="roleId != 'Admin' && roleId != 'Boss'" placement="bottom" class="flex relative items-center cursor-pointer">
           <Icon icon="mi:shopping-cart" class="text-[29px]" />
           <span
             class="text-xs min-w-[15px] min-h-[15px] bg-white text-black text-center absolute top-[-5px] right-[-5px] p-[2.5px] rounded-lg"
@@ -114,13 +116,17 @@
 <script setup>
 import { Icon } from '@iconify/vue'
 import { Input, Button, Avatar } from 'flowbite-vue'
-import { computed, watchEffect, onMounted, ref, onBeforeMount } from 'vue'
+import { computed, watchEffect, onMounted, ref, onBeforeMount, defineProps } from 'vue'
 import { authStore } from '@/stores/auth.js';
 import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cart.js';
 
 const scrolled = ref(false);
 const search = ref('');
+
+const props = defineProps({
+  roleId: String,
+})
 
 const emit = defineEmits(['scrolled', 'inputSearch'])
 

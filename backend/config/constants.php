@@ -35,7 +35,7 @@ return [
 
     'role_id' => [
         1 => 'Boss',
-        2 => 'Amin',
+        2 => 'Admin',
         3 => 'User',
     ],
 
