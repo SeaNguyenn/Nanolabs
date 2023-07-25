@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-between mb-3">
     <h1 class="text-3xl font-semibold">Shippers</h1>
-    <button type="button" @click="openModal"
+    <button type="button" @click="showAddNewModal"
       class="rounded-md bg-green-400 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
       Tạo mới
     </button>
@@ -12,7 +12,6 @@
 
 <script setup>
 import { ref } from 'vue'
-
 import { useShipperStore } from '@/stores/shipper.js';
 import ShipperTable from './ShipperTable.vue'
 import ShipperModal from './ShipperModal.vue'
@@ -46,7 +45,6 @@ function editshipper(p) {
     shipperModel.value = res.data.data;
     showAddNewModal();
   });
-
 }
 </script>
 

@@ -20,13 +20,10 @@ class ProductController extends Controller
         $search = request('search', '');
         $sortField = request('sort_field', 'created_at');
         $sortDirection = request('sort_direction', 'desc');
-        $price_from = request('price_from', 0);
-        $price_to = request('price_to', 100000000);
 
         try {
             $result = DB::table('products')->where('name', 'like', "%{$search}%")
             ->where('state','!=', 9)
-            ->whereBetween('price', [$price_from, $price_to])
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -86,7 +83,7 @@ class ProductController extends Controller
                 'color' => $data['color'],
                 'material' => $data['material'],
                 'warranty' => $data['warranty'],
-                'view_count' => $data['view_count'],
+                'view_count' => 0,
                 'state' => 1,
                 'created_at' => Carbon::now(),
             ]);
@@ -101,6 +98,13 @@ class ProductController extends Controller
     public function updateProduct(ProductRequest $request,$id)
     {
         $data = $request->validated();
+
+        $image = $data['image'] ?? null;
+
+        if ($image) {
+            $relativePath = $this->saveImage($image);
+            $data['image'] = URL::to(Storage::url($relativePath));
+        }
 
         try {
             $product = DB::table('products')->where('id', $id)->first();

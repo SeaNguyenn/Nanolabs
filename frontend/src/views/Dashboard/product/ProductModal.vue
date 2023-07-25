@@ -13,10 +13,11 @@
             leave-to="opacity-0 scale-95">
             <DialogPanel
               class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-              <spinner v-if="loading" class="absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center"/>
+              <spinner v-if="loading"
+                class="absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center" />
               <header class="py-3 px-4 flex justify-between items-center">
                 <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
-                  {{ shipper.id ? `Cập nhật:` : 'Thêm mới' }}
+                  {{ product.id ? `Cập nhật:` : 'Thêm mới' }}
                 </DialogTitle>
                 <button @click="closeModal()"
                   class="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-[rgba(0,0,0,0.2)]">
@@ -26,19 +27,28 @@
                   </svg>
                 </button>
               </header>
-              <a-form @submit="onSubmit">
+              <a-form enctype="multipart/form-data" @submit="onSubmit">
                 <div class="flex flex-wrap gap-4 bg-white px-4 pt-5 pb-4">
-                  <Input v-model="shipper.name" size="sm" placeholder="" type="text" required label="Tên" class="w-40" />
-                  <Input v-model="shipper.email" size="sm" placeholder="" type="email" required label="Email" class="w-40" />
-                  <Input v-model="shipper.phone" size="sm" placeholder="" type="number" required label="Số đt"
+                  <Input v-model="product.name" size="sm" placeholder="" type="text" required label="Tên sản phẩm" class="w-40" />
+                  <Input v-model="product.supplier_id" size="sm" placeholder="" type="text" required label="Nhà cung cấp"
                     class="w-40" />
-                  <Input v-model="shipper.address" size="sm" placeholder="" type="text" required label="Địa chỉ"
+                  <Input v-model="product.price" size="sm" placeholder="" type="number" required label="Giá"
                     class="w-40" />
-                  <div class="flex flex-col">
-                    <label for="file_input">Ảnh</label>
-                    <input type="file" name="avatar" @change="handleFileChange" id="file_input"
+                  <Input v-model="product.sale_price" size="sm" placeholder="" type="text" required label="Giá giảm"
+                    class="w-40" />
+                    <div class="flex flex-col">
+                      <label for="file_input">Ảnh</label>
+                      <input type="file" name="image" @change="handleFileChange" id="file_input"
                       class="border rounded-lg cursor-pointer" />
-                  </div>
+                    </div>
+                  <Input v-model="product.color" size="sm" placeholder="" type="text" required label="Màu sắc"
+                    class="w-40" />
+                  <Input v-model="product.material" size="sm" placeholder="" type="text" required label="Chất liệu"
+                    class="w-40" />
+                  <Input v-model="product.warranty" size="sm" placeholder="" type="number" required label="Ngày bảo hành"
+                    class="w-40" />
+                  <Input v-model="product.description" size="sm" placeholder="" type="textarea" required label="Thông tin"
+                    class="w-40" />
                 </div>
 
                 <div class="px-4 py-3 flex justify-between items-center">
@@ -68,23 +78,30 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/vue'
-import { useShipperStore } from '@/stores/shipper.js';
+import { useProductStore } from '@/stores/product.js';
 import { Input } from 'flowbite-vue'
 import { ref, computed, onUpdated } from 'vue'
 import { Spinner } from 'flowbite-vue'
 
-const shipper = ref({
-  id: props.shipper.id,
-  name: props.shipper.name,
-  email: props.shipper.email,
-  phone: props.shipper.phone,
-  address: props.shipper.address,
-  avatar: props.shipper.avatar
+const product = ref({
+  id: props.product.id,
+  supplier_id: props.product.supplier_id,
+  name: props.product.name,
+  code: props.product.code,
+  description: props.product.description,
+  price: props.product.price,
+  sale_price: props.product.sale_price,
+  image: props.product.image,
+  evaluate: props.product.evaluate,
+  color: props.product.color,
+  material: props.product.material,
+  warranty: props.product.warranty,
+  material: props.product.material,
 })
 
 const props = defineProps({
   modelValue: Boolean,
-  shipper: {
+  product: {
     required: true,
     type: Object,
   }
@@ -92,23 +109,29 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'close'])
 
-const shipperStore = useShipperStore()
-const loading = computed(() => shipperStore.loading)
+const productStore = useProductStore()
+const loading = computed(() => productStore.loading)
 
 const show = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
 })
-const avatar = ref();
 
 onUpdated(() => {
-  shipper.value = {
-    id: props.shipper.id,
-    name: props.shipper.name,
-    email: props.shipper.email,
-    phone: props.shipper.phone,
-    address: props.shipper.address,
-    avatar: props.shipper.avatar
+  product.value = {
+    id: props.product.id,
+    supplier_id: props.product.supplier_id,
+    name: props.product.name,
+    code: props.product.code,
+    description: props.product.description,
+    price: props.product.price,
+    sale_price: props.product.sale_price,
+    image: props.product.image,
+    evaluate: props.product.evaluate,
+    color: props.product.color,
+    material: props.product.material,
+    warranty: props.product.warranty,
+    material: props.product.material,
   }
 })
 
@@ -120,30 +143,29 @@ function closeModal() {
 const handleFileChange = (e) => {
   const file = e.target.files[0]
   if (file) {
-    avatar.value = file;
-    shipper.value.avatar = avatar.value;
+    product.value.image = file;
   }
 }
 
 const onSubmit = async () => {
   loading.value = true
-  if (shipper.value.id) {
+  if (product.value.id) {
     try {
-      await shipperStore.updateShipper(shipper.value.id, shipper.value).then(res => {
+      await productStore.updateProduct(product.value.id, product.value).then(res => {
         closeModal()
         loading.value = false
-        shipperStore.fetchShippers()
+        productStore.fetchProducts()
       });
-      
+
     } catch (e) {
       console.log(e);
     }
-  }else{
+  } else {
     try {
-      await shipperStore.addShipper(shipper.value).then(res => {
+      await productStore.addProduct(product.value).then(res => {
         closeModal()
         loading.value = false
-        shipperStore.fetchShippers()
+        productStore.fetchProducts()
       });
     } catch (e) {
       console.log(e);
@@ -151,5 +173,5 @@ const onSubmit = async () => {
   }
 }
 </script>
-
+  
 <style lang="scss" scoped></style>

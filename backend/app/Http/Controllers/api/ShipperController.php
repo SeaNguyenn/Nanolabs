@@ -64,6 +64,7 @@ class ShipperController extends Controller
     public function createShipper(ShipperRequest $request)
     {
         $data = $request->validated();
+
         $image = $data['avatar'] ?? null;
 
         if ($image) {
@@ -91,7 +92,14 @@ class ShipperController extends Controller
 
     public function updateShipper(ShipperRequest $request,$id)
     {
-        $request->validated();
+        $data = $request->validated();
+
+        log::debug($data);
+        $image = $data['avatar'] ?? null;
+        if ($image) {
+            $relativePath = $this->saveImage($image);
+            $data['avatar'] = URL::to(Storage::url($relativePath));
+        }
 
         try {
             $shipper = DB::table('shippers')->where('id', $id)->first();
@@ -103,7 +111,7 @@ class ShipperController extends Controller
                     'phone' => $data['phone'],
                     'avatar' => $data['avatar'],
                     'address' => $data['address'],
-                    'updated_ad' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Cập nhật nhân viên shipper thành công'], 200);
             } else {

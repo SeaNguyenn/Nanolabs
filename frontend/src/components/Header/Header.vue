@@ -1,7 +1,7 @@
 <template>
   <div class="header-content flex items-center justify-between h-12 max-w-7xl my-0 mx-auto md:h-[60px]">
 
-    <router-link :to="{ name: 'home' }" class="logo flex items-center gap-2 hover:text-white">
+    <router-link :to="{ name: 'homepage' }" class="logo flex items-center gap-2 hover:text-white">
       <Icon icon="cryptocurrency:nano" class="text-3xl" />
       <h2 class="w-[118px] h-[36px] font-bold text-3xl text-white cursor-pointer">Nanolabs</h2>
     </router-link>
@@ -19,10 +19,10 @@
 
     <div class="flex items-center justify-between p-2">
       <div class="flex items-center justify-between gap-3">
-        <router-link  v-if="roleId == 'Admin' || roleId == 'Boss'" :to="{name: 'dashboard'}">
+        <router-link  v-if="userId == 'Admin' || userId == 'Boss'" :to="{name: 'dashboard'}">
           <Button color="light" gradient="purple-pink" class="uppercase text-sm">Quản lý</Button>
         </router-link>
-        <a-popover v-if="roleId != 'Admin' && roleId != 'Boss'" placement="bottom" class="flex relative items-center cursor-pointer">
+        <a-popover v-if="userId != 'Admin' && userId != 'Boss'" placement="bottom" class="flex relative items-center cursor-pointer">
           <Icon icon="mi:shopping-cart" class="text-[29px]" />
           <span
             class="text-xs min-w-[15px] min-h-[15px] bg-white text-black text-center absolute top-[-5px] right-[-5px] p-[2.5px] rounded-lg"
@@ -97,7 +97,7 @@
         <a-dropdown :trigger="['click']">
           <div class="text-lg font-bold flex gap-1 items-center ant-dropdown-link cursor-pointer" @click.prevent>
             <Avatar status="online" size="xs" rounded
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" />
+              :img="avatar" />
             {{ userName }}
           </div>
           <template #overlay>
@@ -116,17 +116,14 @@
 <script setup>
 import { Icon } from '@iconify/vue'
 import { Input, Button, Avatar } from 'flowbite-vue'
-import { computed, watchEffect, onMounted, ref, onBeforeMount, defineProps } from 'vue'
+import { computed, watchEffect, onMounted, ref, onBeforeMount } from 'vue'
 import { authStore } from '@/stores/auth.js';
 import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cart.js';
 
+const userId = ref()
 const scrolled = ref(false);
 const search = ref('');
-
-const props = defineProps({
-  roleId: String,
-})
 
 const emit = defineEmits(['scrolled', 'inputSearch'])
 
@@ -167,6 +164,7 @@ onMounted(() => {
   if (auth.authUser != null) {
     userName.value = auth.authUser.name;
     avatar.value = auth.authUser.avatar;
+    userId.value = auth.authUser.role_id;
   }
 })
 

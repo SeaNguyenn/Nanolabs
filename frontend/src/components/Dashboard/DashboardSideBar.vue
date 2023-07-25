@@ -56,8 +56,8 @@ export default {
         icon: 'emojione-monotone:motor-scooter',
       },
       {
-        name: 'Thanh toán',
-        href: 'adminPayments',
+        name: 'Categories',
+        href: 'adminCategories',
         icon: 'ion:wallet-outline',
       },
       {

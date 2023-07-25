@@ -11,12 +11,12 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
-import { defineProps, toRefs } from 'vue'
+import { defineProps } from 'vue'
 const props = defineProps({
   item: Object,
 })
 
-const { icon, title, wrapper } = toRefs(props.item);
+const { icon, title, wrapper } = props.item;
 </script>
 
 <style scoped></style>
