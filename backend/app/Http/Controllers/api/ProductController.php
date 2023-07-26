@@ -99,18 +99,17 @@ class ProductController extends Controller
     {
         $data = $request->validated();
         $product = DB::table('products')->where('id', $id)->first();
-        $product->image;
 
         $image = $data['image'] ?? null;
 
         if ($image) {
+            if ($product->image) {
+                Storage::deleteDirectory('/public' . dirname($product->image));
+                dd('/public/' . dirname($product->image));
+            }
             $relativePath = $this->saveImage($image);
             $data['image'] = URL::to(Storage::url($relativePath));
 
-            if ($product->image) {
-                Storage::deleteDirectory('/public/' . dirname($product->image));
-            }
-            dd();
         }
 
         try {
@@ -147,7 +146,7 @@ class ProductController extends Controller
     public function deleteProduct($id)
     {
         try {
-            $product = DB::table('products')->where('id', $id)->first();
+            $product = DB::table('products')->where('id', $id);
 
             if (isset($product)) {
                 $product = $product->update([
