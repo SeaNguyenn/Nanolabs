@@ -29,7 +29,7 @@
               </header>
               <a-form enctype="multipart/form-data" @submit="onSubmit">
                 <div class="flex flex-wrap gap-4 bg-white px-4 pt-5 pb-4">
-                  <Input v-model="product.name" size="sm" placeholder="" type="text" required label="Tên sản phẩm" class="w-40" />
+                  <!-- <Input v-model="product.name" size="sm" placeholder="" type="text" required label="Tên sản phẩm" class="w-40" />
                   <Input v-model="product.supplier_id" size="sm" placeholder="" type="text" required label="Nhà cung cấp"
                     class="w-40" />
                   <Input v-model="product.price" size="sm" placeholder="" type="number" required label="Giá"
@@ -48,7 +48,11 @@
                   <Input v-model="product.warranty" size="sm" placeholder="" type="number" required label="Ngày bảo hành"
                     class="w-40" />
                   <Input v-model="product.description" size="sm" placeholder="" type="textarea" required label="Thông tin"
-                    class="w-40" />
+                    class="w-40" /> -->
+                    <CustomInput class="mb-2" v-model="product.name" label="Tên sản phẩm"/>
+                    <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => product.image = file"/>
+                    <CustomInput class="mb-2" v-model="product.supplier_id" label="Nhà cung cấp"/>
+                    <CustomInput class="mb-2" type="number" v-model="product.price" label="Giá"/>
                 </div>
 
                 <div class="px-4 py-3 flex justify-between items-center">
@@ -79,7 +83,8 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 import { useProductStore } from '@/stores/product.js';
-import { Input } from 'flowbite-vue'
+// import { Input } from 'flowbite-vue'
+import  CustomInput  from '@/components/CustomInput.vue'
 import { ref, computed, onUpdated } from 'vue'
 import { Spinner } from 'flowbite-vue'
 
