@@ -71,7 +71,6 @@ class CartController extends Controller
 
             if (isset($cart)) {
                 DB::table('cart_items')->where('id', $id)->update([
-                    'product_id' => $data['product_id'],
                     'quantity' => $data['quantity'],
                 ]);
                 return response()->json(['message' => 'Cập nhật giỏ hàng thành công'], 200);
@@ -90,7 +89,7 @@ class CartController extends Controller
     public function deleteCart($id)
     {
         try {
-            $cart = DB::table('cart_items')->where('id', $id)->first();
+            $cart = DB::table('cart_items')->where('id', $id);
 
             if (isset($cart)) {
                 $cart = $cart->update([

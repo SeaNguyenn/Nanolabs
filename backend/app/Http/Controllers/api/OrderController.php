@@ -56,10 +56,11 @@ class OrderController extends Controller
         }
     }
 
-    public function createOrder(OrderRequest $request)
+    public function createOrder(Request $request)
     {
         $data = $request->validated();
         $user_id = Auth::user()->id;
+        $cartItems = DB::table('cart_items')->where('user_id', $user_id)->get();
 
         try {
             DB::table('orders')->insert([
@@ -85,11 +86,11 @@ class OrderController extends Controller
     public function canceledOrder($id)
     {
         try {
-            $order = DB::table('orders')->where('id', $id)->first();
+            $order = DB::table('orders')->where('id', $id);
 
             if (isset($order)) {
                 $order = $order->update([
-                    'state' => 9,
+                    'order_status' => 5,
                 ]);
                 return response()->json(['message' => 'Xoá hoá đơn thành công'], 200);
             } else {
