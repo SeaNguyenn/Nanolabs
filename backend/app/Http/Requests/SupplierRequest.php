@@ -11,7 +11,7 @@ class SupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,10 +23,10 @@ class SupplierRequest extends FormRequest
     {
         return [
             'brand_name' => 'required|string|unique:suppliers,brand_name',
-            'avatar' => 'nullable|url',
+            'avatar' => 'nullable',
             'email' => 'required|email|unique:suppliers,email',
             'evaluate' => 'nullable|integer|between:0,5',
-            'phone' => 'nullable|digits:11',
+            'phone' => 'nullable',
             'address' => 'nullable|string',
             'state' => 'nullable|in:1,2'
         ];

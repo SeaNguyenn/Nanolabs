@@ -3,17 +3,13 @@
     <div class="max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
       <div class="flex flex-col md:flex-row">
         <div class="w-full bg-[#0000000d] flex-shrink-0 md:w-[600px] md:h-[600px]">
-          <img src="@/assets/images/earbuds-prod-1.webp" alt="" class="w-full block">
+          <img :src="productData.image" alt="" class="w-full block">
         </div>
         <div class="flex flex-col pt-5 md:px-[35px]">
-          <span class="text-xl mb-5 md:text-2xl">product name</span>
+          <span class="text-xl mb-5 md:text-2xl">{{productData.name}}</span>
 
           <div class="star-rating flex gap-1 mb-5">
-            <Icon icon="tabler:star-filled" class="text-yellow-300" />
-            <Icon icon="tabler:star-filled" class="text-yellow-300"/>
-            <Icon icon="tabler:star-filled" class="text-yellow-300"/>
-            <Icon icon="tabler:star-filled" class="text-yellow-300"/>
-            <Icon icon="tabler:star-filled" />
+            <Rating :rating="star" />
           </div>
 
           <span class="text-3xl mb-5"><sup class="mr-1">₫</sup>9000000 </span>
@@ -52,45 +48,37 @@
   </div>
 </template>
 
-<script>
-import 'vue3-carousel/dist/carousel.css'
-import { Carousel, Slide } from 'vue3-carousel'
+<script setup>
 import Button from '@/components/Button.vue'
 import RelatedProducts from '@/components/SingleProduct/RelatedProducts/RelatedProducts.vue'
-import { ref } from 'vue'
-import { Icon } from '@iconify/vue';
+import { ref,defineProps ,watch} from 'vue'
 import ProductDetail from './ProductDetail/ProductDetail.vue'
-export default {
-  components: {
-    Carousel,
-    Slide,
-    Navigation,
-    Button,
-    RelatedProducts,
-    Icon,
-    ProductDetail
-},
+import { Rating } from 'flowbite-vue'
+import { Icon } from '@iconify/vue';
 
-  setup(props) {
+const props = defineProps({
+  product: Object,
+})
 
-    let quantityNum = ref(1);
+const productData = ref([])
+const star = ref()
 
-    const minusQuantity = () => {
-      if (quantityNum.value === 0) return
-      quantityNum.value -= 1
-    }
+watch(() => props.product, (value) => {
+  productData.value = value
+  console.log();
+  star.value = Number(productData.value.evaluate)
+})
+let quantityNum = ref(1);
 
-    const plusQuantity = () => {
-      quantityNum.value += 1;
-    }
-
-    return {
-      quantityNum,
-      minusQuantity,
-      plusQuantity,
-    }
-  }
+const minusQuantity = () => {
+  if (quantityNum.value === 0) return
+  quantityNum.value -= 1
 }
+
+const plusQuantity = () => {
+  quantityNum.value += 1;
+}
+
 </script>
 
 <style scoped></style>

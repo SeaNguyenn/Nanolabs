@@ -2,7 +2,7 @@
   <div class="max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
     <div class="flex items-center gap-4 py-5">
       <div class="flex items-center gap-2.5">
-        <router-link :to="{ name:'home'}" class="hover:text-black text-base">Dạo</router-link>
+        <router-link :to="{ name:'homepage'}" class="hover:text-black text-base">Dạo</router-link>
         <p class="text-base"><Icon icon="octicon:chevron-right-24" /></p>
       </div> 
       <div>

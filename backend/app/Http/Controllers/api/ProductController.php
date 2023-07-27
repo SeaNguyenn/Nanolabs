@@ -83,7 +83,7 @@ class ProductController extends Controller
                 'color' => $data['color'],
                 'material' => $data['material'],
                 'warranty' => $data['warranty'],
-                'view_count' => $data['view_count'],
+                'view_count' => 0,
                 'state' => 1,
                 'created_at' => Carbon::now(),
             ]);
@@ -98,6 +98,17 @@ class ProductController extends Controller
     public function updateProduct(ProductRequest $request,$id)
     {
         $data = $request->validated();
+        $product = DB::table('products')->where('id', $id)->first();
+
+        $image = $data['image'] ?? null;
+
+        if ($image) {
+            if ($product->image) {
+                Storage::deleteDirectory('/public' . dirname($product->image));
+            }
+            $relativePath = $this->saveImage($image);
+            $data['image'] = URL::to(Storage::url($relativePath));
+        }
 
         try {
             $product = DB::table('products')->where('id', $id)->first();
@@ -133,7 +144,7 @@ class ProductController extends Controller
     public function deleteProduct($id)
     {
         try {
-            $product = DB::table('products')->where('id', $id)->first();
+            $product = DB::table('products')->where('id', $id);
 
             if (isset($product)) {
                 $product = $product->update([

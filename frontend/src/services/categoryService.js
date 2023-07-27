@@ -2,9 +2,7 @@ import http from '@/httpCommon.js'
 
 export default {
   async fetchCategories(conditions) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + '/categories', {
-      params: conditions
-    })
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/categories', conditions)
   },
 
   async showCategory(categoryId) {

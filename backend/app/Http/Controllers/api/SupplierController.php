@@ -90,9 +90,19 @@ class SupplierController extends Controller
         }
     }
 
-    public function updateSupplier(SupplierRequest $request,$id)
+    public function updateSupplier(Request $request,$id)
     {
-        $request->validated();
+        $data = $request->all();
+        $supplier = DB::table('suppliers')->where('id', $id)->first();
+        $image = $data['avatar'] ?? null;
+
+        if ($image) {
+            if ($supplier->avatar) {
+                Storage::deleteDirectory('/public' . dirname($supplier->avatar));
+            }
+            $relativePath = $this->saveImage($image);
+            $data['avatar'] = URL::to(Storage::url($relativePath));
+        }
 
         try {
             $supplier =DB::table('suppliers')->where('id', $id)->first();
@@ -108,7 +118,7 @@ class SupplierController extends Controller
                     'state' => 1,
                     'updated_at' => Carbon::now(),
                 ]);
-                return response()->json(['message' => 'Tồn tại nhà cung cấp thành công'], 200);
+                return response()->json(['message' => 'Cập nhật nhà cung cấp thành công'], 200);
             } else {
                 return response()->json([
                     'message' => 'Không tìm thấy nhà cung cấp'

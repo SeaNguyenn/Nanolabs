@@ -18,7 +18,7 @@
                   class="absolute left-0 top-0 bg-white right-0 bottom-0 flex items-center justify-center" />
                 <header class="py-3 px-4 flex justify-between items-center">
                   <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
-                    {{ shipper.id ? `Cập nhật:` : 'Thêm mới' }}
+                    {{ supplier.id ? `Cập nhật:` : 'Thêm mới' }}
                   </DialogTitle>
                   <button @click="closeModal()"
                     class="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-[rgba(0,0,0,0.2)]">
@@ -28,15 +28,15 @@
                     </svg>
                   </button>
                 </header>
-                <a-form @submit="onSubmit">
+                <a-form enctype="multipart/form-data" @submit="onSubmit">
                   <div class="flex flex-wrap gap-4 bg-white px-4 pt-5 pb-4">
-                    <CustomInput class="mb-2" v-model="shipper.name" label="Tên nhân viên" />
-                    <CustomInput class="mb-2" type="email" v-model="shipper.email" label="Email" />
-                    <CustomInput class="mb-2" type="number" v-model="shipper.phone" label="Số điện thoại" />
-                    <CustomInput class="mb-2" v-model="shipper.address" label="Địa chỉ" />
-                    <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => product.avatar = file" />
+                    <CustomInput class="mb-2" v-model="supplier.brand_name" label="Tên nhà cung cấp" />
+                    <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => supplier.avatar = file" />
+                    <CustomInput class="mb-2" type="email" v-model="supplier.email" label="Email" />
+                    <CustomInput class="mb-2" type="number" v-model="supplier.evaluate" label="Đánh giá" />
+                    <CustomInput class="mb-2" type="number" v-model="supplier.phone" label="Số điện thoại" />
+                    <CustomInput class="mb-2" v-model="supplier.address" label="Địa chỉ" />
                   </div>
-
                   <div class="px-4 py-3 flex justify-between items-center">
                     <button type="button"
                       class="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-white hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -65,23 +65,24 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/vue'
-import { useShipperStore } from '@/stores/shipper.js';
+import { useSupplierStore } from '@/stores/supplier.js';
 import CustomInput from '@/components/CustomInput.vue'
 import { ref, computed, onUpdated } from 'vue'
 import { Spinner } from 'flowbite-vue'
 
-const shipper = ref({
-  id: props.shipper.id,
-  name: props.shipper.name,
-  email: props.shipper.email,
-  phone: props.shipper.phone,
-  address: props.shipper.address,
-  avatar: props.shipper.avatar
+const supplier = ref({
+  id: props.supplier.id,
+  brand_name: props.supplier.brand_name,
+  avatar: props.supplier.avatar,
+  email: props.supplier.email,
+  evaluate: props.supplier.evaluate,
+  phone: props.supplier.phone,
+  address: props.supplier.address,
 })
 
 const props = defineProps({
   modelValue: Boolean,
-  shipper: {
+  supplier: {
     required: true,
     type: Object,
   }
@@ -89,8 +90,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'close'])
 
-const shipperStore = useShipperStore()
-const loading = computed(() => shipperStore.loading)
+const supplierStore = useSupplierStore()
+const loading = computed(() => supplierStore.loading)
 
 const show = computed({
   get: () => props.modelValue,
@@ -98,13 +99,14 @@ const show = computed({
 })
 
 onUpdated(() => {
-  shipper.value = {
-    id: props.shipper.id,
-    name: props.shipper.name,
-    email: props.shipper.email,
-    phone: props.shipper.phone,
-    address: props.shipper.address,
-    avatar: props.shipper.avatar
+  supplier.value = {
+    id: props.supplier.id,
+    brand_name: props.supplier.brand_name,
+    avatar: props.supplier.avatar,
+    email: props.supplier.email,
+    evaluate: props.supplier.evaluate,
+    phone: props.supplier.phone,
+    address: props.supplier.address,
   }
 })
 
@@ -115,12 +117,12 @@ function closeModal() {
 
 const onSubmit = async () => {
   loading.value = true
-  if (shipper.value.id) {
+  if (supplier.value.id) {
     try {
-      await shipperStore.updateShipper(shipper.value.id, shipper.value).then(res => {
+      await supplierStore.updateSupplier(supplier.value.id, supplier.value).then(res => {
         closeModal()
         loading.value = false
-        shipperStore.fetchShippers()
+        supplierStore.fetchSuppliers()
       });
 
     } catch (e) {
@@ -128,10 +130,10 @@ const onSubmit = async () => {
     }
   } else {
     try {
-      await shipperStore.addShipper(shipper.value).then(res => {
+      await supplierStore.addSupplier(supplier.value).then(res => {
         closeModal()
         loading.value = false
-        shipperStore.fetchShippers()
+        supplierStore.fetchSuppliers()
       });
     } catch (e) {
       console.log(e);
@@ -139,7 +141,7 @@ const onSubmit = async () => {
   }
 }
 </script>
-
+    
 <style scoped>
 .large-modal {
   width: 600px;
@@ -148,3 +150,4 @@ const onSubmit = async () => {
   max-height: 90%;
 }
 </style>
+  

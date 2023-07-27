@@ -1,35 +1,7 @@
 <template>
   <div class="relative shrink-0 flex justify-end items-center">
-
-    <div class="mr-5 w-[30rem]">
-      <form id="form" @submit="inputSearch">
-        <label for="default-search"
-          class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Tìm kiếm</label>
-        <div class="relative ">
-          <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-          </div>
-          <input type="search" id="default-search" name="search"
-            v-model="search.data"
-            class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Tìm kiếm..." required="required" oninvalid="this.setCustomValidity('Không được để trống')" onvalid="this.setCustomValidity('')">
-          <button type="submit"
-            class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tìm
-            kiếm</button>
-        </div>
-      </form>
-    </div>
-
-
     <div class="flex justify-between items-center space-x-4 px-4">
       <a-popover placement="bottomRight" trigger="click" class="flex items-center mr-3">
-        <!-- <button class="inline-flex items-center justify-center text-2xl font-medium">
-          <Icon icon="lucide:bell" />
-        </button> -->
         <button class="inline-block relative text-2xl">
           <Icon icon="lucide:bell-ring" />
           <span
@@ -45,56 +17,54 @@
 
     <a-popover placement="bottomRight" trigger="click" class="flex items-center">
         <button class="inline-flex items-center justify-center">
-          <img class="h-9 w-9 rounded-full" src="" alt="" />
+          <img class="h-9 w-9 rounded-full" :src="user.avatar" alt="" />
         </button>
-        <template #content>
-          <a-button type="text" class="px-2 py-2 text-sm cursor-pointer logout-btn" @click="logout">
-            Logout
-          </a-button>
+        <template #content >
+          <div class="flex flex-col">
+            <router-link :to="{name: 'homepage'}">
+              <a-button type="text" class="px-2 py-2 text-sm cursor-pointer">
+                Quay lại trang chính
+              </a-button>
+            </router-link>
+            <a-button type="text" class="px-2 py-2 text-sm cursor-pointer logout-btn" @click="logout">
+              Logout
+            </a-button>
+          </div>
         </template>
       </a-popover>
     </div>
   </div>
 </template>
 
-<script>
-import { ref, reactive } from 'vue'
+<script setup>
+import { ref, reactive, defineProps } from 'vue'
 import { Icon } from '@iconify/vue';
 import { authStore } from '@/stores/auth.js';
 import { useRouter } from 'vue-router'
-export default {
-  components: {
-    Icon,
-  },
 
-  props: {
-    showSiderbar: { type: Boolean, default: true },
-  },
-  setup(props, { emit }) {
+const props = defineProps({
+  showSiderbar: Boolean,
+})
+const getUserData = localStorage.getItem('user')
+const userData = JSON.parse(getUserData);
+const user = userData.user
 
-    const auth = authStore();
-    const router = useRouter();
+const auth = authStore();
+const router = useRouter();
 
-    const search = reactive({
-      data: ''
-    })
+const search = reactive({
+  data: ''
+})
 
-    const inputSearch = async() => {
-      console.log(search.data);
-    }
-
-    const logout = async () => {
-      await auth.logout();
-      router.push({ name: 'login' })
-    };
-
-    return {
-      inputSearch,
-      search,
-      logout,
-    }
-  }
+const inputSearch = async() => {
+  console.log(search.data);
 }
+
+const logout = async () => {
+  await auth.logout();
+  router.push({ name: 'login' })
+};
+
 </script>
 
 <style scoped>.logout-btn:hover {

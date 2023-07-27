@@ -2,9 +2,7 @@ import http from '@/httpCommon.js'
 
 export default {
   async fetchCart(conditions) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + '/cart', {
-      params: conditions
-    })
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/cart', conditions)
   },
 
   async addCart(cart) {

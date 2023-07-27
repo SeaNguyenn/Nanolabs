@@ -20,11 +20,12 @@ class CartController extends Controller
     {
         $perPage = request('per_page', 10);
         $sortDirection = request('sort_direction', 'desc');
-
+        $user_id = Auth::user()->id;
         try {
             $result = DB::table('cart_items')
             ->join('products', 'cart_items.product_id', '=', 'products.id')
             ->where('cart_items.state','!=', 9)
+            ->where('cart_items.user_id','=', $user_id)
             ->orderBy('cart_items.id', $sortDirection)
             ->paginate($perPage);
 

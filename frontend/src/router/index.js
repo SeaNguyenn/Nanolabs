@@ -21,19 +21,24 @@ const router = createRouter({
               component: () => import('@/views/Dashboard/product/Products.vue'),
             },
             {
+              path: 'suppliers',
+              name: 'adminSuppliers',
+              component: () => import('@/views/Dashboard/supplier/Supplier.vue'),
+            },
+            {
               path: 'shippers',
-              name: 'adminShipper',
+              name: 'adminShippers',
               component: () => import('@/views/Dashboard/shipper/Shippers.vue'),
             },
             {
-              path: 'payments',
-              name: 'adminPayments',
-              component: () => import('@/views/Dashboard/Payments.vue'),
+              path: 'categories',
+              name: 'adminCategories',
+              component: () => import('@/views/Dashboard/category/Categories.vue'),
             },
             {
               path: 'orders',
               name: 'adminOrders',
-              component: () => import('@/views/Dashboard/Orders.vue'),
+              component: () => import('@/views/Dashboard/order/Orders.vue'),
             },
             {
               path: 'settings',
@@ -56,46 +61,38 @@ const router = createRouter({
           path: '/home',
           name: 'home',
           component: () => import('@/views/pages/HomePage.vue'),
-        },
-        {
-          path: '/products',
-          name: 'products',
-          component: () => import('@/views/pages/ProductsPage.vue'),
-        },
-        {
-          path: '/product/:productId',
-          name: 'productScreen',
-          component: () => import('@/views/pages/ProductPage.vue'),
-        },
-        {
-          path: '/product/:productId/edit',
-          name: 'productEdit',
-          component: () => import('@/views/pages/ProductPage.vue'),
-        },
-        {
-          path: '/payments',
-          name: 'payments',
-          component: () => import('@/views/pages/CheckoutPage.vue'),
-        },
-        {
-          path: '/payments/:paymentId/edit',
-          name: 'paymentsEdit',
-          component: () => import('@/views/pages/CheckoutPage.vue'),
-        },
-        {
-          path: '/cart',
-          name: 'cart',
-          component: () => import('@/views/pages/CartPage.vue'),
-        },
-        {
-          path: '/contact',
-          name: 'contact',
-          component: () => import('@/views/pages/ContactPage.vue'),
-        },
-        {
-          path: '/all_categories',
-          name: 'all_categories',
-          component: () => import('@/views/pages/AllCategoriesPage.vue'),
+          children: [
+            {
+              path: '/homepage',
+              name: 'homepage',
+              component: () => import('@/views/pages/Home.vue'),
+            },
+            {
+              path: '/products',
+              name: 'products',
+              component: () => import('@/views/pages/ProductsPage.vue'),
+            },
+            {
+              path: '/product/:productId',
+              name: 'productScreen',
+              component: () => import('@/views/pages/ProductPage.vue'),
+            },
+            {
+              path: '/payments',
+              name: 'payments',
+              component: () => import('@/views/pages/CheckoutPage.vue'),
+            },
+            {
+              path: '/cart',
+              name: 'cart',
+              component: () => import('@/views/pages/CartPage.vue'),
+            },
+            {
+              path: '/category',
+              name: 'category',
+              component: () => import('@/views/pages/CategoriesPage.vue'),
+            },
+          ],
         },
       ],
     },
@@ -132,13 +129,12 @@ router.beforeEach((to,from,next) => {
       break;
     }
   }
-
   if (auth.isAuthenticated || cookieFlg) {
     if (to.matched.some((record) => record.meta.admin)) {
-      if (auth.$state.user?.role_id?.name === 'admin' || auth.$state.user?.role_id?.name === "sup_admin") {
+      if (auth.$state.user?.role_id === 'Admin' || auth.$state.user?.role_id === 'Boss') {
         next();
       } else {
-        next({ path: '/login' });
+        next({ path: '/homepage' });
       }
     } else if (
       to.matched.some((record) => record.meta.user)
@@ -147,7 +143,7 @@ router.beforeEach((to,from,next) => {
     } else if (
       to.matched.some((record) => record.meta.guest)
     ) {
-      next({ path: '/home' });
+      next({ path: '/homepage' });
     } else {
       next({ path: '/login' });
     }

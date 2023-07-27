@@ -55,9 +55,9 @@
           </div>
 
         </div>
-        <a href="/checkout">
+        <router-link :to="{name: 'payments'}">
           <Button class="bg-red-600 text-white py-[0.8rem] text-base px-7 w-full rounded">Mua hàng</Button>
-        </a>
+        </router-link>
       </div>
     </div>
   </div>

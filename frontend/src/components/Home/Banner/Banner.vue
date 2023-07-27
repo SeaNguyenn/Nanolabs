@@ -6,7 +6,7 @@
         class="text-content text-white text-center flex flex-col items-center md:absolute md:left-[50px] md:top-1/2 md:-translate-y-1/2 2xl:left-0">
         <h5 class="text-white text-xl uppercase text-bold mb-[20px]">Chiếc iPhone tiên tiến nhất từ trước đến nay.</h5>
         <h1 class="text-[60px] max-w-[800px] uppercase text-white text-bold leading-none mb-[20px] md:text-[70px]">Điện
-          thoại Iphone 14 Pro Max</h1>
+          thoại Iphone 14</h1>
         <h4 class="max-w-[300px] text-white text-base mb-[20px] md:max-w-[500px] md:text-lg md:p-0">Trải nghiệm màn hình
           OLED tuyệt đẹp, chip A15 mạnh mẽ, và tốc độ 5G tuyệt vời.</h4>
         <h4 class="max-w-[300px] text-white text-base mb-[20px] md:max-w-[500px] md:text-lg md:p-0">Đặt hàng trước ngay và

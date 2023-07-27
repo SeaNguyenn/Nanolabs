@@ -7,38 +7,21 @@
         <span class="text-black text-3xl">|</span>
         <h2 class="font-bold text-2xl text-black cursor-pointer">{{ headingName }}</h2>
       </router-link>
-
-      <div class="flex items-center">
-        <a-input v-model:value="value" placeholder="Tìm kiếm" class="w-[400px] rounded-none border-red-600 py-2 border-2"/>
-        <Button class="bg-red-600 text-white py-[0.8rem] px-7 rounded-none" @click=""><Icon icon="system-uicons:search" class="text-base" /></Button>
-      </div>
     </div>
   </header>
 </template>
 
-<script>
+<script setup>
 import { Icon } from '@iconify/vue'
-import { ref } from 'vue'
-import Button from '@/components/Button.vue'
-export default {
-  props:{
+import { ref, defineProps } from 'vue'
+
+const props = defineProps({
     headingLink: String,
-    headingName: String,
-  },
+    headingName: String
+  }
+)
 
-  components: {
-    Icon,
-    Button,
-  },
-
-  setup() {
-    const value = ref('');
-
-    return {
-      value,
-    };
-  },
-}
+const value = ref('');
 </script>
 
 <style scoped></style>

@@ -10,24 +10,23 @@
         </div>
 
         <div class="main-product-list">
-          <ProductList/>
+          <Products :products="products" :off-heading="true"/>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import FilterSection from './FilterSection.vue'
 import Sort from './Sort.vue'
-import ProductList from './ProductList.vue'
-export default {
-  components: {
-    Sort,
-    FilterSection,
-    ProductList,
-  },
-}
+import Products from '../Products.vue'
+
+const props = defineProps({
+  products: Object,
+})
+
+
 </script>
 
 <style scoped>

@@ -2,9 +2,7 @@ import http from '@/httpCommon.js'
 
 export default {
   async fetchProducts(conditions) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + '/products', {
-      params: conditions,
-    })
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/products', conditions)
   },
 
   async showProduct(productId) {
@@ -20,7 +18,11 @@ export default {
   },
 
   async updateProduct(productId, product) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + `/product/update/${productId}`, product)
+    return http.post(import.meta.env.VITE_API_BASE_PATH + `/product/update/${productId}`, product,{
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   },
 
   async deleteProduct(productId) {
