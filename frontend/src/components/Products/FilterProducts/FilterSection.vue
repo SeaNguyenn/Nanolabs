@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link :to="{ name: 'all_categories' }" class="flex items-center gap-2 text-lg hover:text-black font-bold">
+    <router-link :to="{ name: 'categories' }" class="flex items-center gap-2 text-lg hover:text-black font-bold">
       <Icon icon="tabler:category" />
       <p>Tất cả các danh mục</p>
     </router-link>

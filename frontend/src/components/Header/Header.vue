@@ -19,10 +19,11 @@
 
     <div class="flex items-center justify-between p-2">
       <div class="flex items-center justify-between gap-3">
-        <router-link  v-if="userId == 'Admin' || userId == 'Boss'" :to="{name: 'dashboard'}">
+        <router-link v-if="userId == 'Admin' || userId == 'Boss'" :to="{ name: 'dashboard' }">
           <Button color="light" gradient="purple-pink" class="uppercase text-sm">Quản lý</Button>
         </router-link>
-        <a-popover v-if="userId != 'Admin' && userId != 'Boss'" placement="bottom" class="flex relative items-center cursor-pointer">
+        <a-popover v-if="userId != 'Admin' && userId != 'Boss'" placement="bottom"
+          class="flex relative items-center cursor-pointer">
           <Icon icon="mi:shopping-cart" class="text-[29px]" />
           <span
             class="text-xs min-w-[15px] min-h-[15px] bg-white text-black text-center absolute top-[-5px] right-[-5px] p-[2.5px] rounded-lg"
@@ -31,26 +32,30 @@
             <div v-if="countCart != 0">
               <p class="mb-5 text-sm text-gray-400">Sản phẩm mới thêm</p>
               <div class="flex flex-col gap-4">
-                <div v-for="(cartItem, index) of userCart" class="flex w-[300px] gap-2">
-                  <div class="w-[80px] h-[40px] border-2">
-                    <img :src="cartItem.image" alt="" class="w-full h-full">
-                  </div>
+                <div v-for="(cartItem, index) of userCart">
+                  <router-link :to="{ name: 'productScreen', params: { productId: index + 1 } }"
+                    class="flex gap-2 w-full">
+                    <div class="w-[50px] h-[40px] border-2">
+                      <img :src="cartItem.image" alt="" class="w-full h-full">
+                    </div>
 
-                  <div class="flex flex-col text-sm text-ellipsis whitespace-nowrap overflow-hidden">
-                    <p class="px-1 mx-3 mr-auto">{{ cartItem.name }}</p>
-                    <p class="text-xs px-1 mx-3 mr-auto">{{ cartItem.code }}</p>
-                  </div>
+                    <div class="flex flex-col  text-sm text-ellipsis whitespace-nowrap overflow-hidden hover:text-blue-600">
+                      <p class="px-1 mx-3 mr-auto">{{ cartItem.name }}</p>
+                      <p class="text-xs px-1 mx-3 mr-auto ">{{ cartItem.code }}</p>
+                    </div>
 
-                  <div class="price text-xs text-red-600 flex flex-col">
-                    <span class="line-through decoration-red-400">{{
-                      Number(cartItem.price).toLocaleString("en-US") }}<sup>₫</sup></span>
-                    <span>{{ Number(cartItem.sale_price).toLocaleString("en-US") }}<sup>₫</sup></span>
-                  </div>
+                    <div class="price text-xs text-red-600 flex flex-col">
+                      <span class="line-through decoration-red-400">{{
+                        Number(cartItem.price).toLocaleString("en-US") }}<sup>₫</sup></span>
+                      <span>{{ Number(cartItem.sale_price).toLocaleString("en-US") }}<sup>₫</sup></span>
+                    </div>
+                  </router-link>
                 </div>
               </div>
 
               <div class="flex gap-5 items-center justify-end mt-4">
-                <router-link :to="{name: 'cart'}" class="px-2 py-1 bg-red-600 text-white text-sm">Xem giỏ hàng</router-link>
+                <router-link :to="{ name: 'cart' }" class="px-2 py-1 bg-red-600 text-white text-sm">Xem giỏ
+                  hàng</router-link>
               </div>
             </div>
 
@@ -96,8 +101,7 @@
       <div class="hidden gap-2 ml-3 text-xl lg:flex lg:items-center" v-if="userName != ''">
         <a-dropdown :trigger="['click']">
           <div class="text-lg font-bold flex gap-1 items-center ant-dropdown-link cursor-pointer" @click.prevent>
-            <Avatar status="online" size="xs" rounded
-              :img="avatar" />
+            <Avatar status="online" size="xs" rounded :img="avatar" />
             {{ userName }}
           </div>
           <template #overlay>
