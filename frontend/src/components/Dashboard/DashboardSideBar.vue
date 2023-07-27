@@ -63,12 +63,12 @@ export default {
       {
         name: 'Danh mục',
         href: 'adminCategories',
-        icon: 'ion:wallet-outline',
+        icon: 'carbon:category',
       },
       {
-        name: 'Đặt hàng',
+        name: 'Hoá đơn',
         href: 'adminOrders',
-        icon: 'iconoir:truck',
+        icon: 'material-symbols:order-play-outline',
       },
       {
         name: 'Cài đặt',

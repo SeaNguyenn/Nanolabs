@@ -65,6 +65,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //category
     Route::post('/categories', [Controllers\api\CategoryController::class, 'index']);
+    Route::get('/category/{id}', [Controllers\api\CategoryController::class, 'getCategory']);
     Route::post('/category/create', [Controllers\api\CategoryController::class, 'createCategory']);
     Route::post('/category/update/{id}', [Controllers\api\CategoryController::class, 'updateCategory']);
     Route::post('/category/delete/{id}', [Controllers\api\CategoryController::class, 'deleteCategory']);

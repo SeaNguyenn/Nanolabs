@@ -9,11 +9,11 @@ use DB;
 use App\Http\Requests\CategoryRequest;
 class CategoryController extends Controller
 {
-    public function getAllCategories(Request $request)
+    public function index(Request $request)
     {
         $perPage = request('per_page', 10);
         $search = request('search', '');
-        $sortField = request('sort_field', 'created_at');
+        $sortField = request('sort_field', 'id');
         $sortDirection = request('sort_direction', 'desc');
 
         try {
@@ -36,6 +36,25 @@ class CategoryController extends Controller
         }
     }
 
+    public function getCategory($id)
+    {
+        try {
+            $result = DB::table('categories')->where('id','=',$id)->first();
+
+            return response()->json([
+                'success' => true,
+                'data' => $result,
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error('Có lỗi xảy ra: '.$e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Lấy danh mục thất bại',
+            ], 500);
+        }
+    }
+
     public function createCategory(CategoryRequest $request)
     {
         $data = $request->validated();
@@ -44,7 +63,6 @@ class CategoryController extends Controller
             DB::table('categories')->insert([
                 'name' => $data['name'],
                 'parent_id' => $data['parent_id'],
-                'display_order' => $data['display_order'],
                 'state' => 1,
             ]);
             return response()->json(['message' => 'Thêm mới loại sản phẩm thành công'], 200);
@@ -66,7 +84,6 @@ class CategoryController extends Controller
                 DB::table('categories')->where('id', $id)->update([
                     'name' => $data['name'],
                     'parent_id' => $data['parent_id'],
-                    'display_order' => $data['display_order'],
                 ]);
                 return response()->json(['message' => 'Cập nhật loại sản phẩm thành công'], 200);
             } else {
@@ -84,7 +101,7 @@ class CategoryController extends Controller
     public function deleteCategory($id)
     {
         try {
-            $category = DB::table('categories')->where('id', $id)->first();
+            $category = DB::table('categories')->where('id', $id);
 
             if (isset($category)) {
                 $category = $category->update([
