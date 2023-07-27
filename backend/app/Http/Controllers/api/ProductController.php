@@ -105,11 +105,9 @@ class ProductController extends Controller
         if ($image) {
             if ($product->image) {
                 Storage::deleteDirectory('/public' . dirname($product->image));
-                dd('/public/' . dirname($product->image));
             }
             $relativePath = $this->saveImage($image);
             $data['image'] = URL::to(Storage::url($relativePath));
-
         }
 
         try {

@@ -46,17 +46,22 @@ export default {
         icon: 'ic:sharp-dashboard',
       },
       {
+        name: 'Nhà cung cấp',
+        href: 'adminSuppliers',
+        icon: 'icon-park:delivery',
+      },
+      {
         name: 'Sản phẩm',
         href: 'adminProducts',
         icon: 'fluent:box-20-regular',
       },
       {
-        name: 'Shippers',
-        href: 'adminShipper',
+        name: 'Nhân viên giao hàng',
+        href: 'adminShippers',
         icon: 'emojione-monotone:motor-scooter',
       },
       {
-        name: 'Categories',
+        name: 'Danh mục',
         href: 'adminCategories',
         icon: 'ion:wallet-outline',
       },
