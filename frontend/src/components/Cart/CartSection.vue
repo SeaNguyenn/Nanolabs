@@ -24,16 +24,16 @@
           <div class="border-b-[1px]">
             <div class="flex justify-between items-center pb-2">
               <div>Tạm tính</div>
-              <div class="font-bold">0đ</div>
+              <div class="font-bold">{{ totalDefaultAmount }}<sup>₫</sup></div>
             </div>
             <div class="flex justify-between items-center pb-2">
               <div>Giảm giá</div>
-              <div class="font-bold">0đ</div>
+              <div class="font-bold">{{ totalSaleAmount }}<sup>₫</sup></div>
             </div>
           </div>
           <div class="flex justify-between items-center pt-2">
             <div>Tổng tiền</div>
-            <div class="font-bold">0đ</div>
+            <div class="font-bold">{{ totalAmount }}<sup>₫</sup></div>
           </div>
 
         </div>
@@ -90,6 +90,38 @@ const getCart = async () => {
 onBeforeMount(async () => {
   await getCart()
   cartData.value = cartList.value.data
+});
+
+const totalDefaultAmount = computed(() => {
+  let total = 0;
+  if (cartData.value) {
+    cartData.value.forEach(item => {
+      total += Number(item.price);
+    });
+  }
+  return total.toLocaleString("en-US");
+});
+
+const totalSaleAmount = computed(() => {
+  let total = 0;
+  if (cartData.value) {
+    cartData.value.forEach(item => {
+      const price = Number(item.sale_price) > 0 ?  Number(item.price) - Number(item.sale_price) : 0;
+      total += price;
+    });
+  }
+  return total.toLocaleString("en-US");
+});
+
+const totalAmount = computed(() => {
+  let total = 0;
+  if (cartData.value) {
+    cartData.value.forEach(item => {
+      const price = Number(item.sale_price) ? Number(item.sale_price) : Number(item.price);
+      total += price;
+    });
+  }
+  return total.toLocaleString("en-US");
 });
 
 function onDeleteCart (e){

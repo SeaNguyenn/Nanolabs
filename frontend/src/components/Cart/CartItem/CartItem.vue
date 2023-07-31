@@ -16,15 +16,17 @@
             </div>
           </div>
         </div>
-        <div class="col-2 w-[200px] flex items-center">
-          <p class="m-0 p-0 font-bold">{{ Number(cartItem.price).toLocaleString("en-US") }}<sup>₫</sup></p>
+        <div class="col-2 w-[200px] flex items-start flex-col">
+          <p class="m-0 p-0 font-bold" v-bind:class="Number(cartItem.sale_price) > 0 ? 'line-through' : ''">{{ Number(cartItem.price).toLocaleString("en-US") }}<sup>₫</sup></p>
+          <p class="m-0 p-0 font-bold " v-if="Number(cartItem.sale_price) > 0">{{ Number(cartItem.sale_price).toLocaleString("en-US") }}<sup>₫</sup></p>
         </div>
-        <div class="col-3 w-[150px] flex items-center justify-start">
+        <div class="col-3 w-[150px]">
           <a-input v-model:value="quantityNum" :placeholder="cartItem.quantity"
             class="w-10 border-[1px] border-[rgba(0,0,0,.09)] text-center" />
         </div>
-        <div class="col-4 w-[150px] flex items-center">
-          <p class="m-0 p-0 font-bold text-red-600">{{ priceTotal.toLocaleString("en-US") }}<sup>₫</sup></p>
+        <div class="col-4 w-[150px] flex items-start flex-col">
+          <p class="m-0 p-0 font-bold text-red-600" v-bind:class="Number(cartItem.sale_price) > 0 ? 'line-through decoration-red-400' : ''">{{ priceTotal.toLocaleString("en-US") }}<sup>₫</sup></p>
+          <p class="m-0 p-0 font-bold text-red-600" v-if="Number(cartItem.sale_price) > 0">{{ Number(cartItem.sale_price).toLocaleString("en-US") }}<sup>₫</sup></p>
         </div>
         <div class="col-5 w-[30px] flex items-center">
           <button class="group flex w-full items-center rounded-md px-2 py-2 text-sm" @click="emit('deleteCartItem',cartItem)">

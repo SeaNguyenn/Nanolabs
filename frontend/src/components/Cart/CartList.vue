@@ -15,7 +15,7 @@
 
     <div class="h-auto overflow-hidden">
       <div class="bg-white border-[1px] mb-2.5 rounded-lg">
-        <div class="mt-8 px-4 pb-1" v-for="(cartItem, index) in cart" :key="index" :isAllChecked="isAllChecked"
+        <div class="mt-8 pb-1" v-for="(cartItem, index) in cart" :key="index" :isAllChecked="isAllChecked"
           v-if="cart.length > 0">
           <CartItem :cartItem="cartItem" @deleteCartItem="deleteCart" />
         </div>
@@ -42,7 +42,6 @@
 import { Icon } from '@iconify/vue'
 import { ref, defineProps, watch } from 'vue'
 import CartItem from './CartItem/CartItem.vue'
-const checkedAll = ref(false);
 
 const props = defineProps({
   cart: Object,
