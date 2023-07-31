@@ -50,7 +50,7 @@ import Button from '@/components/Button.vue'
 import { authStore } from '@/stores/auth.js';
 import { useCartStore } from '@/stores/cart.js';
 import CartList from './CartList.vue'
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, computed, onBeforeMount,watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 const auth = authStore();
@@ -72,6 +72,12 @@ cartStore.fetchCart({
 const cartList = computed(() => cartStore.cart);
 const cartData = ref(null)
 
+watchEffect(() => {
+  if (cartList.value) {
+    cartData.value = cartList.value.data;
+  }
+});
+
 const getCart = async () => {
   await cartStore.fetchCart({
     search: search.value,
@@ -87,7 +93,6 @@ onBeforeMount(async () => {
 });
 
 function onDeleteCart (e){
-  console.log(e);
   if (!confirm(`Bạn có muốn xoá không?`)) {
     return
   }

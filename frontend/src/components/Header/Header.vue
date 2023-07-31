@@ -162,6 +162,9 @@ watchEffect(() => {
     }
     emit('scrolled', scrolled.value)
   })
+  if (cartList.value) {
+    userCart.value = cartList.value.data;
+  }
 });
 
 onMounted(() => {

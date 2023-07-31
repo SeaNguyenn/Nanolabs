@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref,defineProps,defineEmits } from 'vue'
+import { ref,defineProps,defineEmits,watch,computed } from 'vue'
 import { Icon } from '@iconify/vue';
 
 const quantityNum = ref();
@@ -45,9 +45,17 @@ const checked = ref(false);
 
 const props = defineProps({
   cartItem: Object,
+  isAllChecked: Boolean,
 })
 
 const emit = defineEmits(['deleteCartItem'])
+
+const isAllCheckedComputed = computed(() => props.isAllChecked);
+
+watch(isAllCheckedComputed, (newValue) => {
+  console.log(newValue);
+  checked.value = newValue;
+});
 
 const priceTotal = Number(props.cartItem.price) * Number(props.cartItem.quantity)
 </script>
