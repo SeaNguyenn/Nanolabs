@@ -1,45 +1,66 @@
 <template>
-  <div class="bg-white border-[1px] mb-2.5 rounded-lg">
-    <div class="seller-group px-5 pt-4 flex items-center">
-      <a-checkbox v-model:checked="checked"></a-checkbox>
-      <div class="flex items-center ml-2 gap-3">
-        <Icon icon="bi:shop" class="text-base"/>
-        <span class="text-base font-bold">Brand shop</span>
-        <span>
-          <Icon icon="octicon:chevron-right-24" />
-        </span>
+  <div class="flex-[1_1_910px]">
+    <div
+      class="cart-item-header grid px-5 py-2 mb-5 bg-white rounded-lg grid-cols-[398px,200px,150px,150px,30px] border-[1px]">
+      <a-checkbox v-model:checked="checkedAll" @change="onCheckAllChange">Tất cả</a-checkbox>
+
+      <span>Đơn giá</span>
+      <span>Số lượng</span>
+      <span>Thành tiền</span>
+
+      <span class="remove-btn">
+        <Icon icon="system-uicons:trash" />
+      </span>
+    </div>
+
+    <div class="h-auto overflow-hidden">
+      <div class="bg-white border-[1px] mb-2.5 rounded-lg">
+        <div class="mt-8 px-4 pb-1" v-for="(cartItem, index) in cart" :key="index" v-if="cart.length > 0">
+          <CartItem :cartItem="cartItem" @deleteCartItem="deleteCart"/>
+        </div>
+        <div class="mt-8 px-4 pb-1 flex items-center justify-center" v-else>
+          <a-empty image="/src/assets/images/empty.png" :image-style="{
+                'display': 'flex',
+                'align-items': 'center',
+                'justify-content': 'center',
+              }">
+                <template #description>
+                  <span>
+                    Chưa có sản phẩm
+                  </span>
+                </template>
+              </a-empty>
+        </div>
       </div>
     </div>
 
-    <div class="mt-8 px-4 pb-1">
-      <CartItem/>
-      <CartItem/>
-      <CartItem/>
-      <CartItem/>
-      <CartItem/>
-      <CartItem/> 
-    </div>
   </div>
 </template>
 
-<script>
-import { Icon } from '@iconify/vue';
-import { defineComponent, ref } from 'vue';
+<script setup>
+import { Icon } from '@iconify/vue'
+import { ref,defineProps,watch } from 'vue'
 import CartItem from './CartItem/CartItem.vue'
-export default {
-  components: {
-    CartItem,
-    Icon,
-  },
+const checkedAll = ref(false);
 
-  setup() {
-    return {
-      checked: ref(false),
-    };
-  },
+const props = defineProps({
+  cart: Object,
+})
+const emit = defineEmits(['deleteCart'])
+
+const cart = ref([]);
+
+watch(() => props.cart, (value) => {
+  cart.value = value
+  console.log(cart.value);
+})
+
+const onCheckAllChange = () => {
+};
+
+const deleteCart = (c) => {
+  emit('deleteCart', c);
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

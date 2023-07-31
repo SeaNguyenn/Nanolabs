@@ -9,6 +9,8 @@ return [
         // 'state' => 'state',
         'role_id' => 'role_id',
         'avatar' => 'avatar',
+        'address' => 'address',
+        'phone' => 'phone',
         // 'createdAt' => 'created_at',
         // 'updatedAt' => 'updated_at',
     ],
