@@ -5,7 +5,7 @@ export default {
     return http.post(import.meta.env.VITE_API_BASE_PATH + '/cart', conditions)
   },
 
-  async addCart(cart) {
+  async addToCart(cart) {
     return http.post(import.meta.env.VITE_API_BASE_PATH + '/cart/create', cart)
   },
 

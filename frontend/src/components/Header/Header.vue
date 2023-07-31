@@ -174,7 +174,7 @@ onMounted(() => {
 
 onBeforeMount(async () => {
   await getCartData()
-  countCart.value = cartList.value.data.length
+  countCart.value = cartList.value.total
   userCart.value = cartList.value.data
 });
 
