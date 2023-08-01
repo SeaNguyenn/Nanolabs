@@ -47,7 +47,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/order', [Controllers\api\OrderController::class, 'index']);
     Route::get('/order/{id}', [Controllers\api\OrderController::class, 'getOrder']);
     Route::post('/order/create', [Controllers\api\OrderController::class, 'createOrder']);
-    Route::post('/order/delete/{id}', [Controllers\api\OrderController::class, 'canceledOrder']);
+    Route::post('/order/update/{id}', [Controllers\api\OrderController::class, 'updateOrderStatusAndShipper']);
+    Route::post('/order/canceled/{id}', [Controllers\api\OrderController::class, 'canceledOrder']);
+    Route::post('/order/delete/{id}', [Controllers\api\OrderController::class, 'deleteOrder']);
 
     //shipper
     Route::post('/shippers', [Controllers\api\ShipperController::class, 'index']);
