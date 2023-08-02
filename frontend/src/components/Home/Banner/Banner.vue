@@ -13,10 +13,13 @@
           nhận miễn phí AirPods Pro.</h4>
         <div class="ctas flex items-center gap-5">
           <Button
-            class="uppercase text-xs font-medium border-2 border-solid border-white py-[10px] px-[20px] cursor-pointer">Chi
+            class="uppercase text-xs font-medium border-2 border-solid border-white py-[10px] px-[20px] cursor-pointer"
+            @click="goProducts">Chi
             tiết</Button>
-          <Button color="light" 
-            class=" uppercase text-xs font-medium border-2 border-solid border-white py-[10px] px-[20px] cursor-pointer">Mua
+
+          <Button color="light"
+            class=" uppercase text-xs font-medium border-2 border-solid border-white py-[10px] px-[20px] cursor-pointer"
+            @click="goProducts">Mua
             ngay bây giờ</Button>
         </div>
       </div>
@@ -29,6 +32,17 @@
 
 <script setup>
 import { Button } from 'flowbite-vue'
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+const goProducts = () => {
+  router.push({
+    name: 'products',
+    query: {
+      search: 'iphone',
+    },
+  });
+}
 </script>
 
 <style scoped></style>

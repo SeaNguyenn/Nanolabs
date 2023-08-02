@@ -20,13 +20,15 @@ class CartController extends Controller
     {
         $perPage = request('per_page', 10);
         $sortDirection = request('sort_direction', 'desc');
+        $sortField = request('sort_field', 'cart_items.id');
         $user_id = Auth::user()->id;
         try {
             $result = DB::table('cart_items')
-            ->join('products', 'cart_items.product_id', '=', 'products.id')
+            ->select('cart_items.id as cart_items_id','cart_items.state as cart_items_state','cart_items.quantity', 'products.*')
             ->where('cart_items.is_active','!=', 9)
             ->where('cart_items.user_id','=', $user_id)
-            ->orderBy('cart_items.id', $sortDirection)
+            ->join('products', 'cart_items.product_id', '=', 'products.id')
+            ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
             return response()->json([
@@ -47,18 +49,40 @@ class CartController extends Controller
     {
         $data = $request->validated();
         $user_id = Auth::user()->id;
+        $product_id = $data['product_id'];
+        $quantity = $data['quantity'];
 
-        try {
-            DB::table('cart_items')->insert([
-                'user_id' => $user_id,
-                'product_id' => $data['product_id'],
-                'quantity' => $data['quantity'],
-            ]);
-            return response()->json(['message' => 'Thêm vào giỏ hàng thành công'], 200);
+        $existingCartItem = DB::table('cart_items')
+        ->where('user_id', $user_id)
+        ->where('product_id', $product_id)
+        ->where('state', '!=', 9)
+        ->first();
 
-        } catch (\Exception $e) {
-            Log::error('Có lỗi xảy ra: '.$e->getMessage());
-            return response()->json(['message' => 'Thêm vào giỏ hàng thất bại', 'error' => $e], 500);
+        if ($existingCartItem) {
+            try {
+                DB::table('cart_items')
+                ->where('user_id', $user_id)
+                ->where('product_id', $product_id)
+                ->increment('quantity', $quantity);
+
+                return response()->json(['message' => 'Cập nhật giỏ hàng thành công'], 200);
+
+            } catch (\Exception $e) {
+                Log::error('Có lỗi xảy ra: '.$e->getMessage());
+                return response()->json(['message' => 'Cập nhật giỏ hàng thất bại', 'error' => $e], 500);
+            }
+        }else {
+            try {
+                DB::table('cart_items')->insert([
+                    'user_id' => $user_id,
+                    'product_id' => $product_id,
+                    'quantity' => $quantity,
+                ]);
+                return response()->json(['message' => 'Thêm vào giỏ hàng thành công'], 200);
+            } catch (\Exception $e) {
+                Log::error('Có lỗi xảy ra: ' . $e->getMessage());
+                return response()->json(['message' => 'Thêm vào giỏ hàng thất bại', 'error' => $e], 500);
+            }
         }
     }
 
@@ -71,7 +95,6 @@ class CartController extends Controller
 
             if (isset($cart)) {
                 DB::table('cart_items')->where('id', $id)->update([
-                    'product_id' => $data['product_id'],
                     'quantity' => $data['quantity'],
                 ]);
                 return response()->json(['message' => 'Cập nhật giỏ hàng thành công'], 200);
@@ -90,7 +113,7 @@ class CartController extends Controller
     public function deleteCart($id)
     {
         try {
-            $cart = DB::table('cart_items')->where('id', $id)->first();
+            $cart = DB::table('cart_items')->where('id', $id);
 
             if (isset($cart)) {
                 $cart = $cart->update([

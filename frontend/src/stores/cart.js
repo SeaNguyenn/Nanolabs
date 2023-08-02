@@ -26,11 +26,11 @@ export const useCartStore = defineStore('cart', {
       }
     },
 
-    async addCart(cart) {
+    async addToCart(cart) {
       try {
         this.loading = true
         this.error = null
-        const response = await cartService.addCart(cart)
+        const response = await cartService.addToCart(cart)
         this.cart.push(response.data.data)
         return response
       } catch (error) {
