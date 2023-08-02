@@ -11,12 +11,12 @@ export const useCategoryStore = defineStore('category', {
     }
   },
   actions: {
-    async fetchcategorys(conditions) {
+    async fetchCategories(conditions) {
       try {
         this.loading = true
         this.error = null
         const response = await categoryService.fetchCategories(conditions)
-        this.categories = response.data
+        this.categories = response.data.data
       } catch (error) {
         this.error = error.message
       }
@@ -26,14 +26,19 @@ export const useCategoryStore = defineStore('category', {
 
     async showCategory(categoryId) {
       try {
-        this.loading = true
-        this.error = null
-        const response = await categoryService.showCategory(categoryId)
-        this.category = response.data
-      } catch (error) {
+        this.loading = true;
+        this.error = null;
+        const response = await categoryService.showCategory(categoryId);
+        this.category = response.data.data
+
+        return response;
+      }catch (error) {
         this.error = error.message
+
+        return error;
+      }finally {
+        this.loading = false
       }
-      this.loading = false
     },
 
     async addCategory(category) {
@@ -41,7 +46,7 @@ export const useCategoryStore = defineStore('category', {
         this.loading = true
         this.error = null
         const response = await categoryService.addCategory(category)
-        this.categories.push(response.data);
+        this.categories.push(response.data.data);
       } catch (error) {
         this.error = error.message
       }
@@ -55,7 +60,7 @@ export const useCategoryStore = defineStore('category', {
         const response = await categoryService.updateCategory(categoryId, category)
         const index = this.categories.findIndex((p) => p.id === categoryId)
         if (index !== -1) { 
-          this.categories.splice(index, 1, response.data)
+          this.categories.splice(index, 1, response.data.data.data)
         }
       } catch (error) {
         this.error = error.message
@@ -82,9 +87,6 @@ export const useCategoryStore = defineStore('category', {
   getters: {
     getCategories() {
       return this.categories
-    },
-    getCategory() {
-      return this.category
     },
     getLoading() {
       return this.loading

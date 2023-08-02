@@ -15,22 +15,23 @@
 import Header from '@/components/Header/Header.vue';
 import Footer from '@/components/Footer/Footer.vue';
 import { ref, defineComponent } from 'vue'
+import { useRouter } from 'vue-router';
 
 const HeaderComp = defineComponent(Header)
 const FooterComp = defineComponent(Footer)
 
 const onScroll = ref(false);
+const router = useRouter();
 
 const scroll = (e) => {
   onScroll.value = e;
 }
 
 const handleInput = (e) => {
-  productStore.fetchProducts({
-    search: e,
-    per_page: perPage.value,
-    sort_field: sortField.value,
-    sort_direction: sortDirection.value,
-  })
+  router.push({ name: 'products',
+    query: {
+      search: e,
+    },
+  });  
 }
 </script>

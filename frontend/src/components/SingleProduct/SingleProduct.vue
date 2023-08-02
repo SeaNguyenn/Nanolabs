@@ -12,73 +12,73 @@
             <Rating :rating="star" />
           </div>
 
-          <span class="text-3xl mb-5"><sup class="mr-1">₫</sup>9000000 </span>
+          <span class="text-3xl mb-5 text-red-500 line-through decoration-red-400">{{ Number(productData.price).toLocaleString("en-US") }}<sup>₫</sup></span>
+          <span class="text-3xl mb-5 text-red-500" v-if="productData.sale_price > 0">{{ Number(productData.sale_price).toLocaleString("en-US") }}<sup>₫</sup></span>
 
           <div class="flex items-center gap-5 mb-5 md:gap-10">
             <span class="text-base md:text-lg text-second-text-color">Số lượng</span>
             <div class="text-base md:text-lg flex">
-              <button class="border-[1px] px-2 border-[rgba(0,0,0,.09)]" @click="minusQuantity"><Icon icon="humbleicons:minus" /></button>
               <a-input v-model:value="quantityNum" placeholder="1" class="w-[40px] border-[1px] border-[rgba(0,0,0,.09)] text-center"/>
-              <button class="border-[1px] px-2 border-[rgba(0,0,0,.09)]" @click="plusQuantity"><Icon icon="octicon:plus-24" /></button>
             </div>
-            <span class="text-base md:text-lg text-second-text-color">
-              <span class="text-base text-second-text-color">5</span> sản phẩm có sẵn
-            </span>
           </div>
 
           <div class="flex gap-2.5 mb-8">
-            <span class="text-base md:text-lg text-second-text-color mr-2.5 md:mr-5">Màu sắc</span>
-            <div class="w-[30px] h-[30px] bg-red-500 rounded-full"></div>
-            <div class="w-[30px] h-[30px] bg-blue-500 rounded-full"></div>
-            <div class="w-[30px] h-[30px] bg-green-500 rounded-full"></div>
-            <div class="w-[30px] h-[30px] bg-black rounded-full"></div>
+            <span class="text-base md:text-lg text-second-text-color mr-2.5 md:mr-5">Được bảo hành {{ productData.warranty }} tháng</span>
           </div>
 
           <div class="flex gap-5 items-center flex-wrap">
-            <Button class="flex gap-1 items-center justify-center px-2 py-3 bg-red-200 text-red-600 text-lg border-[1px] border-solid border-red-700 md:text-xl md:p-5">
+            <Button @click="addToCart" class="flex gap-1 items-center justify-center px-2 py-3 bg-red-200 text-red-600 text-lg border-[1px] border-solid border-red-700 md:text-xl md:p-5">
               <Icon icon="mi:shopping-cart-add" class="mr-2 text-2xl"/>Thêm vào giỏ hàng
             </Button>
             <Button class="px-2 py-3 bg-red-600 text-white text-lg md:text-xl md:p-5">Mua ngay</Button>
           </div>
         </div>
       </div>
-      <ProductDetail/>
-      <RelatedProducts />
+      <ProductDetail :description="productData.description"/>
+      <Products :headingText="headingFeaturedProducts" :products="products" />
     </div>
   </div>
+  <AddToCartModal v-if="showSuccessModal" @close="showSuccessModal = false" />
 </template>
 
 <script setup>
 import Button from '@/components/Button.vue'
-import RelatedProducts from '@/components/SingleProduct/RelatedProducts/RelatedProducts.vue'
 import { ref,defineProps ,watch} from 'vue'
 import ProductDetail from './ProductDetail/ProductDetail.vue'
+import Products from '@/components/Products/Products.vue';
 import { Rating } from 'flowbite-vue'
 import { Icon } from '@iconify/vue';
+import { useCartStore } from '@/stores/cart.js';
+import AddToCartModal from './AddToCartModal.vue'
 
 const props = defineProps({
   product: Object,
+  products: Object,
 })
 
+const showSuccessModal = ref(false);
+const headingFeaturedProducts = "Những sản phẩm đang bán chạy";
 const productData = ref([])
 const star = ref()
+const quantityNum = ref(1);
+const cartStore = useCartStore();
 
 watch(() => props.product, (value) => {
   productData.value = value
-  console.log();
   star.value = Number(productData.value.evaluate)
 })
-let quantityNum = ref(1);
 
-const minusQuantity = () => {
-  if (quantityNum.value === 0) return
-  quantityNum.value -= 1
-}
+const addToCart = async () => {
+  try {
+    const cartItem = { product_id: productData.value?.id, quantity: quantityNum.value };
 
-const plusQuantity = () => {
-  quantityNum.value += 1;
-}
+    cartStore.addToCart(cartItem).then(res => {
+      showSuccessModal.value = true;
+    });
+  } catch (error) {
+    console.error('Lỗi khi thêm vào giỏ hàng:', error);
+  }
+};
+
 
 </script>
-
-<style scoped></style>

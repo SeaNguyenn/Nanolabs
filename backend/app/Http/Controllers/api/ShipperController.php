@@ -93,10 +93,13 @@ class ShipperController extends Controller
     public function updateShipper(ShipperRequest $request,$id)
     {
         $data = $request->validated();
-
-        log::debug($data);
+        $shipper = DB::table('shippers')->where('id', $id)->first();
         $image = $data['avatar'] ?? null;
+
         if ($image) {
+            if ($shipper->avatar) {
+                Storage::deleteDirectory('/public' . dirname($shipper->avatar));
+            }
             $relativePath = $this->saveImage($image);
             $data['avatar'] = URL::to(Storage::url($relativePath));
         }

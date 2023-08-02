@@ -6,17 +6,19 @@
 import FilterProducts from '@/components/Products/FilterProducts/FilterProducts.vue';
 import { ref, defineComponent, computed, onBeforeMount } from 'vue'
 import { useProductStore } from '@/stores/product.js';
+import { useRoute } from "vue-router";
 
 const FilterProductsComp = defineComponent(FilterProducts)
 
+const route = useRoute();
 const productStore = useProductStore();
 const perPage = ref(15);
-const search = ref('');
+const search = route.query.search;
 const sortField = ref('updated_at');
 const sortDirection = ref('desc');
 
 productStore.fetchProducts({
-  search: search.value,
+  search: search,
   per_page: perPage.value,
   sort_field: sortField.value,
   sort_direction: sortDirection.value,
@@ -26,7 +28,7 @@ const productList = computed(() => productStore.products);
 const productData = ref(null)
 const getProduct = async () => {
   await productStore.fetchProducts({
-    search: search.value,
+    search: search,
     per_page: perPage.value,
     sort_field: sortField.value,
     sort_direction: sortDirection.value,
