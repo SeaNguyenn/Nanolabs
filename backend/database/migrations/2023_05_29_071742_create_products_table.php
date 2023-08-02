@@ -17,15 +17,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('code');
             $table->longText('description')->nullable();
-            $table->decimal('price', 10, 0)->nullable();
-            $table->decimal('sale_price', 10, 0)->nullable();
-            $table->string('image')->nullable();
-            $table->bigInteger('evaluate')->default(0)->nullable();
-            $table->string('color')->nullable();
-            $table->string('material')->nullable();
-            $table->bigInteger('warranty')->nullable();
-            $table->bigInteger('state')->default(1)->nullable();
-            $table->bigInteger('view_count')->nullable();
+            $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('sale_price', 10, 2)->nullable();
+            $table->text('image')->nullable();
+            $table->float('evaluate')->default(0)->nullable();
+            $table->integer('warranty')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

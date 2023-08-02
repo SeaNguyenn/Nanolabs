@@ -23,7 +23,7 @@ class ProductController extends Controller
 
         try {
             $result = DB::table('products')->where('name', 'like', "%{$search}%")
-            ->where('state','!=', 9)
+            ->where('is_active','!=', 9)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -38,6 +38,28 @@ class ProductController extends Controller
                 'success' => false,
                 'message' => 'Lấy các sản phẩm thất bại',
             ], 500);
+        }
+    }
+
+    public function getAllProductByCategory(Request $request, $categoryId)
+    {
+        $perPage = request('per_page', 10);
+        try {
+
+            $products = DB::table('products')
+                ->join('category_product', 'products.id', '=', 'category_product.product_id')
+                ->where('category_product.category_id', $categoryId)
+                ->select('products.*')
+                ->paginate($perPage);
+
+                return response()->json([
+                    'success' => true,
+                    'data' => $products,
+                ], 200);
+        } catch (\Exception $e) {
+            Log::error('Có lỗi xảy ra: '.$e->getMessage());
+
+            return response()->json(['error' => 'Đã xảy ra lỗi trong quá trình xử lý.'], 500);
         }
     }
 
@@ -84,7 +106,7 @@ class ProductController extends Controller
                 'material' => $data['material'],
                 'warranty' => $data['warranty'],
                 'view_count' => 0,
-                'state' => 1,
+                'is_active' => 1,
                 'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới sản phẩm thành công'], 200);
@@ -148,7 +170,7 @@ class ProductController extends Controller
 
             if (isset($product)) {
                 $product = $product->update([
-                    'state' => 9,
+                    'is_active' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá sản phẩm thành công'], 200);
             } else {

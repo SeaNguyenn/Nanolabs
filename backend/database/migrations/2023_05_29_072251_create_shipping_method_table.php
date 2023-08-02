@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('shipping_methods', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->decimal('price', 10, 0)->nullable();
+            $table->decimal('price', 10, 2)->nullable();
+            $table->timestamps();
         });
     }
 

@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('shipper_id')->constrained('shippers','id');
+            $table->foreignId('shipper_id')->nullable()->constrained('shippers','id');
             $table->foreignId('user_id')->constrained('users','id');
-            $table->foreignId('shipping_method_id')->constrained('shipping_methods','id');
+            $table->foreignId('shipping_method_id')->nullable()->constrained('shipping_methods','id');
             $table->bigInteger('order_status')->nullable();
-            $table->decimal('shipping_cost', 10, 0);
-            $table->decimal('total_amount', 10, 0);
+            $table->decimal('shipping_cost', 10, 2);
+            $table->decimal('total_amount', 10, 2);
             $table->longText('note')->nullable();
             $table->date('order_date')->nullable();
             $table->date('shipped_date')->nullable();
             $table->date('required_date')->nullable();
-            $table->bigInteger('state')->default(1)->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

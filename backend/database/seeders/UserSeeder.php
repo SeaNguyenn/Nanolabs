@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
                 'avatar' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
                 'email' => 'boss@gmail.com',
                 'role_id' => 1,
-                'state' => 1,
+                'is_active' => 1,
             ],
             [
                 'id' => 2,
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'avatar' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
                 'role_id' => 2,
-                'state' => 1,
+                'is_active' => 1,
             ],
             [
                 'id' => 3,
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
                 'email' => 'user@gmail.com',
                 'avatar' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
                 'role_id' => 3,
-                'state' => 1,
+                'is_active' => 1,
             ],
         ]);
     }

@@ -6,7 +6,7 @@ return [
         // 'account_id' => 'account_id',
         // 'email' => 'email',
         'name' => 'name',
-        // 'state' => 'state',
+        // 'is_active' => 'is_active',
         'role_id' => 'role_id',
         'avatar' => 'avatar',
         // 'createdAt' => 'created_at',
@@ -28,7 +28,7 @@ return [
         7 => 'Returned',
     ],
 
-    'state' => [
+    'is_active' => [
         1 => 'Hoạt động',
         9 => 'Tạm ngưng',
     ],

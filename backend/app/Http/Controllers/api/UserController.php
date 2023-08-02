@@ -99,7 +99,7 @@ class UserController extends Controller
         if ($user_role_id === 1 || $user_role_id === 2) {
             try {
                 $user = DB::table('users')->where('id', $id)->update([
-                    'state' => 9,
+                    'is_active' => 9,
                 ]);
 
                 return response()->json([

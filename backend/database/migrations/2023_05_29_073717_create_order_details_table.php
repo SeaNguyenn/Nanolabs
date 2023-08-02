@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_detail', function (Blueprint $table) {
+        Schema::create('order_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders','id');
             $table->foreignId('product_id')->constrained('products','id');
-            $table->bigInteger('quantity')->nullable();
-            $table->bigInteger('state')->default(1)->nullable();
+            $table->unsignedBigInteger('quantity');
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
         });
     }
 

@@ -19,7 +19,7 @@ class OrderController extends Controller
 
         try {
             $result = DB::table('orders')
-            ->where('state','!=', 9)
+            ->where('is_active','!=', 9)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -89,7 +89,7 @@ class OrderController extends Controller
 
             if (isset($order)) {
                 $order = $order->update([
-                    'state' => 9,
+                    'is_active' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá hoá đơn thành công'], 200);
             } else {

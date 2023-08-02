@@ -18,7 +18,7 @@ class CategoryController extends Controller
 
         try {
             $result = DB::table('categories')->where('name', 'like', "%{$search}%")
-            ->where('state','!=', 9)
+            ->where('is_active','!=', 9)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -45,7 +45,7 @@ class CategoryController extends Controller
                 'name' => $data['name'],
                 'parent_id' => $data['parent_id'],
                 'display_order' => $data['display_order'],
-                'state' => 1,
+                'is_active' => 1,
             ]);
             return response()->json(['message' => 'Thêm mới loại sản phẩm thành công'], 200);
 
@@ -88,7 +88,7 @@ class CategoryController extends Controller
 
             if (isset($category)) {
                 $category = $category->update([
-                    'state' => 9,
+                    'is_active' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá loại sản phẩm thành công'], 200);
             } else {

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('notification', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users','id');
-            $table->bigInteger('order_id')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->string('content')->nullable();
-            $table->integer('seen')->nullable()->default(1);
+            $table->boolean('seen')->nullable()->default(false);
+            $table->timestamps();
         });
     }
 

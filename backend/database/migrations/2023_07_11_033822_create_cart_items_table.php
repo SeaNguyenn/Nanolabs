@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users','id');
             $table->foreignId('product_id')->constrained('products','id');
-            $table->bigInteger('quantity')->nullable();
-            $table->bigInteger('state')->default(1)->nullable();
+            $table->unsignedBigInteger('quantity');
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
         });
     }
 

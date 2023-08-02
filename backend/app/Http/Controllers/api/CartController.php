@@ -24,7 +24,7 @@ class CartController extends Controller
         try {
             $result = DB::table('cart_items')
             ->join('products', 'cart_items.product_id', '=', 'products.id')
-            ->where('cart_items.state','!=', 9)
+            ->where('cart_items.is_active','!=', 9)
             ->where('cart_items.user_id','=', $user_id)
             ->orderBy('cart_items.id', $sortDirection)
             ->paginate($perPage);
@@ -94,7 +94,7 @@ class CartController extends Controller
 
             if (isset($cart)) {
                 $cart = $cart->update([
-                    'state' => 9,
+                    'is_active' => 9,
                 ]);
                 return response()->json(['message' => 'Xoá giỏ hàng thành công'], 200);
             } else {

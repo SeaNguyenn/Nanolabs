@@ -28,7 +28,7 @@ class SupplierRequest extends FormRequest
             'evaluate' => 'nullable|integer|between:0,5',
             'phone' => 'nullable',
             'address' => 'nullable|string',
-            'state' => 'nullable|in:1,2'
+            'is_active' => 'nullable|in:1,2'
         ];
     }
 }

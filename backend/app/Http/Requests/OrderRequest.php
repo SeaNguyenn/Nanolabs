@@ -32,7 +32,7 @@ class OrderRequest extends FormRequest
             'order_date' => 'nullable|date',
             'shipped_date' => 'nullable|date',
             'required_date' => 'nullable|date',
-            'state' => 'nullable|in:1,2'
+            'is_active' => 'nullable|in:1,2'
         ];
     }
 }
