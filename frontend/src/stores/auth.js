@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia'
+import authService from '../services/authService';
+import { checkCookie } from './utils';
 
 export const authStore = defineStore('auth', {
   state: () => ({
     user: null,
+    token: null,
   }),
   getters: {
     isAuthenticated: (state) => !!state.user,
@@ -10,22 +13,27 @@ export const authStore = defineStore('auth', {
   },
   actions: {
     async login(account_id, password) {
-      const response = await authService.login(account_id, password);
+      const tonken = await authService.login(account_id, password);
       console.log("Đăng nhập thành công");
-      this.user.name = response.data.data.account_id;
+      const response = await authService.getInfo();
+      this.user = response.data.data;
+      this.token = tonken.data.access_token;
     },
 
-    // async register(account_id, password, email) {
-    //   const response = await authService.register(account_id, password, email);
-    //   console.log(response);
-    //   // localStorage.setItem('NAME', response.data.data.account_id);
-    //   // console.log("Đăng kí thành công");
-    // },
+    async register(account_id, email, password, password_confirmation) {
+      const response = await authService.register(account_id, email, password, password_confirmation);
+      console.log("Đăng kí thành công");
+      console.log(response);
+      this.user = response.data.data.user;
+      this.token = response.data.data.token;
+    },
 
     async logout() {
       await authService.logout();
-      document.cookie = 'XSRF-TOKEN=; max-age=0';
-      this.user.name = null;
+      checkCookie('XSRF-TOKEN', '');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.reload();
     },
   },
 
@@ -34,6 +42,11 @@ export const authStore = defineStore('auth', {
     strategies: [{
         key: 'user',
         paths: ['user'],
+        storage: localStorage,
+      },
+      {
+        key: 'token',
+        paths: ['token'],
         storage: localStorage,
       }
     ],
