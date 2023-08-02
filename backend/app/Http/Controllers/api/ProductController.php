@@ -22,12 +22,11 @@ class ProductController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         try {
-            $query = DB::table('products')
-                ->where('name', 'like', "%{$search}%")
-                ->where('is_active', true)
-                ->orderBy($sortBy, $sortOrder);
-
-            $result = $query->paginate($perPage);
+            $result = DB::table('products')
+            ->where('name', 'like', "%{$search}%")
+            ->where('is_active', true)
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
 
             return response()->json([
                 'success' => true,

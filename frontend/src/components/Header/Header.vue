@@ -19,10 +19,10 @@
 
     <div class="flex items-center justify-between p-2">
       <div class="flex items-center justify-between gap-3">
-        <router-link v-if="userId == 'Admin' || userId == 'Boss'" :to="{ name: 'dashboard' }">
+        <router-link v-if="userId == 'admin' || userId == 'boss'" :to="{ name: 'dashboard' }">
           <Button color="light" gradient="purple-pink" class="uppercase text-sm">Quản lý</Button>
         </router-link>
-        <a-popover v-if="userId != 'Admin' && userId != 'Boss'" placement="bottom"
+        <a-popover v-if="userId != 'admin' && userId != 'Boss'" placement="bottom"
           class="flex relative items-center cursor-pointer">
           <Icon icon="mi:shopping-cart" class="text-[29px]" />
           <span

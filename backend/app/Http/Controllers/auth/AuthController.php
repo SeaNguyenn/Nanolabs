@@ -9,6 +9,7 @@ use Hash;
 use DB;
 use Validator;
 use App\Models\User;
+use Log;
 
 class AuthController extends Controller
 {
@@ -72,15 +73,16 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $user->currentAccessToken()->delete();
-        }
+        $user = auth()->user();
+        $user->tokens()->delete();
 
-        return response()->json([
+        $response = [
             'success' => true,
-        ]);
+            'message' => 'Đăng xuất thành công',
+        ];
+
+        return response()->json($response, 200);
     }
 }

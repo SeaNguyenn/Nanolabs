@@ -13,11 +13,10 @@ export const authStore = defineStore('auth', {
   },
   actions: {
     async login(account_id, password) {
-      const tonken = await authService.login(account_id, password);
-      console.log("Đăng nhập thành công");
+      const loginData = await authService.login(account_id, password);
       const response = await authService.getInfo();
       this.user = response.data.data;
-      this.token = tonken.data.access_token;
+      this.token = loginData.data.token;
     },
 
     async register(account_id, email, password, password_confirmation) {
@@ -33,7 +32,6 @@ export const authStore = defineStore('auth', {
       checkCookie('XSRF-TOKEN', '');
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('user');
-      window.location.reload();
     },
   },
 

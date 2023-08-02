@@ -23,29 +23,31 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
-    Route::post('logout', 'logout');
 });
 
 Route::middleware(['auth:sanctum', 'checkUserRole:admin'])->group(function () {
     Route::post('/remove-user/{id}', [Controllers\api\UserController::class, 'removeUser']);
     Route::post('/update-role-user/{id}', [Controllers\api\UserController::class, 'updateUserRole']);
-});
 
-Route::middleware(['auth:sanctum', 'checkUserRole:user'])->group(function () {
-
-});
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/get-info', [Controllers\api\UserController::class, 'getInfo']);
-    Route::post('/update-info/{$id}', [Controllers\api\UserController::class, 'updateInfo']);
-    Route::post('/update-password/{$id}', [Controllers\api\UserController::class, 'updatePassword']);
-
-    //product
-    Route::post('/products', [Controllers\api\ProductController::class, 'index']);
-    Route::get('/product/{id}', [Controllers\api\ProductController::class, 'getProduct']);
     Route::post('/product/create', [Controllers\api\ProductController::class, 'createProduct']);
     Route::post('/product/update/{id}', [Controllers\api\ProductController::class, 'updateProduct']);
     Route::post('/product/delete/{id}', [Controllers\api\ProductController::class, 'deleteProduct']);
+
+
+});
+// Route::middleware(['auth:sanctum', 'checkUserRole:user'])->group(function () {
+
+// });
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [Controllers\auth\AuthController::class, 'logout']);
+    Route::get('/get-info-user', [Controllers\api\UserController::class, 'getInfoUser']);
+    Route::post('/update-info-user/{$id}', [Controllers\api\UserController::class, 'updateInfoUser']);
+    Route::post('/update-password/{$id}', [Controllers\api\UserController::class, 'updatePassword']);
+
+    Route::post('/products', [Controllers\api\ProductController::class, 'getAllProduct']);
+    Route::post('/products/{id}/search', [Controllers\api\ProductController::class, 'getAllProductByCategory']);
+    Route::get('/product/{id}', [Controllers\api\ProductController::class, 'getProduct']);
 
     //cart
     Route::post('/cart', [Controllers\api\CartController::class, 'index']);

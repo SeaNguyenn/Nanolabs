@@ -131,7 +131,7 @@ router.beforeEach((to,from,next) => {
   }
   if (auth.isAuthenticated || cookieFlg) {
     if (to.matched.some((record) => record.meta.admin)) {
-      if (auth.$state.user?.role_id === 'Admin' || auth.$state.user?.role_id === 'Boss') {
+      if (auth.$state.user?.role_id === 'admin' || auth.$state.user?.role_id === 'boss') {
         next();
       } else {
         next({ path: '/homepage' });

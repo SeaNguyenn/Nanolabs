@@ -16,7 +16,7 @@ use Carbon\Carbon;
 use Hash;
 class UserController extends Controller
 {
-    public function getInfo(Request $request)
+    public function getInfoUser(Request $request)
     {
         $user = $request->user();
 
@@ -30,7 +30,7 @@ class UserController extends Controller
     }
 
 
-    public function updateInfo(Request $request, $id)
+    public function updateInfoUser(Request $request, $id)
     {
         $data = $request->all();
         $image = $data['image'] ?? null;

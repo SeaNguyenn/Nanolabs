@@ -20,7 +20,7 @@ export default {
   },
 
   async getInfo() {
-    return http.get(import.meta.env.VITE_API_BASE_PATH + "/get-info");
+    return http.get(import.meta.env.VITE_API_BASE_PATH + '/get-info-user');
   },
 
   async logout() {

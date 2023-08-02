@@ -14,15 +14,14 @@ class CheckUserRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         if (!Auth::check()) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         $user = Auth::user();
-
-        if (!in_array($user->role, $roles)) {
+        if (!in_array($user->role_id, $roles)) {
             return response()->json(['error' => 'Không có quyền truy cập'], 403);
         }
 

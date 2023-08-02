@@ -1,16 +1,10 @@
 <template>
-  <div class="flex justify-between items-center">
-    <div class="logo flex items-center">
-      <Icon icon="cryptocurrency:nano" class="text-3xl mr-2" />
-      <h2 class="w-[118px] h-[36px] font-bold text-3xl cursor-pointer">Nanolabs</h2>
+  <div class="flex justify-center content-center mt-10 relative">
+    <div class="flex justify-center items-center text-base gap-2 p-1 border-[1px] rounded border-black absolute top-0 right-0 z-[1px]" v-if="success"
+    >
+      <Icon icon="icon-park-twotone:success"  class="text-red-600 "/>
+      <span>Đăng nhập thành công</span>
     </div>
-    <router-link :to="{ name: 'register' }"
-      class="group relative flex items-center justify-center rounded-md py-3.5 px-3 font-semibold bg-blue-500 text-white hover:bg-blue-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-blue-500">
-      <p class="flex justify-center px-3 text-lg font-normal">Đăng ký</p>
-      <Icon icon="material-symbols:arrow-right-alt-rounded" class="font-normal text-lg" />
-    </router-link>
-  </div>
-  <div class="flex justify-center content-center mt-10">
     <div class="w-full max-w-md space-y-8">
       <div class="rounded-md border p-5 bg-white shadow-sm">
         <div class="mt-6 text-center text-4xl font-bold tracking-tight">Đăng nhập</div>
@@ -63,9 +57,9 @@
             </div>
 
             <div class="w-full flex items-center justify-center">
-              <p class="text-sm font-normal text-gray-500">Đã có tài khoản?</p>
+              <p class="text-sm font-normal text-gray-500">Chưa có tài khoản?</p>
               <router-link :to="{ name: 'register' }"
-                class="font-semibold underline underline-offset-2 cursor-pointer px-1">Đăng nhập ở đây!</router-link>
+                class="font-semibold underline underline-offset-2 cursor-pointer px-1">Đăng ký ở đây!</router-link>
             </div>
           </div>
         </a-form>
@@ -74,42 +68,38 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { Icon } from '@iconify/vue'
 import { ref, reactive } from 'vue'
 import { authStore } from '@/stores/auth.js';
 import { useRouter } from 'vue-router'
-export default {
-  components: {
-    Icon
-  },
 
-  setup(props) {
-    const error = ref(false);
+const error = ref(false);
+const isLoading = ref(false);
+const success = ref(false);
 
-    const auth = authStore(); 
-    const router = useRouter()
+const auth = authStore(); 
+const router = useRouter()
 
-    const formState = reactive({
-      account_id: '',
-      password: '',
-    })
+const formState = reactive({
+  account_id: '',
+  password: '',
+})
 
-    const onSubmit = async () => {
-      try {
-        await Promise.all([auth.login(formState.account_id, formState.password)]);
-        router.push({ name: 'homepage' })
-        error.value = false;
-      } catch (e) {
-        error.value = true;
-        console.log(e);
-      }
-    }
-    return {
-      error,
-      formState,
-      onSubmit,
-    }
+const onSubmit = async () => {
+  try {
+    await Promise.all([auth.login(formState.account_id, formState.password)]);
+    success.value = true
+    setTimeout(() => {
+      isLoading.value = false;
+      router.push({ name: 'homepage' });
+    }, 3000);
+    error.value = false;
+  } catch (e) {
+    isLoading.value = false;
+    success.value = false;
+    error.value = true;
+    console.log(e);
   }
 }
 </script>
