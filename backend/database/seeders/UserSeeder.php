@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use DB;
 use Hash;
+use Carbon\Carbon;
 class UserSeeder extends Seeder
 {
     /**
@@ -19,10 +20,14 @@ class UserSeeder extends Seeder
                 'account_id' => 'boss',
                 'password' => Hash::make('1'),
                 'name' => 'boss',
-                'avatar' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+                'image' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
                 'email' => 'boss@gmail.com',
-                'role_id' => 1,
-                'is_active' => 1,
+                'gender' => 'male',
+                'phone' => '+84 912 345 678',
+                'address' => '37 Nguyễn Đình Chiểu, Phường 6, Quận 3, Thành phố Hồ Chí Minh, Việt Nam',
+                'birthday' => Carbon::now(),
+                'role_id' => 'boss',
+                'is_active' => true,
             ],
             [
                 'id' => 2,
@@ -30,9 +35,13 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('1'),
                 'name' => 'admin',
                 'email' => 'admin@gmail.com',
-                'avatar' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-                'role_id' => 2,
-                'is_active' => 1,
+                'image' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+                'gender' => 'male',
+                'phone' => '+84 912 345 678',
+                'address' => '10 Phan Chu Trinh, Phường Hàng Bài, Quận Hoàn Kiếm, Thành phố Hà Nội, Việt Nam',
+                'birthday' => Carbon::now(),
+                'role_id' => 'admin',
+                'is_active' => true,
             ],
             [
                 'id' => 3,
@@ -40,9 +49,13 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('1'),
                 'name' => 'user',
                 'email' => 'user@gmail.com',
-                'avatar' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-                'role_id' => 3,
-                'is_active' => 1,
+                'image' => 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+                'gender' => 'male',
+                'phone' => '+84 912 345 678',
+                'address' => '123 Đường Trần Hưng Đạo, Phường Xuân Thành, Thành phố Nam Định, Tỉnh Nam Định, Việt Nam',
+                'birthday' => Carbon::now(),
+                'role_id' => 'user',
+                'is_active' => true,
             ],
         ]);
     }

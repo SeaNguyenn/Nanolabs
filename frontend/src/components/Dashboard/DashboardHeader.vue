@@ -45,7 +45,7 @@ import { useRouter } from 'vue-router'
 const props = defineProps({
   showSiderbar: Boolean,
 })
-const getUserData = localStorage.getItem('user')
+const getUserData = sessionStorage.getItem('user')
 const userData = JSON.parse(getUserData);
 const user = userData.user
 

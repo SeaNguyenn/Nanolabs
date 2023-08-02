@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->nullable();
-            $table->string('avatar')->nullable();
+            $table->string('image')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->boolean('is_active')->default(true);

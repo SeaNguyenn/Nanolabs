@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Hash;
 class UserController extends Controller
 {
     public function getInfo(Request $request)
@@ -20,15 +21,11 @@ class UserController extends Controller
         $user = $request->user();
 
         $userKeyCols = Config::get('constants.user_keys');
-        $userRoleCols = Config::get('constants.role_id');
         $responseData = [];
 
         foreach (array_keys($userKeyCols) as $key) {
             $responseData[$key] = $user[$userKeyCols[$key]];
         }
-
-        $responseData['role_id'] = $userRoleCols[$responseData['role_id']];
-
         return response()->json(['data' => $responseData]);
     }
 
@@ -36,18 +33,19 @@ class UserController extends Controller
     public function updateInfo(Request $request, $id)
     {
         $data = $request->all();
-        $image = $data['avatar'] ?? null;
+        $image = $data['image'] ?? null;
 
         if ($image) {
             $relativePath = $this->saveImage($image);
-            $data['avatar'] = URL::to(Storage::url($relativePath));
+            $data['image'] = URL::to(Storage::url($relativePath));
         }
 
         try {
-            $user = DB::table('users')->where('id', $id)->update([
+            $user = DB::table('users')->where('id', $id);
+
+            $user->update([
                 'name' => $data['name'],
-                'email' => $data['email'],
-                'avatar' => $data['avatar'],
+                'image' => $data['image'],
                 'gender' => $data['gender'],
                 'birthday' => $data['birthday'],
                 'address' => $data['address'],
@@ -69,12 +67,15 @@ class UserController extends Controller
         }
     }
 
-    public function updatePassword(Request $request, $id)
+    public function updatePassword(Request $request)
     {
+        $user_id = Auth::user()->id;
         $data = $request->all();
-
+        $data['password'] = Hash::make($data['password']);
         try {
-            $user = DB::table('users')->where('id', $id)->update([
+            $user = DB::table('users')->where('id', $user_id);
+
+            $user->update([
                 'password' => $data['password'],
                 'updated_at' => Carbon::now(),
             ]);
@@ -93,49 +94,53 @@ class UserController extends Controller
         }
     }
 
-    public function removeUser($id)
+    public function updateUserRole(Request $request, $id)
     {
-        $user_role_id = Auth::user()->role_id;
-        if ($user_role_id === 1 || $user_role_id === 2) {
-            try {
-                $user = DB::table('users')->where('id', $id)->update([
-                    'is_active' => 9,
-                ]);
+        $data = $request->all();
+        try {
+            $user = DB::table('users')->where('id', $id);
 
-                return response()->json([
-                    'result' => true,
-                    'message' => 'Xoá người dùng thành công'
-                ]);
-            } catch (\Exception $e) {
-                Log::error('Có lỗi xảy ra: '.$e->getMessage());
+            $user->update([
+                'role_id' => $data['role_id'],
+                'updated_at' => Carbon::now(),
+            ]);
 
-                return response()->json([
-                    'result' => false,
-                    'message' => 'Xoá người dùng không thành công'
-                ]);
-            }
-        }else {
             return response()->json([
-                'message' => 'Bạn không có quyền truy cập'
+                'result' => true,
+                'message' => 'Cấp quyền thành công'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Có lỗi xảy ra: '.$e->getMessage());
+
+            return response()->json([
+                'result' => false,
+                'message' => 'Cấp quyền không thành công'
             ]);
         }
     }
 
-    public function register(Request $request)
+    public function removeUser($id)
     {
-        $newUser = new CreateNewUser();
+        try {
+            $user = DB::table('users')->where('id', $id);
 
-        $user = $newUser->create($request->only(['account_id','email','password','password_confirmation']));
-        $success['token'] = $user->createToken('MyApp')->plainTextToken;
-        $success['user'] = $user;
+            $user->update([
+                'is_active' => 9,
+            ]);
 
-        $response = [
-            'success' => true,
-            'data' => $success,
-            'message' => 'Người dùng đăng ký thành công',
-        ];
+            return response()->json([
+                'result' => true,
+                'message' => 'Xoá người dùng thành công'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Có lỗi xảy ra: '.$e->getMessage());
 
-        return response()->json($response,200);
+            return response()->json([
+                'result' => false,
+                'message' => 'Xoá người dùng không thành công'
+            ]);
+        }
+
     }
 
     private function saveImage(UploadedFile $image)

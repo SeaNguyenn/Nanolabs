@@ -64,17 +64,17 @@ class SupplierController extends Controller
     public function createSupplier(SupplierRequest $request)
     {
         $data = $request->validated();
-        $image = $data['avatar'] ?? null;
+        $image = $data['image'] ?? null;
 
         if ($image) {
             $relativePath = $this->saveImage($image);
-            $data['avatar'] = URL::to(Storage::url($relativePath));
+            $data['image'] = URL::to(Storage::url($relativePath));
         }
 
         try {
             DB::table('suppliers')->insert([
                 'brand_name' => $data['brand_name'],
-                'avatar' => $data['avatar'],
+                'image' => $data['image'],
                 'email' => $data['email'],
                 'evaluate' => $data['evaluate'],
                 'phone' => $data['phone'],
@@ -94,14 +94,14 @@ class SupplierController extends Controller
     {
         $data = $request->all();
         $supplier = DB::table('suppliers')->where('id', $id)->first();
-        $image = $data['avatar'] ?? null;
+        $image = $data['image'] ?? null;
 
         if ($image) {
-            if ($supplier->avatar) {
-                Storage::deleteDirectory('/public' . dirname($supplier->avatar));
+            if ($supplier->image) {
+                Storage::deleteDirectory('/public' . dirname($supplier->image));
             }
             $relativePath = $this->saveImage($image);
-            $data['avatar'] = URL::to(Storage::url($relativePath));
+            $data['image'] = URL::to(Storage::url($relativePath));
         }
 
         try {
@@ -110,7 +110,7 @@ class SupplierController extends Controller
             if (isset($supplier)) {
                 DB::table('suppliers')->where('id', $id)->update([
                     'brand_name' => $data['brand_name'],
-                    'avatar' => $data['avatar'],
+                    'image' => $data['image'],
                     'email' => $data['email'],
                     'evaluate' => $data['evaluate'],
                     'phone' => $data['phone'],

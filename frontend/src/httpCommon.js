@@ -1,5 +1,5 @@
 import axios from 'axios';
-const token = JSON.parse(localStorage.getItem('token'));
+const token = JSON.parse(sessionStorage.getItem('token'));
 
 if (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token['token']}`;

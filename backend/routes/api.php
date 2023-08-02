@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\auth\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,16 +20,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(UserController::class)->group(function () {
-    Route::post('/register', 'register');
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout');
+});
+
+Route::middleware(['auth:sanctum', 'checkUserRole:admin'])->group(function () {
+    Route::post('/remove-user/{id}', [Controllers\api\UserController::class, 'removeUser']);
+    Route::post('/update-role-user/{id}', [Controllers\api\UserController::class, 'updateUserRole']);
+});
+
+Route::middleware(['auth:sanctum', 'checkUserRole:user'])->group(function () {
+
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-
     Route::get('/get-info', [Controllers\api\UserController::class, 'getInfo']);
     Route::post('/update-info/{$id}', [Controllers\api\UserController::class, 'updateInfo']);
     Route::post('/update-password/{$id}', [Controllers\api\UserController::class, 'updatePassword']);
-    Route::post('/remove-user/{id}', [Controllers\api\UserController::class, 'removeUser']);
 
     //product
     Route::post('/products', [Controllers\api\ProductController::class, 'index']);

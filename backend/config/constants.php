@@ -8,16 +8,11 @@ return [
         'name' => 'name',
         // 'is_active' => 'is_active',
         'role_id' => 'role_id',
-        'avatar' => 'avatar',
+        'image' => 'image',
         'address' => 'address',
         'phone' => 'phone',
         // 'createdAt' => 'created_at',
         // 'updatedAt' => 'updated_at',
-    ],
-
-    'gender' => [
-        1 => 'Nam',
-        2 => 'Nữ',
     ],
 
     'order_status' => [
@@ -31,23 +26,7 @@ return [
     ],
 
     'is_active' => [
-        1 => 'Hoạt động',
-        9 => 'Tạm ngưng',
+        true => 'Hoạt động',
+        false => 'Tạm ngưng',
     ],
-
-    'role_id' => [
-        1 => 'Boss',
-        2 => 'Admin',
-        3 => 'User',
-    ],
-
-    'evaluate' => [
-        1 => 'Khá Tệ',
-        2 => 'Tệ',
-        3 => 'Bình thường',
-        4 => 'Tốt',
-        5 => 'Rất tốt',
-    ],
-
-
 ];

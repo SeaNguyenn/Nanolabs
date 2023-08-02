@@ -14,18 +14,20 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 class ProductController extends Controller
 {
-    public function index(Request $request)
+    public function getAllProduct(Request $request)
     {
-        $perPage = request('per_page', 10);
+        $perPage = min(request('per_page', 10), 50);
         $search = request('search', '');
         $sortField = request('sort_field', 'created_at');
         $sortDirection = request('sort_direction', 'desc');
 
         try {
-            $result = DB::table('products')->where('name', 'like', "%{$search}%")
-            ->where('is_active','!=', 9)
-            ->orderBy($sortField, $sortDirection)
-            ->paginate($perPage);
+            $query = DB::table('products')
+                ->where('name', 'like', "%{$search}%")
+                ->where('is_active', true)
+                ->orderBy($sortBy, $sortOrder);
+
+            $result = $query->paginate($perPage);
 
             return response()->json([
                 'success' => true,
@@ -43,12 +45,13 @@ class ProductController extends Controller
 
     public function getAllProductByCategory(Request $request, $categoryId)
     {
-        $perPage = request('per_page', 10);
+        $perPage = min(request('per_page', 10), 50);
         try {
 
             $products = DB::table('products')
                 ->join('category_product', 'products.id', '=', 'category_product.product_id')
                 ->where('category_product.category_id', $categoryId)
+                ->where('products.is_active', true)
                 ->select('products.*')
                 ->paginate($perPage);
 
@@ -106,7 +109,7 @@ class ProductController extends Controller
                 'material' => $data['material'],
                 'warranty' => $data['warranty'],
                 'view_count' => 0,
-                'is_active' => 1,
+                'is_active' => true,
                 'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới sản phẩm thành công'], 200);
@@ -170,7 +173,7 @@ class ProductController extends Controller
 
             if (isset($product)) {
                 $product = $product->update([
-                    'is_active' => 9,
+                    'is_active' => false,
                 ]);
                 return response()->json(['message' => 'Xoá sản phẩm thành công'], 200);
             } else {

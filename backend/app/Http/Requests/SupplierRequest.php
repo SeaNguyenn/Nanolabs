@@ -23,7 +23,7 @@ class SupplierRequest extends FormRequest
     {
         return [
             'brand_name' => 'required|string|unique:suppliers,brand_name',
-            'avatar' => 'nullable',
+            'image' => 'nullable',
             'email' => 'required|email|unique:suppliers,email',
             'evaluate' => 'nullable|integer|between:0,5',
             'phone' => 'nullable',

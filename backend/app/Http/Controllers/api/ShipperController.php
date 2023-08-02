@@ -65,11 +65,11 @@ class ShipperController extends Controller
     {
         $data = $request->validated();
 
-        $image = $data['avatar'] ?? null;
+        $image = $data['image'] ?? null;
 
         if ($image) {
             $relativePath = $this->saveImage($image);
-            $data['avatar'] = URL::to(Storage::url($relativePath));
+            $data['image'] = URL::to(Storage::url($relativePath));
         }
 
         try {
@@ -77,7 +77,7 @@ class ShipperController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
-                'avatar' => $data['avatar'],
+                'image' => $data['image'],
                 'address' => $data['address'],
                 'created_at' => Carbon::now(),
                 'is_active' => 1,
@@ -94,14 +94,14 @@ class ShipperController extends Controller
     {
         $data = $request->validated();
         $shipper = DB::table('shippers')->where('id', $id)->first();
-        $image = $data['avatar'] ?? null;
+        $image = $data['image'] ?? null;
 
         if ($image) {
-            if ($shipper->avatar) {
-                Storage::deleteDirectory('/public' . dirname($shipper->avatar));
+            if ($shipper->image) {
+                Storage::deleteDirectory('/public' . dirname($shipper->image));
             }
             $relativePath = $this->saveImage($image);
-            $data['avatar'] = URL::to(Storage::url($relativePath));
+            $data['image'] = URL::to(Storage::url($relativePath));
         }
 
         try {
@@ -112,7 +112,7 @@ class ShipperController extends Controller
                     'name' => $data['name'],
                     'email' => $data['email'],
                     'phone' => $data['phone'],
-                    'avatar' => $data['avatar'],
+                    'image' => $data['image'],
                     'address' => $data['address'],
                     'updated_at' => Carbon::now(),
                 ]);
