@@ -125,7 +125,7 @@ class UserController extends Controller
             $user = DB::table('users')->where('id', $id);
 
             $user->update([
-                'is_active' => 9,
+                'is_active' => false,
             ]);
 
             return response()->json([

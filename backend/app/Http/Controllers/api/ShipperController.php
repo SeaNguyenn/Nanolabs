@@ -24,7 +24,7 @@ class ShipperController extends Controller
 
         try {
             $result = DB::table('shippers')->where('name', 'like', "%{$search}%")
-            ->where('is_active',1)
+            ->where('is_active', true)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -80,7 +80,7 @@ class ShipperController extends Controller
                 'image' => $data['image'],
                 'address' => $data['address'],
                 'created_at' => Carbon::now(),
-                'is_active' => 1,
+                'is_active' => true,
             ]);
             return response()->json(['message' => 'Thêm mới nhân viên shipper thành công'], 200);
 
@@ -136,7 +136,7 @@ class ShipperController extends Controller
 
             if (isset($shipper)) {
                 $shipper = $shipper->update([
-                    'is_active' => 9,
+                    'is_active' => false,
                 ]);
             } else {
                 return response()->json([

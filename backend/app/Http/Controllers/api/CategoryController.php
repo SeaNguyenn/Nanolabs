@@ -62,7 +62,7 @@ class CategoryController extends Controller
         try {
             DB::table('categories')->insert([
                 'name' => $data['name'],
-                'is_active' => 1,
+                'is_active' => true,
                 'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới loại sản phẩm thành công'], 200);

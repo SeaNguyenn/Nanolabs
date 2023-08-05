@@ -24,7 +24,7 @@ class SupplierController extends Controller
 
         try {
             $result = DB::table('suppliers')->where('name', 'like', "%{$search}%")
-            ->where('is_active', 1)
+            ->where('is_active', true)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -78,7 +78,7 @@ class SupplierController extends Controller
                 'email' => $data['email'],
                 'phone' => $data['phone'],
                 'address' => $data['address'],
-                'is_active' => 1,
+                'is_active' => true,
                 'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới nhà cung cấp thành công'], 200);
@@ -113,7 +113,7 @@ class SupplierController extends Controller
                     'email' => $data['email'],
                     'phone' => $data['phone'],
                     'address' => $data['address'],
-                    'is_active' => 1,
+                    'is_active' => true,
                     'updated_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Cập nhật nhà cung cấp thành công'], 200);
@@ -136,7 +136,7 @@ class SupplierController extends Controller
 
             if (isset($supplier)) {
                 $supplier = $supplier->update([
-                    'is_active' => 9,
+                    'is_active' => false,
                 ]);
             } else {
                 return response()->json([

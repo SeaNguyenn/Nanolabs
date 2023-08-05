@@ -19,7 +19,7 @@ class OrderController extends Controller
 
         try {
             $result = DB::table('orders')
-            ->where('is_active','!=', 9)
+            ->where('is_active', true)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -71,11 +71,11 @@ class OrderController extends Controller
 
         $cartItems = DB::table('cart_items')->where('user_id', $user_id)
             ->whereIn('product_id', $data['product_ids'])
-            ->where('state', 1)
+            ->where('is_active', true)
             ->get();
 
         if ($cartItems->isEmpty()) {
-            return response()->json(['message' => 'No matching cart items found'], 400);
+            return response()->json(['message' => 'Giỏ hàng của bạn đang trống'], 400);
         }
 
         DB::beginTransaction();
@@ -89,11 +89,10 @@ class OrderController extends Controller
 
             $order = DB::table('orders')->create([
                 'user_id' => $user_id,
-                'shipper_id' => $data['shipper_id'],
-                'shipping_method_id' => $data['shipping_method_id'],
                 'total_amount' => $totalAmount,
                 'order_status' => 1,
                 'note' => $data['note'],
+                'is_acvite' => 1,
             ]);
 
             foreach ($cartItems as $cartItem) {
@@ -103,7 +102,7 @@ class OrderController extends Controller
                     'quantity' => $cartItem->quantity,
                 ]);
 
-                $cartItem->update(['state' => 9]);
+                $cartItem->update(['is_active' => false]);
             }
 
             DB::commit();
@@ -168,7 +167,7 @@ class OrderController extends Controller
         try {
             DB::table('orders')
             ->where('id', $id)
-            ->update(['state' => 9]);
+            ->update(['is_active' => false]);
 
             return response()->json(['message' => 'Xoá hoá đơn thành công'], 200);
         } catch (\Exception $e) {

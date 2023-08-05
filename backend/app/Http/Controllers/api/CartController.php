@@ -55,7 +55,7 @@ class CartController extends Controller
         $existingCartItem = DB::table('cart_items')
         ->where('user_id', $user_id)
         ->where('product_id', $product_id)
-        ->where('is_active', 1)
+        ->where('is_active', true)
         ->first();
 
         if ($existingCartItem) {
@@ -118,7 +118,7 @@ class CartController extends Controller
 
             if (isset($cart)) {
                 $cart = $cart->update([
-                    'is_active' => 9,
+                    'is_active' => false,
                     'updated_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Xoá giỏ hàng thành công'], 200);
