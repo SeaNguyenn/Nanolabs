@@ -92,7 +92,7 @@ class OrderController extends Controller
                 'total_amount' => $totalAmount,
                 'order_status' => 1,
                 'note' => $data['note'],
-                'is_acvite' => 1,
+                'is_acvite' => true,
             ]);
 
             foreach ($cartItems as $cartItem) {
@@ -122,8 +122,12 @@ class OrderController extends Controller
         $result = DB::table('orders')
             ->where('id', $id)
             ->update([
-                'order_status' => $data['order_status'],
                 'shipper_id' => $data['shipper_id'],
+                'order_status' => $data['order_status'],
+                'shipper_method_id' => $data['shipper_method_id'],
+                'order_date' => $data['order_date'],
+                'shipper_date' => $data['shipper_date'],
+                'required_date' => $data['required_date'],
                 'updated_at' => now(),
             ]);
 
@@ -143,6 +147,7 @@ class OrderController extends Controller
             if (isset($order)) {
                 $order = $order->update([
                     'order_status' => 5,
+                    'updated_at' => now(),
                 ]);
                 return response()->json(['message' => 'từ chối hoá đơn thành công'], 200);
             } else {
@@ -165,16 +170,11 @@ class OrderController extends Controller
         }
 
         try {
-            DB::table('orders')
-            ->where('id', $id)
-            ->update(['is_active' => false]);
+            DB::table('orders')->where('id', $id)->update(['is_active' => false]);
 
             return response()->json(['message' => 'Xoá hoá đơn thành công'], 200);
         } catch (\Exception $e) {
 
         }
-
-
-
     }
 }
