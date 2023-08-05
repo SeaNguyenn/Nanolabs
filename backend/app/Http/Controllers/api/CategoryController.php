@@ -7,18 +7,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use DB;
 use App\Http\Requests\CategoryRequest;
+use Carbon\Carbon;
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
         $perPage = request('per_page', 10);
         $search = request('search', '');
-        $sortField = request('sort_field', 'id');
+        $sortField = request('sort_field', 'create_at');
         $sortDirection = request('sort_direction', 'desc');
 
         try {
             $result = DB::table('categories')->where('name', 'like', "%{$search}%")
-            ->where('is_active','!=', 9)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -39,7 +39,7 @@ class CategoryController extends Controller
     public function getCategory($id)
     {
         try {
-            $result = DB::table('categories')->where('id','=',$id)->first();
+            $result = DB::table('categories')->where('id',$id)->first();
 
             return response()->json([
                 'success' => true,
@@ -63,6 +63,7 @@ class CategoryController extends Controller
             DB::table('categories')->insert([
                 'name' => $data['name'],
                 'is_active' => 1,
+                'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới loại sản phẩm thành công'], 200);
 
@@ -82,7 +83,7 @@ class CategoryController extends Controller
             if (isset($category)) {
                 DB::table('categories')->where('id', $id)->update([
                     'name' => $data['name'],
-                    'parent_id' => $data['parent_id'],
+                    'updated_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Cập nhật loại sản phẩm thành công'], 200);
             } else {
@@ -103,9 +104,7 @@ class CategoryController extends Controller
             $category = DB::table('categories')->where('id', $id);
 
             if (isset($category)) {
-                $category = $category->update([
-                    'is_active' => 9,
-                ]);
+                $category = $category->delete();
                 return response()->json(['message' => 'Xoá loại sản phẩm thành công'], 200);
             } else {
                 return response()->json([

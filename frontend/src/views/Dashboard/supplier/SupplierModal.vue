@@ -30,10 +30,9 @@
                 </header>
                 <a-form enctype="multipart/form-data" @submit="onSubmit">
                   <div class="flex flex-wrap gap-4 bg-white px-4 pt-5 pb-4">
-                    <CustomInput class="mb-2" v-model="supplier.brand_name" label="Tên nhà cung cấp" />
-                    <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => supplier.avatar = file" />
+                    <CustomInput class="mb-2" v-model="supplier.name" label="Tên nhà cung cấp" />
+                    <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => supplier.image = file" />
                     <CustomInput class="mb-2" type="email" v-model="supplier.email" label="Email" />
-                    <CustomInput class="mb-2" type="number" v-model="supplier.evaluate" label="Đánh giá" />
                     <CustomInput class="mb-2" type="number" v-model="supplier.phone" label="Số điện thoại" />
                     <CustomInput class="mb-2" v-model="supplier.address" label="Địa chỉ" />
                   </div>
@@ -72,10 +71,9 @@ import { Spinner } from 'flowbite-vue'
 
 const supplier = ref({
   id: props.supplier.id,
-  brand_name: props.supplier.brand_name,
-  avatar: props.supplier.avatar,
+  name: props.supplier.name,
+  image: props.supplier.image,
   email: props.supplier.email,
-  evaluate: props.supplier.evaluate,
   phone: props.supplier.phone,
   address: props.supplier.address,
 })
@@ -101,10 +99,9 @@ const show = computed({
 onUpdated(() => {
   supplier.value = {
     id: props.supplier.id,
-    brand_name: props.supplier.brand_name,
-    avatar: props.supplier.avatar,
+    name: props.supplier.name,
+    image: props.supplier.image,
     email: props.supplier.email,
-    evaluate: props.supplier.evaluate,
     phone: props.supplier.phone,
     address: props.supplier.address,
   }

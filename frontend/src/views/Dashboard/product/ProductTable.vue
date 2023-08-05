@@ -28,6 +28,9 @@
         <TableHeaderCell field="name" :sort-field="sortField" :sort-direction="sortDirection">
           Tên
         </TableHeaderCell>
+        <TableHeaderCell field="code" :sort-field="sortField" :sort-direction="sortDirection">
+          Mã
+        </TableHeaderCell>
         <TableHeaderCell field="supplier_id" :sort-field="sortField" :sort-direction="sortDirection"
           @click="sortProducts('supplier_id')">
           Nhà cung cấp
@@ -43,14 +46,6 @@
         <TableHeaderCell field="image" :sort-field="sortField" :sort-direction="sortDirection"
           @click="sortProducts('image')">
           Ảnh
-        </TableHeaderCell>
-        <TableHeaderCell field="color" :sort-field="sortField" :sort-direction="sortDirection"
-          @click="sortProducts('color')">
-          Màu sắc
-        </TableHeaderCell>
-        <TableHeaderCell field="material" :sort-field="sortField" :sort-direction="sortDirection"
-          @click="sortProducts('material')">
-          Chất liệu
         </TableHeaderCell>
         <TableHeaderCell field="warranty" :sort-field="sortField" :sort-direction="sortDirection"
           @click="sortProducts('warranty')">
@@ -83,15 +78,14 @@
         <table-row v-for="(product, index) of products.data">
           <table-cell>{{ index + 1 }}</table-cell>
           <table-cell>{{ product.name }}</table-cell>
+          <table-cell>{{ product.code }}</table-cell>
           <table-cell>{{ product.supplier_id }}</table-cell>
           <table-cell>{{ product.price }}<sup>₫</sup></table-cell>
-          <table-cell>{{ product.sale_price }}<sup>₫</sup></table-cell>
+          <table-cell>{{ product.sale_price ? product.sale_price : 0 }}<sup>₫</sup></table-cell>
           <table-cell>
             <img :src="product.image" alt="" class="h-7 w-10">
           </table-cell>
-          <table-cell>{{ product.color }}</table-cell>
-          <table-cell>{{ product.material }}</table-cell>
-          <table-cell>{{ product.warranty }}</table-cell>
+          <table-cell>{{ product.warranty }} Tháng</table-cell>
           <table-cell>{{ product.description }}</table-cell>
           <table-cell>{{ product.created_at }}</table-cell>
           <table-cell>

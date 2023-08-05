@@ -31,7 +31,6 @@
                 <a-form enctype="multipart/form-data" @submit="onSubmit">
                   <div class="flex flex-wrap gap-4 bg-white px-4 pt-5 pb-4">
                     <CustomInput class="mb-2" v-model="category.name" label="Tên danh mục" />
-                    <CustomInput class="mb-2" v-model="category.parent_id" label="Id cha" />
                   </div>
                   <div class="px-4 py-3 flex justify-between items-center">
                     <button type="button"
@@ -69,7 +68,6 @@ import { Spinner } from 'flowbite-vue'
 const category = ref({
   id: props.category.id,
   name: props.category.name,
-  parent_id: props.category.parent_id,
 })
 
 const props = defineProps({
@@ -94,7 +92,6 @@ onUpdated(() => {
   category.value = {
     id: props.category.id,
     name: props.category.name,
-    parent_id: props.category.parent_id,
   }
 })
 

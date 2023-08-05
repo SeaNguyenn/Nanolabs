@@ -24,7 +24,7 @@ class ShipperController extends Controller
 
         try {
             $result = DB::table('shippers')->where('name', 'like', "%{$search}%")
-            ->where('is_active','!=', 9)
+            ->where('is_active',1)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -45,7 +45,7 @@ class ShipperController extends Controller
     public function getShipper($id)
     {
         try {
-            $result = DB::table('shippers')->where('id','=',$id)->first();
+            $result = DB::table('shippers')->where('id',$id)->first();
 
             return response()->json([
                 'success' => true,

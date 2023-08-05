@@ -34,7 +34,7 @@
                     <CustomInput class="mb-2" type="email" v-model="shipper.email" label="Email" />
                     <CustomInput class="mb-2" type="number" v-model="shipper.phone" label="Số điện thoại" />
                     <CustomInput class="mb-2" v-model="shipper.address" label="Địa chỉ" />
-                    <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => product.avatar = file" />
+                    <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => product.image = file" />
                   </div>
 
                   <div class="px-4 py-3 flex justify-between items-center">
@@ -76,7 +76,7 @@ const shipper = ref({
   email: props.shipper.email,
   phone: props.shipper.phone,
   address: props.shipper.address,
-  avatar: props.shipper.avatar
+  image: props.shipper.image
 })
 
 const props = defineProps({
@@ -104,7 +104,7 @@ onUpdated(() => {
     email: props.shipper.email,
     phone: props.shipper.phone,
     address: props.shipper.address,
-    avatar: props.shipper.avatar
+    image: props.shipper.image
   }
 })
 

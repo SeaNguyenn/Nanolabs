@@ -19,7 +19,6 @@ import { useCategoryStore } from '@/stores/category.js';
 const DEFAULT_CATEGORY = {
   id: '',
   name: '',
-  parent_id: '',
 }
 
 function showAddNewModal() {

@@ -26,10 +26,7 @@ const DEFAULT_PRODUCT = {
   sale_price: '',
   image: '',
   evaluate: '',
-  color: '',
-  material: '',
   warranty: '',
-  material: '',
 }
 
 function showAddNewModal() {

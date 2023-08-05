@@ -24,8 +24,8 @@ class CartController extends Controller
         $user_id = Auth::user()->id;
         try {
             $result = DB::table('cart_items')
-            ->select('cart_items.id as cart_items_id','cart_items.state as cart_items_state','cart_items.quantity', 'products.*')
-            ->where('cart_items.is_active','!=', 9)
+            ->select('cart_items.id as cart_items_id','cart_items.is_active as cart_items_is_active','cart_items.quantity', 'products.*')
+            ->where('cart_items.is_active',1)
             ->where('cart_items.user_id','=', $user_id)
             ->join('products', 'cart_items.product_id', '=', 'products.id')
             ->orderBy($sortField, $sortDirection)
@@ -55,7 +55,7 @@ class CartController extends Controller
         $existingCartItem = DB::table('cart_items')
         ->where('user_id', $user_id)
         ->where('product_id', $product_id)
-        ->where('state', '!=', 9)
+        ->where('is_active', 1)
         ->first();
 
         if ($existingCartItem) {
@@ -96,6 +96,7 @@ class CartController extends Controller
             if (isset($cart)) {
                 DB::table('cart_items')->where('id', $id)->update([
                     'quantity' => $data['quantity'],
+                    'updated_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Cập nhật giỏ hàng thành công'], 200);
             } else {
@@ -118,6 +119,7 @@ class CartController extends Controller
             if (isset($cart)) {
                 $cart = $cart->update([
                     'is_active' => 9,
+                    'updated_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Xoá giỏ hàng thành công'], 200);
             } else {

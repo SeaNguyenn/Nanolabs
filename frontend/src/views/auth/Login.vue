@@ -93,7 +93,7 @@ const onSubmit = async () => {
     setTimeout(() => {
       isLoading.value = false;
       router.push({ name: 'homepage' });
-    }, 3000);
+    }, 1000);
     error.value = false;
   } catch (e) {
     isLoading.value = false;

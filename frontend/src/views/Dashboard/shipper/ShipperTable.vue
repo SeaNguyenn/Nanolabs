@@ -28,7 +28,7 @@
         <TableHeaderCell field="name" :sort-field="sortField" :sort-direction="sortDirection">
           Tên
         </TableHeaderCell>
-        <TableHeaderCell field="avatar" :sort-field="sortField" :sort-direction="sortDirection">
+        <TableHeaderCell field="image" :sort-field="sortField" :sort-direction="sortDirection">
           Ảnh
         </TableHeaderCell>
         <TableHeaderCell field="phone" :sort-field="sortField" :sort-direction="sortDirection"
@@ -67,7 +67,7 @@
           <table-cell>{{ index + 1 }}</table-cell>
           <table-cell>{{ shipper.name }}</table-cell>
           <table-cell>
-            <img :src="shipper.avatar" alt="" class="h-7 w-10">
+            <img :src="shipper.image" alt="" class="h-7 w-10">
           </table-cell>
           <table-cell>{{ shipper.phone }}</table-cell>
           <table-cell>{{ shipper.email }}</table-cell>

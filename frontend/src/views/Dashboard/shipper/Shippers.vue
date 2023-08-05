@@ -22,7 +22,7 @@ const DEFAULT_SHIPPER = {
   email: '',
   phone: '',
   address: '',
-  avatar: '',
+  image: '',
 }
 
 function showAddNewModal() {

@@ -101,7 +101,7 @@
       <div class="hidden gap-2 ml-3 text-xl lg:flex lg:items-center" v-if="userName != ''">
         <a-dropdown :trigger="['click']">
           <div class="text-lg font-bold flex gap-1 items-center ant-dropdown-link cursor-pointer" @click.prevent>
-            <Avatar status="online" size="xs" rounded :img="avatar" />
+            <Avatar status="online" size="xs" rounded :img="image" />
             {{ userName }}
           </div>
           <template #overlay>
@@ -137,7 +137,7 @@ const auth = authStore();
 const router = useRouter();
 const userName = ref('');
 const entered = ref(false);
-const avatar = ref();
+const image = ref();
 const userCart = ref([]);
 const perPage = ref(5);
 
@@ -170,7 +170,7 @@ watchEffect(() => {
 onMounted(() => {
   if (auth.authUser != null) {
     userName.value = auth.authUser.name;
-    avatar.value = auth.authUser.avatar;
+    image.value = auth.authUser.image;
     userId.value = auth.authUser.role_id;
   }
 })

@@ -29,9 +29,7 @@ class ProductRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0',
             'image' => 'nullable',
-            'evaluate' => 'nullable|integer|between:0,5',
-            'color' => 'nullable|string|max:255',
-            'material' => 'nullable|string|max:255',
+            'evaluate' => 'nullable|numeric|between:0,5',
             'warranty' => 'nullable|integer|min:0',
             'view_count' => 'nullable|integer|min:0',
         ];

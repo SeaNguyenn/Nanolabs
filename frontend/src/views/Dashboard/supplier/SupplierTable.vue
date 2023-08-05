@@ -28,16 +28,12 @@
         <TableHeaderCell field="brand_name" :sort-field="sortField" :sort-direction="sortDirection">
           Tên nhà cung cấp
         </TableHeaderCell>
-        <TableHeaderCell field="avatar" :sort-field="sortField" :sort-direction="sortDirection">
+        <TableHeaderCell field="image" :sort-field="sortField" :sort-direction="sortDirection">
           Ảnh
         </TableHeaderCell>
         <TableHeaderCell field="email" :sort-field="sortField" :sort-direction="sortDirection"
           @click="sortSuppliers('email')">
           Email
-        </TableHeaderCell>
-        <TableHeaderCell field="evaluate" :sort-field="sortField" :sort-direction="sortDirection"
-          @click="sortSuppliers('evaluate')">
-          Đánh giá
         </TableHeaderCell>
         <TableHeaderCell field="phone" :sort-field="sortField" :sort-direction="sortDirection"
           @click="sortSuppliers('phone')">
@@ -69,12 +65,11 @@
         <!-- <table-body> -->
         <table-row v-for="(supplier, index) of suppliers.data">
           <table-cell>{{ index + 1 }}</table-cell>
-          <table-cell>{{ supplier.brand_name }}</table-cell>
+          <table-cell>{{ supplier.name }}</table-cell>
           <table-cell>
-            <img :src="supplier.avatar" alt="" class="h-7 w-10">
+            <img :src="supplier.image" alt="" class="h-7 w-10">
           </table-cell>
           <table-cell>{{ supplier.email }}</table-cell>
-          <table-cell>{{ supplier.evaluate }}</table-cell>
           <table-cell>{{ supplier.phone }}</table-cell>
           <table-cell>{{ supplier.address }}</table-cell>
           <table-cell>{{ supplier.created_at }}</table-cell>

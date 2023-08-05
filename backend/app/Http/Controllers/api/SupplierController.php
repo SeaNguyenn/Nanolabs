@@ -23,8 +23,8 @@ class SupplierController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         try {
-            $result = DB::table('suppliers')->where('brand_name', 'like', "%{$search}%")
-            ->where('is_active','!=', 9)
+            $result = DB::table('suppliers')->where('name', 'like', "%{$search}%")
+            ->where('is_active', 1)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
@@ -73,10 +73,9 @@ class SupplierController extends Controller
 
         try {
             DB::table('suppliers')->insert([
-                'brand_name' => $data['brand_name'],
+                'name' => $data['name'],
                 'image' => $data['image'],
                 'email' => $data['email'],
-                'evaluate' => $data['evaluate'],
                 'phone' => $data['phone'],
                 'address' => $data['address'],
                 'is_active' => 1,
@@ -109,10 +108,9 @@ class SupplierController extends Controller
 
             if (isset($supplier)) {
                 DB::table('suppliers')->where('id', $id)->update([
-                    'brand_name' => $data['brand_name'],
+                    'name' => $data['name'],
                     'image' => $data['image'],
                     'email' => $data['email'],
-                    'evaluate' => $data['evaluate'],
                     'phone' => $data['phone'],
                     'address' => $data['address'],
                     'is_active' => 1,

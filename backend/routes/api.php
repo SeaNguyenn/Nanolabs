@@ -33,11 +33,18 @@ Route::middleware(['auth:sanctum', 'checkUserRole:admin'])->group(function () {
     Route::post('/product/update/{id}', [Controllers\api\ProductController::class, 'updateProduct']);
     Route::post('/product/delete/{id}', [Controllers\api\ProductController::class, 'deleteProduct']);
 
+    Route::post('/supplier/create', [Controllers\api\SupplierController::class, 'createSupplier']);
+    Route::post('/supplier/update/{id}', [Controllers\api\SupplierController::class, 'updateSupplier']);
+    Route::post('/supplier/delete/{id}', [Controllers\api\SupplierController::class, 'deleteSupplier']);
 
+    Route::post('/category/create', [Controllers\api\CategoryController::class, 'createCategory']);
+    Route::post('/category/update/{id}', [Controllers\api\CategoryController::class, 'updateCategory']);
+    Route::post('/category/delete/{id}', [Controllers\api\CategoryController::class, 'deleteCategory']);
+
+    Route::post('/shipper/create', [Controllers\api\ShipperController::class, 'createShipper']);
+    Route::post('/shipper/update/{id}', [Controllers\api\ShipperController::class, 'updateShipper']);
+    Route::post('/shipper/delete/{id}', [Controllers\api\ShipperController::class, 'deleteShipper']);
 });
-// Route::middleware(['auth:sanctum', 'checkUserRole:user'])->group(function () {
-
-// });
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [Controllers\auth\AuthController::class, 'logout']);
@@ -66,23 +73,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //shipper
     Route::post('/shippers', [Controllers\api\ShipperController::class, 'index']);
     Route::get('/shipper/{id}', [Controllers\api\ShipperController::class, 'getShipper']);
-    Route::post('/shipper/create', [Controllers\api\ShipperController::class, 'createShipper']);
-    Route::post('/shipper/update/{id}', [Controllers\api\ShipperController::class, 'updateShipper']);
-    Route::post('/shipper/delete/{id}', [Controllers\api\ShipperController::class, 'deleteShipper']);
 
     //suppliers
     Route::post('/suppliers', [Controllers\api\SupplierController::class, 'index']);
     Route::get('/supplier/{id}', [Controllers\api\SupplierController::class, 'getSupplier']);
-    Route::post('/supplier/create', [Controllers\api\SupplierController::class, 'createSupplier']);
-    Route::post('/supplier/update/{id}', [Controllers\api\SupplierController::class, 'updateSupplier']);
-    Route::post('/supplier/delete/{id}', [Controllers\api\SupplierController::class, 'deleteSupplier']);
 
     //category
     Route::post('/categories', [Controllers\api\CategoryController::class, 'index']);
     Route::get('/category/{id}', [Controllers\api\CategoryController::class, 'getCategory']);
-    Route::post('/category/create', [Controllers\api\CategoryController::class, 'createCategory']);
-    Route::post('/category/update/{id}', [Controllers\api\CategoryController::class, 'updateCategory']);
-    Route::post('/category/delete/{id}', [Controllers\api\CategoryController::class, 'deleteCategory']);
 
 });
 

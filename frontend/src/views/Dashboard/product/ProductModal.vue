@@ -31,12 +31,11 @@
                 <a-form enctype="multipart/form-data" @submit="onSubmit">
                   <div class="flex flex-wrap gap-4 bg-white px-4 pt-5 pb-4">
                     <CustomInput class="mb-2" v-model="product.name" label="Tên sản phẩm" />
+                    <CustomInput class="mb-2" v-model="product.supplier_id" label="Tên nhà cung cấp" />
+                    <CustomInput class="mb-2" v-model="product.code" label="Mã sản phẩm" />
                     <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => product.image = file" />
-                    <CustomInput class="mb-2" v-model="product.supplier_id" label="Nhà cung cấp" />
                     <CustomInput class="mb-2" type="number" v-model="product.price" label="Giá" />
                     <CustomInput class="mb-2" type="number" v-model="product.sale_price" label="Giá Sale" />
-                    <CustomInput class="mb-2" v-model="product.color" label="Màu" />
-                    <CustomInput class="mb-2" v-model="product.material" label="Chất liệu" />
                     <CustomInput class="mb-2" type="number" v-model="product.warranty" label="Bảo hành" />
                     <CustomInput class="mb-2" type="textarea" v-model="product.description" label="Thông tin" />
                   </div>
@@ -83,10 +82,7 @@ const product = ref({
   sale_price: props.product.sale_price,
   image: props.product.image,
   evaluate: props.product.evaluate,
-  color: props.product.color,
-  material: props.product.material,
   warranty: props.product.warranty,
-  material: props.product.material,
 })
 
 const props = defineProps({
@@ -118,10 +114,7 @@ onUpdated(() => {
     sale_price: props.product.sale_price,
     image: props.product.image,
     evaluate: props.product.evaluate,
-    color: props.product.color,
-    material: props.product.material,
     warranty: props.product.warranty,
-    material: props.product.material,
   }
 })
 

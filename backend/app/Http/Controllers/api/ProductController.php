@@ -104,8 +104,6 @@ class ProductController extends Controller
                 'sale_price' => $data['sale_price'],
                 'image' => $data['image'],
                 'evaluate' => $data['evaluate'],
-                'color' => $data['color'],
-                'material' => $data['material'],
                 'warranty' => $data['warranty'],
                 'view_count' => 0,
                 'is_active' => true,
@@ -147,8 +145,6 @@ class ProductController extends Controller
                     'sale_price' => $data['sale_price'],
                     'image' => $data['image'],
                     'evaluate' => $data['evaluate'],
-                    'color' => $data['color'],
-                    'material' => $data['material'],
                     'warranty' => $data['warranty'],
                     'updated_at' => Carbon::now(),
                 ]);
@@ -173,6 +169,7 @@ class ProductController extends Controller
             if (isset($product)) {
                 $product = $product->update([
                     'is_active' => false,
+                    'updated_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Xoá sản phẩm thành công'], 200);
             } else {

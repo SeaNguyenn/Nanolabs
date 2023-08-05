@@ -28,9 +28,9 @@
         <TableHeaderCell field="name" :sort-field="sortField" :sort-direction="sortDirection">
           Tên
         </TableHeaderCell>
-        <TableHeaderCell field="parent_id" :sort-field="sortField" :sort-direction="sortDirection"
-          @click="sortCategories('parent_id')">
-          Id cha
+        <TableHeaderCell field="created_at" :sort-field="sortField" :sort-direction="sortDirection"
+          @click="sortCategories('created_at')">
+          Thời gian tạo
         </TableHeaderCell>
         <TableHeaderCell field="actions">
 
@@ -51,7 +51,7 @@
         <table-row v-for="(category, index) of categories.data">
           <table-cell>{{ index + 1 }}</table-cell>
           <table-cell>{{ category.name }}</table-cell>
-          <table-cell>{{ category.parent_id }}</table-cell>
+          <table-cell>{{ category.created_at }}</table-cell>
           <table-cell>
             <Menu as="div" class="relative inline-block text-left">
               <div>
@@ -132,7 +132,7 @@ const categories = computed(() => categoryStore.categories)
 const loading = computed(() => categoryStore.loading)
 const perPage = ref(10);
 const search = ref('');
-const sortField = ref('id');
+const sortField = ref('created_at');
 const sortDirection = ref('desc');
 const category = ref({});
 

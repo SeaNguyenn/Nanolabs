@@ -21,10 +21,8 @@ export const authStore = defineStore('auth', {
 
     async register(account_id, email, password, password_confirmation) {
       const response = await authService.register(account_id, email, password, password_confirmation);
-      console.log("Đăng kí thành công");
-      console.log(response);
-      this.user = response.data.data.user;
-      this.token = response.data.data.token;
+      this.user = response.data.user;
+      this.token = response.data.token;
     },
 
     async logout() {

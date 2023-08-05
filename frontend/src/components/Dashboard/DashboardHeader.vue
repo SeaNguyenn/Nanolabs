@@ -17,7 +17,7 @@
 
     <a-popover placement="bottomRight" trigger="click" class="flex items-center">
         <button class="inline-flex items-center justify-center">
-          <img class="h-9 w-9 rounded-full" :src="user.avatar" alt="" />
+          <img class="h-9 w-9 rounded-full" :src="user.image" alt="" />
         </button>
         <template #content >
           <div class="flex flex-col">

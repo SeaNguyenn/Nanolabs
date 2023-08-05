@@ -18,10 +18,9 @@ import { useSupplierStore } from '@/stores/supplier.js';
 
 const DEFAULT_SUPPLIER = {
   id: '',
-  brand_name: '',
-  avatar: '',
+  name: '',
+  image: '',
   email: '',
-  evaluate: '',
   phone: '',
   address: '',
 }
