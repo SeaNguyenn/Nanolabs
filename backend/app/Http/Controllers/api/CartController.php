@@ -24,7 +24,7 @@ class CartController extends Controller
         $user_id = Auth::user()->id;
         try {
             $result = DB::table('cart_items')
-            ->select('cart_items.id as cart_items_id','cart_items.is_active as cart_items_is_active','cart_items.quantity', 'products.*')
+            ->select('cart_items.id as cart_items_id','cart_items.quantity', 'products.*')
             ->where('cart_items.is_active',1)
             ->where('cart_items.user_id','=', $user_id)
             ->join('products', 'cart_items.product_id', '=', 'products.id')
@@ -111,13 +111,15 @@ class CartController extends Controller
         }
     }
 
-    public function deleteCart($id)
+    public function deleteCart(Request $request)
     {
+
+        $data['ids'] = $request->ids;
         try {
-            $cart = DB::table('cart_items')->where('id', $id);
+            $cart = DB::table('cart_items')->whereIn('id', $data['ids']);
 
             if (isset($cart)) {
-                $cart = $cart->update([
+                $cart->update([
                     'is_active' => false,
                     'updated_at' => Carbon::now(),
                 ]);

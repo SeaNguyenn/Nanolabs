@@ -4,7 +4,7 @@
 
 <script setup>
 import SingleProduct from '@/components/SingleProduct/SingleProduct.vue';
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, computed, onBeforeMount  } from 'vue'
 import { useRoute } from "vue-router";
 import { useProductStore } from '@/stores/product.js';
 

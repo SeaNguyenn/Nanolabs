@@ -15,9 +15,12 @@
 
     <div class="h-auto overflow-hidden">
       <div class="bg-white border-[1px] mb-2.5 rounded-lg">
-        <div class="mt-8 pb-1" v-for="(cartItem, index) in cart" :key="index" :isAllChecked="isAllChecked"
-          v-if="cart.length > 0">
-          <CartItem :cartItem="cartItem" @deleteCartItem="deleteCart" />
+        <div class="mt-8 pb-1" v-for="(cartItem, index) in cart" :key="index" v-if="cart.length > 0">
+          <CartItem :cartItem="cartItem" 
+          :is-selected="cartSelected && cartSelected.cart_items_id === cartItem.cart_items_id"
+          @selected="() => $emit('selected', index)"
+          @onDelete="() => $emit('delete', index)"
+          />
         </div>
         <div class="mt-8 px-4 pb-1 flex items-center justify-center" v-else>
           <a-empty image="/src/assets/images/empty.png" :image-style="{
@@ -45,8 +48,9 @@ import CartItem from './CartItem/CartItem.vue'
 
 const props = defineProps({
   cart: Object,
+  cartSelected: Object,
 })
-const emit = defineEmits(['deleteCart'])
+const emit = defineEmits(['delete', 'selected'])
 
 const cart = ref([]);
 
@@ -57,9 +61,7 @@ watch(() => props.cart, (value) => {
 const isAllChecked = ref(false);
 
 function onCheckAllChange(e) {
-  cart.value.forEach((item) => {
-    item.checked = e.target.checked;
-  });
+
 };
 
 const deleteCart = (c) => {

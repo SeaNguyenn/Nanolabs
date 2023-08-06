@@ -43,16 +43,13 @@
           @click="sortProducts('sale_price')">
           Giá sale
         </TableHeaderCell>
-        <TableHeaderCell field="image" :sort-field="sortField" :sort-direction="sortDirection"
-          @click="sortProducts('image')">
+        <TableHeaderCell field="image" :sort-field="sortField" :sort-direction="sortDirection">
           Ảnh
         </TableHeaderCell>
-        <TableHeaderCell field="warranty" :sort-field="sortField" :sort-direction="sortDirection"
-          @click="sortProducts('warranty')">
+        <TableHeaderCell field="warranty" :sort-field="sortField" :sort-direction="sortDirection">
           Bảo hành
         </TableHeaderCell>
-        <TableHeaderCell field="description" :sort-field="sortField" :sort-direction="sortDirection"
-          @click="sortProducts('description')">
+        <TableHeaderCell field="description" :sort-field="sortField" :sort-direction="sortDirection">
           Miêu tả
         </TableHeaderCell>
         <TableHeaderCell field="created_at" :sort-field="sortField" :sort-direction="sortDirection"

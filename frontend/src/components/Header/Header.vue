@@ -136,7 +136,6 @@ const cartStore = useCartStore();
 const auth = authStore();
 const router = useRouter();
 const userName = ref('');
-const entered = ref(false);
 const image = ref();
 const userCart = ref([]);
 const perPage = ref(5);
@@ -188,10 +187,7 @@ const logout = async () => {
 };
 
 const emitInput = () => {
-  if (!entered.value) {
-    emit('inputSearch', search.value)
-    entered.value = true;
-  }
+  emit('inputSearch', search.value)
 }
 
 </script>

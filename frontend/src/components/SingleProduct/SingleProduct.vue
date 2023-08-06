@@ -52,6 +52,7 @@ import { Rating } from 'flowbite-vue'
 import { Icon } from '@iconify/vue';
 import { useCartStore } from '@/stores/cart.js';
 import AddToCartModal from './AddToCartModal.vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   product: Object,
@@ -64,6 +65,7 @@ const productData = ref([])
 const star = ref()
 const quantityNum = ref(1);
 const cartStore = useCartStore();
+const router = useRouter()
 
 watch(() => props.product, (value) => {
   productData.value = value
@@ -78,6 +80,8 @@ const addToCart = async () => {
       showSuccessModal.value = true;
       cartStore.fetchCart();
     });
+
+    router.push({ name: 'cart' });
 
   } catch (error) {
     console.error('Lỗi khi thêm vào giỏ hàng:', error);

@@ -28,10 +28,13 @@ const scroll = (e) => {
 }
 
 const handleInput = (e) => {
-  router.push({ name: 'products',
+  router.replace({
+    name: 'products',
     query: {
       search: e,
     },
-  });  
+  }).then(() => {
+    window.location.reload();
+  });
 }
 </script>

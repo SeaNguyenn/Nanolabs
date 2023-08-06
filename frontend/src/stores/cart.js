@@ -5,14 +5,12 @@ export const useCartStore = defineStore('cart', {
   state: () => {
     return {
       cart: [],
-      loading: false,
       error: null
     }
   },
   actions: {
     async fetchCart(conditions) {
       try {
-        this.loading = true
         this.error = null
         const response = await cartService.fetchCart(conditions)
         this.cart = response.data.data
@@ -21,30 +19,25 @@ export const useCartStore = defineStore('cart', {
       } catch (error) {
         this.error = error.message
         return error
-      } finally {
-        this.loading = false
       }
     },
 
     async addToCart(cart) {
       try {
-        this.loading = true
         this.error = null
         const response = await cartService.addToCart(cart)
+        await cartService.fetchCart()
         this.cart.push(response.data.data)
         return response
       } catch (error) {
         this.error = error.message
 
         return error
-      } finally {
-        this.loading = false
       }
     },
 
     async updateCart(cartId, cart) {
       try {
-        this.loading = true
         this.error = null
         const response = await cartService.updateCart(cartId, cart)
         const index = this.cart.findIndex((p) => p.id === cartId)
@@ -56,27 +49,20 @@ export const useCartStore = defineStore('cart', {
         this.error = error.message
 
         return error
-      } finally {
-        this.loading = false
       }
     },
 
     async deleteCart(cartId) {
       try {
-        this.loading = true
         this.error = null
-        const result = await cartService.deleteCart(cartId)
-        const index = this.cart.findIndex((p) => p.id === cartId)
-        if (index !== -1) {
-          this.cart.splice(index, 1)
-        }
+        const result = await cartService.deleteCart([cartId])
+        await cartService.fetchCart()
+        
         return result
       } catch (error) {
         this.error = error.message
 
         return error
-      } finally {
-        this.loading = false
       }
     }
   },

@@ -2,7 +2,10 @@
   <div class="my-[30px] md:my-[75px]">
     <div
       class="max-w-[calc(100%-20px)] my-0 mx-auto flex justify-between flex-wrap md:flex-nowrap md:max-w-7xl  md:gap-5">
-      <CartList :cart="cartData" @delete-cart="onDeleteCart"/>
+      <CartList :cart="cartData" 
+        @delete="onDeleteCart" 
+        :cartSelected="cartSelected"
+        @selected="onCartSelect"/>
       <div class="flex-[1_1_calc(100%-910px)]">
         <div class="border-[1px] px-2 py-1 mb-2.5 bg-white rounded-lg">
           <div class="flex justify-between items-center text-base pb-2">
@@ -37,9 +40,9 @@
           </div>
 
         </div>
-        <router-link :to="{name: 'payments'}">
-          <Button class="bg-red-600 text-white py-[0.8rem] text-base px-7 w-full rounded">Mua hàng</Button>
-        </router-link>
+        <div>
+          <Button class="bg-red-600 text-white py-[0.8rem] text-base px-7 w-full rounded" @click="payment">Mua hàng</Button>
+        </div>
       </div>
     </div>
   </div>
@@ -51,16 +54,15 @@ import { authStore } from '@/stores/auth.js';
 import { useCartStore } from '@/stores/cart.js';
 import CartList from './CartList.vue'
 import { ref, computed, onBeforeMount,watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
 
 const auth = authStore();
 const user = auth.authUser;
 const cartStore = useCartStore();
-const router = useRouter()
 const perPage = ref(10);
 const search = ref('');
 const sortField = ref('cart_items.id');
 const sortDirection = ref('desc');
+const cartSelected = ref([]);
 
 cartStore.fetchCart({
   search: search.value,
@@ -91,6 +93,45 @@ onBeforeMount(async () => {
   await getCart()
   cartData.value = cartList.value.data
 });
+
+const onCartSelect = (index) => {
+  if (!cartData.value) return;
+  if (index >= cartData.value.length) return;
+  const test = ref([])
+  if(!test.value.includes(index)){
+    console.log("1");
+    test.value.push(index);
+  }else{
+    console.log("2");
+    test.value.splice(index,1)
+  }
+
+  console.log(test.value);
+  // if(!cartSelected.value.includes(cartData.value[index])){
+  //   cartSelected.value.push(cartData.value[index])
+  // }else {
+  //   cartSelected.value.splice(index, 1);
+  // }
+};
+
+const onDeleteCart = (index) => {
+  if (!cartData.value) return;
+  if (index >= cartData.value.length) return;
+  const item = cartData.value[index];
+  console.log(item);
+  if (item.id === cartSelected.value.cart_items_id) {
+      cartSelected.value = null;
+    }
+  // cartData.value.splice(index, 1);
+
+  // cartStore.deleteCart().then(res => {
+  //   cartStore.fetchCart();
+  // });
+};
+
+const payment = () => {
+  console.log(cartSelected.value);
+}
 
 const totalDefaultAmount = computed(() => {
   let total = 0;
@@ -124,14 +165,6 @@ const totalAmount = computed(() => {
   return total.toLocaleString("en-US");
 });
 
-function onDeleteCart (e){
-  if (!confirm(`Bạn có muốn xoá không?`)) {
-    return
-  }
-  cartStore.deleteCart(e.cart_items_id).then(res => {
-    cartStore.fetchCart();
-  });
-}
 
 
 </script>
