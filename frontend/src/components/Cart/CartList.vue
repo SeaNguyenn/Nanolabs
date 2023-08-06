@@ -64,9 +64,6 @@ function onCheckAllChange(e) {
 
 };
 
-const deleteCart = (c) => {
-  emit('deleteCart', c);
-}
 </script>
 
 <style scoped></style>

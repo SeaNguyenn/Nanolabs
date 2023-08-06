@@ -31,7 +31,7 @@
             </div>
             <div class="flex justify-between items-center pb-2">
               <div>Giảm giá</div>
-              <div class="font-bold">{{ totalSaleAmount }}<sup>₫</sup></div>
+              <div class="font-bold">0<sup>₫</sup></div>
             </div>
           </div>
           <div class="flex justify-between items-center pt-2">
@@ -63,6 +63,7 @@ const search = ref('');
 const sortField = ref('cart_items.id');
 const sortDirection = ref('desc');
 const cartSelected = ref([]);
+const totalAmount = ref(0);
 
 cartStore.fetchCart({
   search: search.value,
@@ -97,21 +98,21 @@ onBeforeMount(async () => {
 const onCartSelect = (index) => {
   if (!cartData.value) return;
   if (index >= cartData.value.length) return;
-  const test = ref([])
-  if(!test.value.includes(index)){
-    console.log("1");
-    test.value.push(index);
-  }else{
-    console.log("2");
-    test.value.splice(index,1)
+
+  const selectedItem = cartData.value[index];
+  
+  if (!cartSelected.value) {
+    cartSelected.value = [];
   }
 
-  console.log(test.value);
-  // if(!cartSelected.value.includes(cartData.value[index])){
-  //   cartSelected.value.push(cartData.value[index])
-  // }else {
-  //   cartSelected.value.splice(index, 1);
-  // }
+  const selectedIndex = cartSelected.value.indexOf(selectedItem);
+  
+  if (selectedIndex === -1) {
+    cartSelected.value.push(selectedItem);
+  } else {
+    cartSelected.value.splice(selectedIndex, 1);
+  }
+
 };
 
 const onDeleteCart = (index) => {
@@ -131,42 +132,22 @@ const onDeleteCart = (index) => {
 
 const payment = () => {
   console.log(cartSelected.value);
+  console.log(totalAmount.value);
 }
 
 const totalDefaultAmount = computed(() => {
   let total = 0;
   if (cartData.value) {
     cartData.value.forEach(item => {
-      total += Number(item.price);
+      if (Number(item.sale_price) > 0) {
+        total += (Number(item.sale_price) * Number(item.quantity));
+      }else {
+        total += (Number(item.price) * Number(item.quantity));
+      }
     });
   }
+  totalAmount.value = total;
   return total.toLocaleString("en-US");
 });
-
-const totalSaleAmount = computed(() => {
-  let total = 0;
-  if (cartData.value) {
-    cartData.value.forEach(item => {
-      const price = Number(item.sale_price) > 0 ?  Number(item.price) - Number(item.sale_price) : 0;
-      total += price;
-    });
-  }
-  return total.toLocaleString("en-US");
-});
-
-const totalAmount = computed(() => {
-  let total = 0;
-  if (cartData.value) {
-    cartData.value.forEach(item => {
-      const price = Number(item.sale_price) ? Number(item.sale_price) : Number(item.price);
-      total += price;
-    });
-  }
-  return total.toLocaleString("en-US");
-});
-
-
 
 </script>
-
-<style scoped></style>
