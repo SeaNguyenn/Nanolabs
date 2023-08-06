@@ -23,10 +23,13 @@ class ProductController extends Controller
 
         try {
             $result = DB::table('products')
-            ->where('name', 'like', "%{$search}%")
-            ->where('is_active', true)
-            ->orderBy($sortField, $sortDirection)
+            ->select('products.*','comment.*')
+            ->join('comment', 'products.id', '=', 'comment.product_id')
+            ->where('products.name', 'like', "%{$search}%")
+            ->where('products.is_active', true)
+            ->orderBy('products.'.$sortField, $sortDirection)
             ->paginate($perPage);
+
 
             return response()->json([
                 'success' => true,
@@ -68,7 +71,11 @@ class ProductController extends Controller
     public function getProduct($id)
     {
         try {
-            $result = DB::table('products')->where('id','=',$id)->first();
+            $result = DB::table('products')
+            ->select('products.*','comment.*')
+            ->join('comment', 'products.id', '=', 'comment.product_id')
+            ->where('products.id',$id)
+            ->first();
 
             return response()->json([
                 'success' => true,

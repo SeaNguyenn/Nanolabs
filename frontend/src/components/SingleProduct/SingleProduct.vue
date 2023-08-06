@@ -35,6 +35,7 @@
         </div>
       </div>
       <ProductDetail :description="productData.description"/>
+      <Comment :comment="productData.comment"/>
       <Products :headingText="headingFeaturedProducts" :products="products" />
     </div>
   </div>
@@ -46,6 +47,7 @@ import Button from '@/components/Button.vue'
 import { ref,defineProps ,watch} from 'vue'
 import ProductDetail from './ProductDetail/ProductDetail.vue'
 import Products from '@/components/Products/Products.vue';
+import Comment from './Comment.vue';
 import { Rating } from 'flowbite-vue'
 import { Icon } from '@iconify/vue';
 import { useCartStore } from '@/stores/cart.js';
@@ -74,7 +76,9 @@ const addToCart = async () => {
 
     cartStore.addToCart(cartItem).then(res => {
       showSuccessModal.value = true;
+      cartStore.fetchCart();
     });
+
   } catch (error) {
     console.error('Lỗi khi thêm vào giỏ hàng:', error);
   }

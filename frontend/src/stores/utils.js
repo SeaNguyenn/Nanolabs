@@ -4,6 +4,6 @@ export function checkCookie(name, value) {
     document.cookie = `${name}=${value}; max-age=0`
     setTimeout(() => {
       checkCookie(name, value)
-    }, 100)
+    }, 500)
   }
 }

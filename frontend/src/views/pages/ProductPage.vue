@@ -15,7 +15,7 @@ productStore.showProduct(productId)
 
 const perPage = ref(5);
 const search = ref('');
-const sortField = ref('updated_at');
+const sortField = ref('created_at');
 const sortDirection = ref('desc');
 
 productStore.fetchProducts({
@@ -33,6 +33,7 @@ const getProduct = async () => {
 
 const productList = computed(() => productStore.products);
 const products = ref(null)
+
 const getProducts = async () => {
   await productStore.fetchProducts({
     search: search.value,

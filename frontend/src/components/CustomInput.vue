@@ -18,7 +18,7 @@
       <template v-else-if="type === 'textarea'">
         <div class="flex flex-col">
           <label :for="name">{{ label }} :</label>
-          <textarea class="w-[500px] h-[200px]" :name="name" :required="required" :value="props.modelValue"
+          <textarea class="!w-[500px] h-[200px]" :name="name" :required="required" :value="props.modelValue"
             @input="emit('update:modelValue', $event.target.value)" :class="inputClasses" :placeholder="label"></textarea>
         </div>
 

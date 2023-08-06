@@ -8,7 +8,7 @@
 
   <ul class="mt-5 flex flex-col items-start justify-center" v-bind:class="{'items-center' : !open}">
     <li v-for="(menu,index) in menus" key="index" class="mb-5 w-full">
-      <router-link :to="{name: menu.href}" class="flex items-center gap-2 pl-2 py-1 text-lg text-col-gray-light rounded cursor-pointer hover:bg-col-hover hover:text-white" v-bind:class="{'justify-center !pl-0 !text-2xl' : !open}">
+      <router-link :to="{name: menu.href}" class="flex items-center gap-2 pl-2 py-1 text-lg text-black rounded cursor-pointer hover:bg-col-hover hover:text-white" v-bind:class="{'justify-center !pl-0 !text-2xl' : !open}">
         <Icon :icon="menu.icon"/>
         <span v-bind:class="{ 'hidden' : !open}">{{ menu.name }}</span>
       </router-link>
@@ -23,68 +23,43 @@
   </button>
 </template>
 
-<script>
+<script setup>
 import { Icon } from '@iconify/vue';
-import { ref, reactive } from 'vue'
-export default {
-  components: {
-    Icon,
+import { reactive, defineProps, defineEmits } from 'vue';
+
+const { showSiderbar, open } = defineProps(['showSiderbar', 'open']);
+const { emit } = defineEmits(['changeValue']);
+
+const menus = reactive([
+  {
+    name: 'Nhà cung cấp',
+    href: 'adminSuppliers',
+    icon: 'icon-park:delivery',
   },
-
-  emits: ['changeValue'],
-
-  props: {
-    showSiderbar: { type: Boolean, default: true },
-    open: { type: Boolean, default: true },
+  {
+    name: 'Sản phẩm',
+    href: 'adminProducts',
+    icon: 'fluent:box-20-regular',
   },
-
-  setup(props, { emit }) {
-    const menus = reactive([
-      {
-        name: 'Trang chủ',
-        href: 'dashboard',
-        icon: 'ic:sharp-dashboard',
-      },
-      {
-        name: 'Nhà cung cấp',
-        href: 'adminSuppliers',
-        icon: 'icon-park:delivery',
-      },
-      {
-        name: 'Sản phẩm',
-        href: 'adminProducts',
-        icon: 'fluent:box-20-regular',
-      },
-      {
-        name: 'Nhân viên giao hàng',
-        href: 'adminShippers',
-        icon: 'emojione-monotone:motor-scooter',
-      },
-      {
-        name: 'Danh mục',
-        href: 'adminCategories',
-        icon: 'carbon:category',
-      },
-      {
-        name: 'Hoá đơn',
-        href: 'adminOrders',
-        icon: 'material-symbols:order-play-outline',
-      },
-      {
-        name: 'Cài đặt',
-        href: 'adminSettings',
-        icon: 'ant-design:setting-outlined',
-      },
-    ])
-
-    const selectedKeys = ref(['1']);
-
-    return {
-      selectedKeys,
-      menus,
-    }
-  }
-}
+  {
+    name: 'Nhân viên giao hàng',
+    href: 'adminShippers',
+    icon: 'emojione-monotone:motor-scooter',
+  },
+  {
+    name: 'Danh mục',
+    href: 'adminCategories',
+    icon: 'carbon:category',
+  },
+  {
+    name: 'Hoá đơn',
+    href: 'adminOrders',
+    icon: 'material-symbols:order-play-outline',
+  },
+  // {
+  //   name: 'Cài đặt',
+  //   href: 'adminSettings',
+  //   icon: 'ant-design:setting-outlined',
+  // },
+]);
 </script>
-
-<style scoped></style>

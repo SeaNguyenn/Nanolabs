@@ -14,7 +14,7 @@ const route = useRoute();
 const productStore = useProductStore();
 const perPage = ref(15);
 const search = route.query.search;
-const sortField = ref('updated_at');
+const sortField = ref('created_at');
 const sortDirection = ref('desc');
 
 productStore.fetchProducts({
