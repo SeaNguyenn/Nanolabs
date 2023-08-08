@@ -81,16 +81,16 @@ const addToCart = async () => {
   try {
     const cartItem = { product_id: productData.value?.id, quantity: quantityNum.value };
 
-    // cartStore.addToCart(cartItem).then(res => {
-    //   showSuccessModal.value = true;
-    //   cartStore.fetchCart();
-    // });
+    cartStore.addToCart(cartItem).then(res => {
+      showSuccessModal.value = true;
+      cartStore.fetchCart();
+    });
 
-    // setTimeout(() => {
-    //   router.replace({ name: 'productScreen' }).then(() => {
-    //     window.location.reload();
-    //   });
-    // }, 2000);
+    setTimeout(() => {
+      router.replace({ name: 'productScreen' }).then(() => {
+        window.location.reload();
+      });
+    }, 2000);
 
   } catch (error) {
     console.error('Lỗi khi thêm vào giỏ hàng:', error);
