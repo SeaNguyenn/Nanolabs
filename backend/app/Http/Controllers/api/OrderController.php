@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use DB;
 use App\Http\Requests\OrderRequest;
 use Auth;
+use Carbon\Carbon;
 class OrderController extends Controller
 {
     public function index(Request $request)
@@ -66,7 +67,7 @@ class OrderController extends Controller
 
     public function createOrder(Request $request)
     {
-        $data = $request->validated();
+        $data = $request->all();
         $user_id = Auth::user()->id;
 
         $cartItems = DB::table('cart_items')->where('user_id', $user_id)
@@ -82,32 +83,31 @@ class OrderController extends Controller
 
         try {
 
-            $totalAmount = 0;
-            foreach ($cartItems as $cartItem) {
-                $totalAmount += $cartItem->quantity * $cartItem->product->price;
-            }
-
-            $order = DB::table('orders')->create([
+            $order_id = DB::table('orders')->insertGetId([
                 'user_id' => $user_id,
-                'total_amount' => $totalAmount,
+                'total_amount' => $data['total_amount'],
                 'order_status' => 1,
-                'note' => $data['note'],
-                'is_acvite' => true,
+                'is_active' => true,
             ]);
 
             foreach ($cartItems as $cartItem) {
-                OrderDetail::create([
-                    'order_id' => $order->id,
+                DB::table('order_details')->insert([
+                    'order_id' => $order_id,
                     'product_id' => $cartItem->product_id,
                     'quantity' => $cartItem->quantity,
+                    'is_active' => true,
+                    'created_at' => Carbon::now(),
                 ]);
 
-                $cartItem->update(['is_active' => false]);
+                DB::table('cart_items')->where('id', $cartItem->id)->update(['is_active' => false]);
             }
 
             DB::commit();
 
-            return response()->json(['message' => 'Thêm mới hoá đơn thành công'], 200);
+            return response()->json([
+                'order_id' => $order_id,
+                'message' => 'Thêm mới hoá đơn thành công'
+            ], 200);
 
         } catch (\Exception $e) {
             Log::error('Có lỗi xảy ra: '.$e->getMessage());

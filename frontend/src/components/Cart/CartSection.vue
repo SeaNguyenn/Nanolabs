@@ -27,7 +27,7 @@
           <div class="border-b-[1px]">
             <div class="flex justify-between items-center pb-2">
               <div>Tạm tính</div>
-              <div class="font-bold">{{ totalDefaultAmount }}<sup>₫</sup></div>
+              <div class="font-bold">{{ totalAmount }}<sup>₫</sup></div>
             </div>
             <div class="flex justify-between items-center pb-2">
               <div>Giảm giá</div>
@@ -41,7 +41,7 @@
 
         </div>
         <div>
-          <Button class="bg-red-600 text-white py-[0.8rem] text-base px-7 w-full rounded" @click="payment">Mua hàng</Button>
+          <Button class="bg-red-600 text-white py-[0.8rem] text-base px-7 w-full rounded" :disabled="cartSelected.length === 0"  name="redirect" @click="goPaymentPage">Mua hàng</Button>
         </div>
       </div>
     </div>
@@ -49,11 +49,13 @@
 </template>
 
 <script setup>
-import Button from '@/components/Button.vue'
+import { Button } from 'flowbite-vue'
 import { authStore } from '@/stores/auth.js';
 import { useCartStore } from '@/stores/cart.js';
+import { usePaymentStore } from '@/stores/payment.js';
 import CartList from './CartList.vue'
 import { ref, computed, onBeforeMount,watchEffect } from 'vue'
+import { useRouter } from 'vue-router';
 
 const auth = authStore();
 const user = auth.authUser;
@@ -64,6 +66,8 @@ const sortField = ref('cart_items.id');
 const sortDirection = ref('desc');
 const cartSelected = ref([]);
 const totalAmount = ref(0);
+const router = useRouter();
+const paymentStore = usePaymentStore();
 
 cartStore.fetchCart({
   search: search.value,
@@ -113,6 +117,17 @@ const onCartSelect = (index) => {
     cartSelected.value.splice(selectedIndex, 1);
   }
 
+  let total = 0;
+  if (cartSelected.value) {
+    cartSelected.value.forEach(item => {
+      if (Number(item.sale_price) > 0) {
+        total += (Number(item.sale_price) * Number(item.quantity));
+      }else {
+        total += (Number(item.price) * Number(item.quantity));
+      }
+    });
+  }
+  totalAmount.value = total;
 };
 
 const onDeleteCart = (index) => {
@@ -130,24 +145,16 @@ const onDeleteCart = (index) => {
   // });
 };
 
-const payment = () => {
-  console.log(cartSelected.value);
-  console.log(totalAmount.value);
-}
+const goPaymentPage = () => {
+  if (cartSelected.value.length > 0) {
+    var data = {
+      'cart' : cartSelected.value,
+      'total_amount' : totalAmount.value,
+    }
+    
+    paymentStore.setPaymentData(data);
 
-const totalDefaultAmount = computed(() => {
-  let total = 0;
-  if (cartData.value) {
-    cartData.value.forEach(item => {
-      if (Number(item.sale_price) > 0) {
-        total += (Number(item.sale_price) * Number(item.quantity));
-      }else {
-        total += (Number(item.price) * Number(item.quantity));
-      }
-    });
+    router.push({ name: 'payments'});
   }
-  totalAmount.value = total;
-  return total.toLocaleString("en-US");
-});
-
+}
 </script>

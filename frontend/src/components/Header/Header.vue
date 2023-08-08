@@ -29,12 +29,12 @@
             class="text-xs min-w-[15px] min-h-[15px] bg-white text-black text-center absolute top-[-5px] right-[-5px] p-[2.5px] rounded-lg"
             v-bind:class="countCart == 0 ? 'hidden' : ''">{{ countCart }}</span>
           <template #content>
-            <div v-if="countCart != 0">
+            <div v-if="countCart != 0" class="w-[400px]">
               <p class="mb-5 text-sm text-gray-400">Sản phẩm mới thêm</p>
               <div class="flex flex-col gap-4">
                 <div v-for="(cartItem, index) of userCart">
                   <router-link :to="{ name: 'productScreen', params: { productId: index + 1 } }"
-                    class="flex gap-2 w-full">
+                    class="flex gap-2 justify-between items-center w-full">
                     <div class="w-[50px] h-[40px] border-2">
                       <img :src="cartItem.image" alt="" class="w-full h-full">
                     </div>
