@@ -6,36 +6,41 @@
           <img :src="productData.image" alt="" class="w-full block">
         </div>
         <div class="flex flex-col pt-5 md:px-[35px]">
-          <span class="text-xl mb-5 md:text-2xl">{{productData.name}}</span>
+          <span class="text-xl mb-5 md:text-2xl">{{ productData.name }}</span>
 
           <div class="star-rating flex gap-1 mb-5">
             <Rating :rating="star" />
           </div>
 
-          <span class="text-3xl mb-5 text-red-500 line-through decoration-red-400">{{ Number(productData.price).toLocaleString("en-US") }}<sup>₫</sup></span>
-          <span class="text-3xl mb-5 text-red-500" v-if="productData.sale_price > 0">{{ Number(productData.sale_price).toLocaleString("en-US") }}<sup>₫</sup></span>
+          <span class="text-3xl mb-5 text-red-500 line-through decoration-red-400">{{
+            Number(productData.price).toLocaleString("en-US") }}<sup>₫</sup></span>
+          <span class="text-3xl mb-5 text-red-500" v-if="productData.sale_price > 0">{{
+            Number(productData.sale_price).toLocaleString("en-US") }}<sup>₫</sup></span>
 
           <div class="flex items-center gap-5 mb-5 md:gap-10">
             <span class="text-base md:text-lg text-second-text-color">Số lượng</span>
             <div class="text-base md:text-lg flex">
-              <a-input v-model:value="quantityNum" placeholder="1" class="w-[40px] border-[1px] border-[rgba(0,0,0,.09)] text-center"/>
+              <a-input v-model:value="quantityNum" placeholder="1"
+                class="w-[40px] border-[1px] border-[rgba(0,0,0,.09)] text-center" />
             </div>
           </div>
 
           <div class="flex gap-2.5 mb-8">
-            <span class="text-base md:text-lg text-second-text-color mr-2.5 md:mr-5">Được bảo hành {{ productData.warranty }} tháng</span>
+            <span class="text-base md:text-lg text-second-text-color mr-2.5 md:mr-5">Được bảo hành {{ productData.warranty
+            }} tháng</span>
           </div>
 
           <div class="flex gap-5 items-center flex-wrap">
-            <Button @click="addToCart" class="flex gap-1 items-center justify-center px-2 py-3 bg-red-200 text-red-600 text-lg border-[1px] border-solid border-red-700 md:text-xl md:p-5">
-              <Icon icon="mi:shopping-cart-add" class="mr-2 text-2xl"/>Thêm vào giỏ hàng
+            <Button @click="addToCart"
+              class="flex gap-1 items-center justify-center px-2 py-3 bg-red-200 text-red-600 text-lg border-[1px] border-solid border-red-700 md:text-xl md:p-5">
+              <Icon icon="mi:shopping-cart-add" class="mr-2 text-2xl" />Thêm vào giỏ hàng
             </Button>
             <Button class="px-2 py-3 bg-red-600 text-white text-lg md:text-xl md:p-5">Mua ngay</Button>
           </div>
         </div>
       </div>
-      <ProductDetail :description="productData.description"/>
-      <Comment :comment="productData.comment"/>
+      <ProductDetail :description="productData.description" />
+      <Comment :comment="productData.comment" />
       <Products :headingText="headingFeaturedProducts" :products="products" />
     </div>
   </div>
@@ -44,7 +49,7 @@
 
 <script setup>
 import Button from '@/components/Button.vue'
-import { ref,defineProps ,watch} from 'vue'
+import { ref, defineProps, watch } from 'vue'
 import ProductDetail from './ProductDetail/ProductDetail.vue'
 import Products from '@/components/Products/Products.vue';
 import Comment from './Comment.vue';
@@ -76,12 +81,16 @@ const addToCart = async () => {
   try {
     const cartItem = { product_id: productData.value?.id, quantity: quantityNum.value };
 
-    cartStore.addToCart(cartItem).then(res => {
-      showSuccessModal.value = true;
-      cartStore.fetchCart();
-    });
+    // cartStore.addToCart(cartItem).then(res => {
+    //   showSuccessModal.value = true;
+    //   cartStore.fetchCart();
+    // });
 
-    router.push({ name: 'cart' });
+    // setTimeout(() => {
+    //   router.replace({ name: 'productScreen' }).then(() => {
+    //     window.location.reload();
+    //   });
+    // }, 2000);
 
   } catch (error) {
     console.error('Lỗi khi thêm vào giỏ hàng:', error);

@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ name: 'productScreen', params: { productId: index + 1 } }">
+  <router-link :to="{ name: 'productScreen', params: { productId: product.id } }">
     <div class="w-[240px] h-[350px] rounded border-[1px] bg-white p-2 mb-5 relative hover:border-red-400">
       <div v-if="product.sale_price" class="absolute top-0 left-0 z-[1]">
         <div class="bg-yellow-300 h-12 rounded-b-lg flex items-center justify-center flex-col p-1">
