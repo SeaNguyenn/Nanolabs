@@ -64,6 +64,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //orders
     Route::post('/order', [Controllers\api\OrderController::class, 'index']);
+    Route::post('/admin/order', [Controllers\api\OrderController::class, 'indexAdmin']);
     Route::get('/order/{id}', [Controllers\api\OrderController::class, 'getOrder']);
     Route::post('/order/create', [Controllers\api\OrderController::class, 'createOrder']);
     Route::post('/order/update/{id}', [Controllers\api\OrderController::class, 'updateOrderStatusAndShipper']);

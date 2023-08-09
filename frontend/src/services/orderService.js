@@ -2,7 +2,7 @@ import http from '@/httpCommon.js'
 
 export default {
   async fetchOrders(conditions) {
-    return http.post(import.meta.env.VITE_API_BASE_PATH + '/orders', conditions)
+    return http.post(import.meta.env.VITE_API_BASE_PATH + '/admin/orders', conditions)
   },
 
   async getOrder(orderId) {

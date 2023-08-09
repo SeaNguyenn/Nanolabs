@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-
+        $user_id = Auth::user()->id;
         $perPage = request('per_page', 10);
         $sortField = request('sort_field', 'created_at');
         $sortDirection = request('sort_direction', 'desc');
@@ -21,8 +21,35 @@ class OrderController extends Controller
         try {
             $result = DB::table('orders')
             ->where('is_active', true)
+            ->where('user_id', $user_id)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
+
+            return response()->json([
+                'success' => true,
+                'data' => $result,
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error('Có lỗi xảy ra: '.$e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Lấy các hoá đơn thất bại',
+            ], 500);
+        }
+    }
+
+    public function indexAdmin(Request $request)
+    {
+        $perPage = request('per_page', 10);
+        $sortField = request('sort_field', 'created_at');
+        $sortDirection = request('sort_direction', 'desc');
+
+        try {
+            $result = DB::table('orders')
+                ->where('is_active', true)
+                ->orderBy($sortField, $sortDirection)
+                ->paginate($perPage);
 
             return response()->json([
                 'success' => true,
@@ -88,6 +115,14 @@ class OrderController extends Controller
                 'total_amount' => $data['total_amount'],
                 'order_status' => 1,
                 'is_active' => true,
+            ]);
+
+            DB::table('notification')->insert([
+                'user_id' => $user_id,
+                'order_id' => $order_id,
+                'content' => 'Một user vừa tạo đơn hàng',
+                'seen' => false,
+                'created_at' => Carbon::now(),
             ]);
 
             foreach ($cartItems as $cartItem) {

@@ -31,7 +31,7 @@
                 <a-form enctype="multipart/form-data" @submit="onSubmit">
                   <div class="flex flex-wrap gap-4 bg-white px-4 pt-5 pb-4">
                     <CustomInput class="mb-2" v-model="product.name" label="Tên sản phẩm" />
-                    <CustomInput class="mb-2" v-model="product.supplier_id" label="Tên nhà cung cấp" />
+                    <CustomInput class="mb-2" v-model="product.supplier_id" label="Mã nhà cung cấp" />
                     <CustomInput class="mb-2" v-model="product.code" label="Mã sản phẩm" />
                     <CustomInput type="file" class="mb-2 p-0" label="Ảnh" @change="file => product.image = file" />
                     <CustomInput class="mb-2" type="number" v-model="product.price" label="Giá" />
@@ -43,11 +43,11 @@
                     <button type="button"
                       class="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-white hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       @click="closeModal">
-                      Từ chối
+                      Đóng
                     </button>
                     <button type="submit"
                       class="inline-flex justify-center rounded-md border border-transparent bg-green-400 px-4 py-2 text-sm font-medium text-white hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-                      Chấp nhận
+                      Lưu
                     </button>
                   </div>
                 </a-form>

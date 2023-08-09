@@ -23,8 +23,6 @@ class ProductController extends Controller
 
         try {
             $result = DB::table('products')
-            ->select('products.*','comment.*')
-            ->join('comment', 'products.id', '=', 'comment.product_id')
             ->where('products.name', 'like', "%{$search}%")
             ->where('products.is_active', true)
             ->orderBy('products.'.$sortField, $sortDirection)
@@ -112,7 +110,6 @@ class ProductController extends Controller
                 'image' => $data['image'],
                 'evaluate' => $data['evaluate'],
                 'warranty' => $data['warranty'],
-                'view_count' => 0,
                 'is_active' => true,
                 'created_at' => Carbon::now(),
             ]);

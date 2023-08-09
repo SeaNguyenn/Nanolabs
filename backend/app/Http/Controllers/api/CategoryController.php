@@ -14,7 +14,7 @@ class CategoryController extends Controller
     {
         $perPage = request('per_page', 10);
         $search = request('search', '');
-        $sortField = request('sort_field', 'create_at');
+        $sortField = request('sort_field', 'created_at');
         $sortDirection = request('sort_direction', 'desc');
 
         try {
@@ -62,7 +62,6 @@ class CategoryController extends Controller
         try {
             DB::table('categories')->insert([
                 'name' => $data['name'],
-                'is_active' => true,
                 'created_at' => Carbon::now(),
             ]);
             return response()->json(['message' => 'Thêm mới loại sản phẩm thành công'], 200);

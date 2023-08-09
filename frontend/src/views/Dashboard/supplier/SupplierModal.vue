@@ -40,11 +40,11 @@
                     <button type="button"
                       class="inline-flex justify-center rounded-md border border-transparent bg-red-400 px-4 py-2 text-sm font-medium text-white hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       @click="closeModal">
-                      Từ chối
+                      Đóng
                     </button>
                     <button type="submit"
                       class="inline-flex justify-center rounded-md border border-transparent bg-green-400 px-4 py-2 text-sm font-medium text-white hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-                      Chấp nhận
+                      Lưu
                     </button>
                   </div>
                 </a-form>

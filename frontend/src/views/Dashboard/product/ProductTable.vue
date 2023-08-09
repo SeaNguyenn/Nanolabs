@@ -77,8 +77,8 @@
           <table-cell>{{ product.name }}</table-cell>
           <table-cell>{{ product.code }}</table-cell>
           <table-cell>{{ product.supplier_id }}</table-cell>
-          <table-cell>{{ product.price }}<sup>₫</sup></table-cell>
-          <table-cell>{{ product.sale_price ? product.sale_price : 0 }}<sup>₫</sup></table-cell>
+          <table-cell>{{ Number(product.price).toLocaleString("vi-VN") }}<sup>₫</sup></table-cell>
+          <table-cell>{{ product.sale_price ? Number(product.sale_price).toLocaleString("vi-VN") : 0 }}<sup>₫</sup></table-cell>
           <table-cell>
             <img :src="product.image" alt="" class="h-7 w-10">
           </table-cell>
