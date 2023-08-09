@@ -25,7 +25,7 @@ class CheckoutController extends Controller
         $vnp_TxnRef = $data['order_id'];
         $vnp_OrderInfo = 'Thanh toán trực tuyến';
         $vnp_OrderType = 'Payonline';
-        $vnp_Amount = $data['amount'];
+        $vnp_Amount = $data['amount'] * 100;
         $vnp_Locale = 'vn';
         $vnp_BankCode = 'NCB';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];

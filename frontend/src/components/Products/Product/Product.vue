@@ -9,7 +9,7 @@
       </div>
       <div
         class="w-full h-[200px] bg-white mb-2.5 p-6 flex items-center border-b-[1px] rounded-lg shadow-md hover:scale-105 hover:shadow-xl transition-transform">
-        <img :src="product.image" alt="" class="w-full h-full object-cover rounded-lg">
+          <img :src="product.image" alt="" class="w-full h-full object-cover rounded-lg">
       </div>
       <div class="prod-detail flex flex-col gap-2 mt-3">
         <span class="prod-name text-gray-800 text-lg block text-ellipsis whitespace-nowrap overflow-hidden md:text-base">

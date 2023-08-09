@@ -77,6 +77,7 @@ class CartController extends Controller
                     'user_id' => $user_id,
                     'product_id' => $product_id,
                     'quantity' => $quantity,
+                    'created_at' => Carbon::now(),
                 ]);
                 return response()->json(['message' => 'Thêm vào giỏ hàng thành công'], 200);
             } catch (\Exception $e) {

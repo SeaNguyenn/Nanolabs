@@ -2,8 +2,10 @@
   <div class="my-5 md:my-[75px]">
     <div class="max-w-[calc(100%-20px)] my-0 mx-auto md:max-w-7xl">
       <div class="flex flex-col md:flex-row">
-        <div class="w-full bg-[#0000000d] flex-shrink-0 md:w-[600px] md:h-[600px]">
-          <img :src="productData.image" alt="" class="w-full block">
+        <div class="w-full bg-white flex-shrink-0 md:w-[600px] md:h-[600px] flex justify-center items-center">
+          <div class="w-[400px]">
+            <img :src="productData.image" alt="" class="w-full block">
+          </div>
         </div>
         <div class="flex flex-col pt-5 md:px-[35px]">
           <span class="text-xl mb-5 md:text-2xl">{{ productData.name }}</span>

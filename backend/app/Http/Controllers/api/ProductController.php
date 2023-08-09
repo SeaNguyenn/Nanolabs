@@ -70,8 +70,6 @@ class ProductController extends Controller
     {
         try {
             $result = DB::table('products')
-            ->select('products.*','comment.*')
-            ->join('comment', 'products.id', '=', 'comment.product_id')
             ->where('products.id',$id)
             ->first();
 

@@ -27,7 +27,7 @@
           <div class="border-b-[1px]">
             <div class="flex justify-between items-center pb-2">
               <div>Tạm tính</div>
-              <div class="font-bold">{{ totalAmount }}<sup>₫</sup></div>
+              <div class="font-bold">{{  Number(totalAmount).toLocaleString("vi-VN") }}<sup>₫</sup></div>
             </div>
             <div class="flex justify-between items-center pb-2">
               <div>Giảm giá</div>
@@ -36,7 +36,7 @@
           </div>
           <div class="flex justify-between items-center pt-2">
             <div>Tổng tiền</div>
-            <div class="font-bold">{{ totalAmount }}<sup>₫</sup></div>
+            <div class="font-bold">{{ Number(totalAmount).toLocaleString("vi-VN") }}<sup>₫</sup></div>
           </div>
 
         </div>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('shipping_method_id')->nullable()->constrained('shipping_methods','id');
             $table->bigInteger('order_status')->nullable();
             $table->decimal('shipping_cost', 10, 2);
-            $table->decimal('total_amount', 10, 2);
+            $table->decimal('total_amount', 10, 2)->nullable();
             $table->longText('note')->nullable();
             $table->date('order_date')->nullable();
             $table->date('shipped_date')->nullable();

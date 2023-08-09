@@ -19,10 +19,10 @@
             <span class="mx-4 flex flex-col justify-center overflow-hidden">{{ product.name }}</span>
           </div>
           <div class="flex-[1] text-ellipsis flex justify-center items-center">{{ product.sale_price > 0 ?
-            product.sale_price.toLocaleString("en-US") : product.price.toLocaleString("en-US") }}<sup>₫</sup></div>
+            Number(product.sale_price).toLocaleString("vi-VN") : Number(product.price).toLocaleString("vi-VN") }}<sup>₫</sup></div>
           <div class="flex-[1] text-ellipsis flex justify-center items-center">{{ product.quantity }}</div>
-          <div class="flex-[2] text-ellipsis flex justify-end items-center">{{ product.sale_price > 0 ? product.quantity
-            * product.sale_price.toLocaleString("en-US") : product.quantity * product.price.toLocaleString("en-US")
+          <div class="flex-[2] text-ellipsis flex justify-end items-center">{{ Number(product.sale_price) > 0 ?
+            Number(product.quantity * product.sale_price).toLocaleString("vi-VN") :  Number(product.quantity * product.price).toLocaleString("vi-VN")
           }}<sup>₫</sup></div>
         </div>
       </div>
@@ -30,7 +30,7 @@
         <span>
           Tổng thanh toán:
         </span>
-        <div>{{ totalAmount }}<sup>₫</sup></div>
+        <div>{{ Number(totalAmount).toLocaleString("vi-VN") }}<sup>₫</sup></div>
       </div>
       <div class="flex items-center justify-end px-[30px] py-[24px] bg-white text-xl">
         <Button class="bg-red-600 text-white py-[0.8rem] text-base px-7 w-[300px] rounded" name="redirect" @click="payment">Thanh toán</Button>
